@@ -1,53 +1,63 @@
-enum NodeType {
+export enum NodeType {
   TEXT = "text",
   HYPERLINK = "hyperlink",
   PARAGRAPH = "paragraph",
   LIST_ITEM = "list-item",
   UNORDERED_LIST = "unordered-list",
+  ORDERED_LIST = "ordered-list",
   DOCUMENT = "document",
 }
 
-type TextNode = {
-  nodeType: NodeType.TEXT;
-  value: string;
-  marks: never[];
-  data: Record<string, never>;
+export type Mark = {
+  type: string;
 };
 
-type HyperlinkNode = {
+// Node specific content types
+type TextContent = {
+  nodeType: NodeType.TEXT;
+  value: string;
+  marks: Mark[];
+};
+
+type HyperlinkContent = {
   nodeType: NodeType.HYPERLINK;
   data: {
     uri: string;
   };
-  content: [TextNode];
+  content: RichTextNode[];
 };
 
-type ParagraphContentNode = {
+type ParagraphContent = {
   nodeType: NodeType.PARAGRAPH;
-  data: Record<string, never>;
-  content: [TextNode, HyperlinkNode, TextNode];
+  content: RichTextNode[];
 };
 
-type ListItemNode = {
+type ListItemContent = {
   nodeType: NodeType.LIST_ITEM;
-  data: Record<string, never>;
-  content: [ParagraphContentNode];
+  content: RichTextNode[];
 };
 
-type UnorderedListNode = {
-  nodeType: NodeType.UNORDERED_LIST;
-  data: Record<string, never>;
-  content: ListItemNode[];
+type ListContent = {
+  nodeType: NodeType.UNORDERED_LIST | NodeType.ORDERED_LIST;
+  content: ListItemContent[];
 };
 
-type EmptyParagraphNode = {
-  nodeType: NodeType.PARAGRAPH;
-  data: Record<string, never>;
-  content: [TextNode];
-};
+/**
+ * Represents any node that can appear within a rich text document.
+ * Note: Document nodes are handled separately as they are always root nodes.
+ */
+export type RichTextNode =
+  | TextContent
+  | HyperlinkContent
+  | ParagraphContent
+  | ListItemContent
+  | ListContent;
 
+/**
+ * Represents the root document node that contains all other rich text nodes.
+ */
 export type RichTextDocument = {
   nodeType: NodeType.DOCUMENT;
   data: Record<string, never>;
-  content: [UnorderedListNode, EmptyParagraphNode];
+  content: RichTextNode[];
 };

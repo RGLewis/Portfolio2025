@@ -1,28 +1,42 @@
-import React, { useEffect } from "react";
-import { useGetNavigationQuery } from "./hooks/use-get-navigation-query";
-import { useGetFooterQuery } from "./hooks/use-get-footer-query";
+import { useEffect, useState } from "react";
+import { RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import {
+  darkTheme,
+  GlobalStyle,
+  globalTheme,
+  lightTheme,
+} from "./global-styles/global.styles";
+import { useGetPageQuery } from "./hooks/use-get-page-query";
+import { router } from "./routes";
 
 export const App = () => {
-  const { data: navData, error: navError } = useGetNavigationQuery();
-  const { data: footerData, error: footerError } = useGetFooterQuery();
+  // TODO: Will go in context
+  const [isLightMode, _setIsLightMode] = useState(true);
+
+  // Test
+  const { data: pageData, error: pageError } = useGetPageQuery(
+    import.meta.env.VITE_CONTENTFUL_ABOUT_PAGE_ID
+  );
 
   useEffect(() => {
-    if (navData) {
-      console.log("Navigation Data:", navData);
+    if (pageData) {
+      console.log("Page Data:", pageData);
     }
-    if (navError) {
-      console.error("Navigation Error:", navError);
+    if (pageError) {
+      console.error("Page Error:", pageError);
     }
-  }, [navData, navError]);
+  }, [pageData, pageError]);
 
-  useEffect(() => {
-    if (footerData) {
-      console.log("Footer Data:", footerData);
-    }
-    if (footerError) {
-      console.error("Footer Error:", footerError);
-    }
-  }, [footerData, footerError]);
+  const currentTheme = {
+    ...(isLightMode ? lightTheme : darkTheme),
+    ...globalTheme,
+  };
 
-  return <div>Portfolio 2025</div>;
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 };

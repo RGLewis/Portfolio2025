@@ -1,25 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { pageQuery } from "../queries/page-query";
+import type { PageData } from "../types/content-types";
 import { contentfulClient } from "../utils/contentful-client";
-import { footerQuery } from "../queries/footer-query";
-import type { FooterData } from "../types/content-types";
 
-interface UseFooterQuery {
-  data: FooterData | null;
+type UsePageQuery = {
+  data: PageData | null;
   loading: boolean;
   error: string | null;
-}
+};
 
-export const useGetFooterQuery = (): UseFooterQuery => {
-  const [data, setData] = useState<FooterData | null>(null);
+export const useGetPageQuery = (id: string): UsePageQuery => {
+  const [data, setData] = useState<PageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await contentfulClient.request<FooterData>(
-          footerQuery
-        );
+        const response = await contentfulClient.request<PageData>(pageQuery, {
+          id,
+        });
         setData(response);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
@@ -29,7 +29,7 @@ export const useGetFooterQuery = (): UseFooterQuery => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   return { data, loading, error };
 };
