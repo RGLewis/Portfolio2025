@@ -1,4 +1,4 @@
-import { device, pxToRem } from "@/global-styles";
+import { device, focusVisible, pxToRem, SPACINGS } from "@/global-styles";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -40,17 +40,13 @@ export const StyledNavLink = styled(NavLink)`
   color: ${({ theme }) => theme.white};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${pxToRem(20)};
+  padding: ${SPACINGS.sm};
+  display: flex;
+  align-items: center;
+  gap: ${SPACINGS.sm};
 
-  &.active {
-    // font-weight: ${({ theme }) => theme.fontWeights.medium};
-    // color: ${({ theme }) => theme.menuBackground};
-  }
-
-  &:hover:not(.active) {
-    // color: ${({ theme }) => theme.menuBackground};
-  }
-
-  @media ${device.large} {
+  ${focusVisible()} // TODO: Hover Styles
+    @media ${device.large} {
     font-size: ${pxToRem(50)};
   }
 `;
@@ -61,15 +57,39 @@ export const StyledHashLink = styled.a<{ isActive?: boolean }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${pxToRem(16)};
 
-  &[data-active="true"] {
-    font-weight: ${({ theme }) => theme.fontWeights.medium};
-  }
-
-  &:hover:not([data-active="true"]) {
-    // color: ${({ theme }) => theme.menuBackground};
-  }
+  ${focusVisible()}
 
   @media ${device.large} {
     font-size: ${pxToRem(30)};
+  }
+`;
+
+export const NavList = styled.ul`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ListItem = styled.li`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: ${SPACINGS.sm};
+`;
+
+export const IconButton = styled.button`
+  background: none;
+  border: none;
+  padding: ${SPACINGS.xs};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.white};
+  border-radius: ${pxToRem(4)};
+
+  ${focusVisible()}
+
+  &:hover {
+    background-color: ${({ theme }) => theme.blackOpaque};
   }
 `;

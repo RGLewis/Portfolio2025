@@ -1,4 +1,4 @@
-import { baseFontSize } from "./constants";
+export const baseFontSize = 16;
 
 /**
  * Converts px to rem based on a base font size.

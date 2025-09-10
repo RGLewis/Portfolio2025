@@ -1,4 +1,4 @@
-export enum HeadingVariant {
+export enum TypographyVariants {
   PRIMARY = "primaryFont",
   SECONDARY = "secondaryFont",
   CONTRAST = "contrast",

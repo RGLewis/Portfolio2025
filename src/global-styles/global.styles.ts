@@ -2,14 +2,15 @@ import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
 import {
-  baseFontSize,
-  breakpoints,
+  BREAKPOINTS,
   DARK_THEME_COLOR_MAPPINGS,
-  fonts,
-  fontWeights,
+  FONT_WEIGHTS,
+  FONTS,
   GLOBAL_COLOR_MAPPINGS,
   LIGHT_THEME_COLOR_MAPPINGS,
 } from "./constants";
+
+import { baseFontSize } from "./utils";
 
 export const lightTheme = {
   background: GLOBAL_COLOR_MAPPINGS.white,
@@ -47,9 +48,9 @@ export const darkTheme = {
 
 export const globalTheme = {
   baseFontSize: `${baseFontSize}px`,
-  fonts,
-  fontWeights,
-  breakpoints,
+  fonts: FONTS,
+  fontWeights: FONT_WEIGHTS,
+  breakpoints: BREAKPOINTS,
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -72,13 +73,19 @@ export const GlobalStyle = createGlobalStyle`
       margin: 0;
     }
 
-  button, input, textarea {
+  button, input, textarea, a {
     outline: none;
     border: 1px solid transparent;
 
-    &:focus, &:active {
-     border-color: ${({ theme }) => theme.accent};
-    }
+    //TODO: Focus States
+    // &:focus-visible {
+    //   outline: 2px solid ${({ theme }) => theme.white};
+    //   outline-offset: 2px;
+    // }
+
+    // &:active {
+    //   border-color: ${({ theme }) => theme.accent};
+    // }
   }
 
   /* override default */
@@ -100,9 +107,10 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     outline: 1px solid transparent;
 
-    &:focus, &:active {
-      outline-color: ${({ theme }) => theme.secondaryFont};
-    }
+    // TODO: FOCUS STATES
+    // &:focus, &:active {
+    //   outline-color: ${({ theme }) => theme.secondaryFont};
+    // }
   }
 
 

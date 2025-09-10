@@ -34,7 +34,6 @@ export const HashLink = ({
   const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     scrollTo(e);
     onClick();
-    // toggleMenuState();
   };
 
   return (

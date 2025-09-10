@@ -1,13 +1,10 @@
-import { pxToRem } from "@/global-styles";
+import { pxToRem, SIDEBAR_WIDTHS } from "@/global-styles";
 import styled from "styled-components";
 
-// TODO: Responsive
-// TODO: Collapse
 export const StyledSidebar = styled.div`
   position: sticky;
   top: 0;
-  min-width: ${pxToRem(200)};
-  width: max-content;
+  width: ${pxToRem(SIDEBAR_WIDTHS.max)};
   height: 100vh;
   display: flex;
   flex-direction: column;

@@ -13,7 +13,7 @@ const LayoutContainer = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  min-width: 0; /* Prevent flex child from overflowing */
+  min-width: 0;
 `;
 
 export const RootLayout = () => {

@@ -1,3 +1,5 @@
+import { pxToRem } from "./utils";
+
 export const GLOBAL_COLOR_MAPPINGS = {
   white: "#ffffff",
   black: "#050505",
@@ -22,26 +24,26 @@ export const DARK_THEME_COLOR_MAPPINGS = {
 };
 
 export const SPACINGS = {
-  xs: "4px",
-  sm: "8px",
-  md: "16px",
-  lg: "24px",
-  xl: "32px",
+  xs: pxToRem(4),
+  sm: pxToRem(8),
+  md: pxToRem(16),
+  lg: pxToRem(24),
+  xl: pxToRem(32),
 };
 
-export const fonts = {
+export const FONTS = {
   roboto: "Roboto, sans-serif",
   montserrat: "monospace, Montserrat",
 };
 
-export const fontWeights = {
+export const FONT_WEIGHTS = {
   light: "400",
   regular: "500",
   medium: "600",
   extraBold: "800",
 };
 
-export const breakpoints = {
+export const BREAKPOINTS = {
   extraSmall: "400px",
   small: "576px",
   medium: "768px",
@@ -49,4 +51,7 @@ export const breakpoints = {
   extraLarge: "1200px",
 };
 
-export const baseFontSize = 16;
+export const SIDEBAR_WIDTHS = {
+  min: 200,
+  max: 350,
+};
