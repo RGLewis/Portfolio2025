@@ -1,8 +1,14 @@
-import { device, pxToRem } from "@/global-styles";
+import {
+  device,
+  focusVisible,
+  pxToRem,
+  SPACINGS,
+  transition,
+} from "@/global-styles";
 import { styled } from "styled-components";
-import { HeadingVariant } from "./types";
+import { TypographyVariants } from "./types";
 
-export const StyledHeadingFirst = styled.h1<{ variant: HeadingVariant }>`
+export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.extraBold};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   line-height: 1.4;
@@ -23,8 +29,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: HeadingVariant }>`
   }
 
   &.underlined {
-    padding-left: ${pxToRem(10)};
-    padding-right: ${pxToRem(10)};
+    padding: ${SPACINGS.sm} 0;
     border-bottom-color: ${({ theme }) => theme.accent};
   }
 
@@ -55,11 +60,11 @@ export const StyledHeadingFirst = styled.h1<{ variant: HeadingVariant }>`
   }
 `;
 
-export const StyledHeadingThird = styled.h3<{ variant: HeadingVariant }>`
+export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(20)};
   color: ${({ theme, variant }) => theme[variant]};
-  padding: ${pxToRem(5)} 0;
+  padding: ${SPACINGS.xs} 0;
   text-transform: capitalize;
   letter-spacing: ${pxToRem(0.5)};
 
@@ -69,5 +74,71 @@ export const StyledHeadingThird = styled.h3<{ variant: HeadingVariant }>`
 
   @media ${device.extraLarge} {
     font-size: ${pxToRem(30)};
+  }
+`;
+
+export const StyledBody = styled.p<{ variant: TypographyVariants }>`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.extraLight};
+  font-size: ${pxToRem(14)};
+  color: ${({ theme, variant }) => theme[variant]};
+
+  &.bold {
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+  }
+
+  &.small {
+    font-size: ${pxToRem(12)};
+  }
+
+  &.large {
+    font-size: ${pxToRem(18)};
+  }
+
+  @media ${device.large} {
+    font-size: ${pxToRem(16)} &.large {
+      font-size: ${pxToRem(20)};
+    }
+  }
+`;
+
+export const StyledLink = styled.a<{ variant: TypographyVariants }>`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
+  color: ${({ theme, variant }) => theme[variant]};
+  position: relative;
+  padding: ${SPACINGS.xs};
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: ${pxToRem(2)};
+    bottom: 0;
+    left: 0;
+    background-color: ${({ theme }) => theme.white};
+    transform: scaleX(0);
+    transform-origin: left;
+    ${transition({
+      attr: "transform",
+    })};
+  }
+
+  ${focusVisible({})};
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+`;
+
+export const StyledSlash = styled.p`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
+  margin: 0 ${SPACINGS.xs};
+  cursor: auto;
+  color: ${({ theme }) => theme.white};
+
+  @media ${device.medium} {
+    margin: 0 ${SPACINGS.sm};
   }
 `;

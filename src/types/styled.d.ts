@@ -1,6 +1,7 @@
 import "styled-components";
 
 declare module "styled-components" {
+  // TODO: Improve types
   export interface DefaultTheme {
     background: string;
     backgroundOpaque: string;
@@ -21,9 +22,11 @@ declare module "styled-components" {
       montserrat: string;
     };
     fontWeights: {
+      extraLight: string;
       light: string;
       regular: string;
       medium: string;
+      bold: string;
       extraBold: string;
     };
     breakpoints: {

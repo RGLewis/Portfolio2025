@@ -1,75 +1,180 @@
-import { device, pxToRem } from "@/global-styles";
+import {
+  device,
+  EasingTypes,
+  focusVisible,
+  heightAnimation,
+  OutlineOffsetTypes,
+  pxToRem,
+  SPACINGS,
+  transition,
+} from "@/global-styles";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-/**
- * TODO:
- * Deal with hover and active states later
- * Deal with focus states
- */
+const ICON_SIZE = 40;
+const ICON_WEIGHT = 3;
 
-const navLinkStyles = css`
+const navLinkBaseStyles = css`
+  color: ${({ theme }) => theme.white};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  line-height: 1.2;
   position: relative;
-  padding: 0 ${pxToRem(10)};
-  letter-spacing: ${pxToRem(2)};
+  overflow: hidden;
   text-transform: uppercase;
-  display: block;
-  background: linear-gradient(
-    to bottom,
-    ${({ theme }) => theme.white} 0%,
-    ${({ theme }) => theme.white} 100%
-  );
-  background-position: 0 100%;
-  background-repeat: repeat-x;
-  background-size: ${pxToRem(0)} ${pxToRem(0)};
-  transition: all 200ms ease-in-out;
+  ${transition({
+    attr: "color",
+  })}
 
-  &:hover {
-    background-size: ${pxToRem(10)} ${pxToRem(60)};
-    color: ${({ theme }) => theme.menuBackground};
-  }
-
-  &.active,
-  &[data-active="true"] {
-    background-size: ${pxToRem(60)} ${pxToRem(60)};
-    color: ${({ theme }) => theme.menuBackground};
+  /* Shared peeling background effect */
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: ${({ theme }) => theme.white};
+    ${transition({
+      attr: "height",
+    })}
+    z-index: -1;
   }
 `;
 
 export const StyledNavLink = styled(NavLink)`
-  color: ${({ theme }) => theme.white};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  ${navLinkBaseStyles}
+
   font-size: ${pxToRem(20)};
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: ${SPACINGS.xs};
+  border-radius: ${pxToRem(4)};
+  letter-spacing: ${pxToRem(2)};
 
-  &.active {
-    // font-weight: ${({ theme }) => theme.fontWeights.medium};
-    // color: ${({ theme }) => theme.menuBackground};
+  &::before {
+    height: 0%;
+    border-radius: ${pxToRem(4)};
   }
 
-  &:hover:not(.active) {
-    // color: ${({ theme }) => theme.menuBackground};
-  }
+  ${focusVisible({ outlineOffset: OutlineOffsetTypes.LARGE })}
 
   @media ${device.large} {
     font-size: ${pxToRem(50)};
+    line-height: 1.1;
   }
 `;
 
 export const StyledHashLink = styled.a<{ isActive?: boolean }>`
+  ${navLinkBaseStyles}
+
   color: ${({ theme, isActive }) =>
     isActive ? theme.menuBackground : theme.white};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${pxToRem(16)};
+  padding: 0 ${SPACINGS.sm};
+  letter-spacing: ${pxToRem(1.5)};
 
-  &[data-active="true"] {
-    font-weight: ${({ theme }) => theme.fontWeights.medium};
+  &::before {
+    height: ${({ isActive }) => (isActive ? "100%" : "0%")};
   }
 
-  &:hover:not([data-active="true"]) {
-    // color: ${({ theme }) => theme.menuBackground};
+  &:hover {
+    color: ${({ theme }) => theme.menuBackground};
+
+    &::before {
+      height: 100%;
+    }
   }
+
+  ${focusVisible({ outlineOffset: OutlineOffsetTypes.DEFAULT })}
 
   @media ${device.large} {
     font-size: ${pxToRem(30)};
+    line-height: 1.1;
   }
+`;
+
+export const NavList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: ${SPACINGS.lg};
+  width: fit-content;
+  padding: ${pxToRem(2)};
+`;
+
+export const ListItem = styled.li`
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: ${SPACINGS.sm};
+  position: relative;
+  width: fit-content;
+
+  &:hover a,
+  &:has(a.active) a,
+  &:has(a[data-active="true"]) a {
+    color: ${({ theme }) => theme.menuBackground};
+
+    &::before {
+      height: 100%;
+    }
+  }
+`;
+
+export const IconButton = styled.button<{ isExpanded: boolean }>`
+  background: none;
+  border: none;
+  padding: ${SPACINGS.xs};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  border-radius: ${pxToRem(4)};
+  width: ${pxToRem(ICON_SIZE)};
+  height: ${pxToRem(ICON_SIZE)};
+  position: relative;
+  ${transition({
+    attr: "color, transform",
+  })}
+
+  ${focusVisible({})}
+
+  /* Subtle scale effect for button interactivity */
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    ${transition({
+      attr: "all",
+      easing: EasingTypes.EASE,
+    })}
+  }
+
+  /* Horizontal line (always visible) */
+  &::before {
+    width: ${pxToRem(ICON_SIZE / 2)};
+    height: ${pxToRem(ICON_WEIGHT)};
+    color: ${({ theme }) => theme.white};
+  }
+
+  /* Vertical line (rotates to become invisible when expanded) */
+  &::after {
+    width: ${pxToRem(ICON_WEIGHT)};
+    height: ${pxToRem(ICON_SIZE / 2)};
+    color: ${({ theme }) => theme.white};
+    transform: ${({ isExpanded }) =>
+      isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};
+    opacity: ${({ isExpanded }) => (isExpanded ? 0 : 1)};
+  }
+`;
+
+export const SubLinksAnimationContainer = styled.div<{ isExpanded: boolean }>`
+  ${({ isExpanded }) => heightAnimation(isExpanded)}
+  margin-left: ${SPACINGS.lg};
+  margin-top: ${SPACINGS.lg};
 `;

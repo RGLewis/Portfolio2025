@@ -79,6 +79,12 @@ export enum PageMappings {
   EDUCATION = "Education",
 }
 
+export enum FooterLinksMappings {
+  EMAIL = "Email",
+  GITHUB = "GitHub",
+  LINKEDIN = "LinkedIn",
+}
+
 export type HomePageContent = {
   name: string;
   tagline: string;
@@ -103,13 +109,17 @@ export type HashNavItem = BaseNavItem & {
 
 export type NavItem = RouteNavItem | HashNavItem;
 
-export type NavContent = {
-  [K in PageMappings]: NavItem;
-};
+export type NavContent = NavItem[];
 
-type FooterItem = {
-  text: string;
+export type FooterLink = {
+  text: FooterLinksMappings;
   link: string;
 };
 
-export type FooterContent = FooterItem[];
+export type FooterContent = {
+  links: {
+    [K in FooterLinksMappings]: FooterLink;
+  };
+  techStack: string;
+  copyright: string;
+};
