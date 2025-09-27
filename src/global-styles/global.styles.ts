@@ -116,6 +116,7 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: ${baseFontSize}px;
+    height: 100%;
   }
 
   body {
@@ -127,5 +128,20 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.6;
     background: ${({ theme }) => theme.background};
     overflow-x: hidden;
+    height: 100%;
+    min-height: 100vh;
+
+    @supports (-webkit-touch-callout: none) {
+      min-height: -webkit-fill-available;
+    }
+  }
+
+  #root {
+    height: 100%;
+    min-height: 100vh;
+
+    @supports (-webkit-touch-callout: none) {
+      min-height: -webkit-fill-available;
+    }
   }
 `;

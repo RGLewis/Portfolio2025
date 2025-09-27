@@ -10,6 +10,7 @@ import { ListItem, NavList, StyledNavLink } from "./nav.styles";
 const SubLinksAnimationContainer = styled.div<{ isExpanded: boolean }>`
   ${({ isExpanded }) => heightAnimation(isExpanded)}
   margin-left: ${SPACINGS.lg};
+  margin-top: ${SPACINGS.lg};
 `;
 
 export const Nav = () => {
@@ -44,27 +45,20 @@ export const Nav = () => {
                   isExperience && isExperienceExpanded ? "true" : "false"
                 }
                 aria-controls={isExperience ? "experience-submenu" : undefined}
-                onClick={
-                  isExperience
-                    ? (e) => {
-                        e.preventDefault();
-                        toggleExperienceExpanded();
-                      }
-                    : undefined
-                }
               >
                 {item.text}
-                {isExperience && (
-                  <ExpandCollapseButton
-                    isExpanded={isExperienceExpanded}
-                    ariaLabel={
-                      isExperienceExpanded
-                        ? "Collapse experience menu"
-                        : "Expand experience menu"
-                    }
-                  />
-                )}
               </StyledNavLink>
+              {isExperience && (
+                <ExpandCollapseButton
+                  isExpanded={isExperienceExpanded}
+                  ariaLabel={
+                    isExperienceExpanded
+                      ? "Collapse experience menu"
+                      : "Expand experience menu"
+                  }
+                  onClick={toggleExperienceExpanded}
+                />
+              )}
             </ListItem>
           );
         })}
@@ -79,6 +73,7 @@ export const Nav = () => {
                 text={item.text}
                 slug={item.slug as string}
                 onClick={() => console.log(`clicked ${item.text}`)}
+                tabIndex={isExperienceExpanded ? 0 : -1}
               />
             </ListItem>
           ))}

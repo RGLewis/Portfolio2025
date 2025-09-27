@@ -1,3 +1,4 @@
+import { pxToRem, SIDEBAR_WIDTHS } from "@/global-styles";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { Sidebar } from "../components/sidebar/sidebar";
@@ -14,6 +15,8 @@ const LayoutContainer = styled.div`
 const MainContent = styled.main`
   flex: 1;
   min-width: 0;
+  margin-left: ${pxToRem(SIDEBAR_WIDTHS.large)};
+  background: ${({ theme }) => theme.background};
 `;
 
 export const RootLayout = () => {

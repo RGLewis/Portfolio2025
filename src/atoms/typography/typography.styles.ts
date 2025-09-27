@@ -78,6 +78,8 @@ export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
 `;
 
 export const StyledBody = styled.p<{ variant: TypographyVariants }>`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};
   color: ${({ theme, variant }) => theme[variant]};
 
@@ -101,6 +103,8 @@ export const StyledBody = styled.p<{ variant: TypographyVariants }>`
 `;
 
 export const StyledLink = styled.a<{ variant: TypographyVariants }>`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
   color: ${({ theme, variant }) => theme[variant]};
   position: relative;
   padding: ${SPACINGS.xs};
@@ -117,13 +121,10 @@ export const StyledLink = styled.a<{ variant: TypographyVariants }>`
     transform-origin: left;
     ${transition({
       attr: "transform",
-      speed: "300ms",
-      easing: "ease-in-out",
-      delay: "0s",
     })};
   }
 
-  ${focusVisible("${({ theme, variant }) => theme[variant]}")};
+  ${focusVisible({})};
 
   &:hover::before {
     transform: scaleX(1);
@@ -131,10 +132,11 @@ export const StyledLink = styled.a<{ variant: TypographyVariants }>`
 `;
 
 export const StyledSlash = styled.p`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
   margin: 0 ${SPACINGS.xs};
   cursor: auto;
   color: ${({ theme }) => theme.white};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
 
   @media ${device.medium} {
     margin: 0 ${SPACINGS.sm};

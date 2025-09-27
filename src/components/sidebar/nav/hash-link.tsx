@@ -8,6 +8,7 @@ export const HashLink = ({
   onClick,
   isActive,
   slug,
+  tabIndex,
 }: HashLinkProps) => {
   const scrollTo = (e: { preventDefault: () => void }) => {
     // prevent default scroll
@@ -43,6 +44,7 @@ export const HashLink = ({
         onLinkClick(e);
       }}
       isActive={isActive}
+      tabIndex={tabIndex}
     >
       {text}
     </StyledHashLink>

@@ -1,3 +1,4 @@
+import { GLOBAL_COLOR_MAPPINGS, SPACINGS } from "./constants";
 import { pxToRem } from "./utils";
 
 export const borderRadius = (borderRadius: number) => `
@@ -6,17 +7,33 @@ border-radius: ${pxToRem(borderRadius)};
 -moz-border-radius: ${pxToRem(borderRadius)};
 `;
 
+export enum EasingTypes {
+  EASE_IN_OUT = "ease-in-out",
+  EASE = "ease",
+}
+
 type TransitionArgTypes = {
   attr: string;
-  speed: string;
-  easing: string;
-  delay: string;
+  speed?: string;
+  easing?: string;
+  delay?: string;
 };
+
+export enum OutlineOffsetTypes {
+  LARGE = "large",
+  DEFAULT = "default",
+}
+
+type FocusVisibleTypes = {
+  outlineColor?: string;
+  outlineOffset?: OutlineOffsetTypes;
+};
+
 export const transition = ({
   attr,
-  speed,
-  easing,
-  delay,
+  speed = "300ms",
+  easing = EasingTypes.EASE_IN_OUT,
+  delay = "0s",
 }: TransitionArgTypes) => `
   -webkit-transition: ${attr} ${speed} ${easing} ${delay};
   -moz-transition: ${attr} ${speed} ${easing} ${delay};
@@ -24,12 +41,16 @@ export const transition = ({
   transition: ${attr} ${speed} ${easing} ${delay};
 `;
 
-export const focusVisible = (outlineColor?: string) => `
+export const focusVisible = ({
+  outlineColor = GLOBAL_COLOR_MAPPINGS.white,
+  outlineOffset = OutlineOffsetTypes.DEFAULT,
+}: FocusVisibleTypes) => `
   &:focus-visible {
     outline: 1px solid;
-    outline-color: ${outlineColor || "${({ theme }: any) => theme.white}"};
-    outline-offset: 1px;
-    background-color: ${({ theme }: any) => theme.blackOpaque};
+    outline-color: ${outlineColor};
+    outline-offset: ${
+      outlineOffset === OutlineOffsetTypes.LARGE ? SPACINGS.xs : 2
+    };
   }
 `;
 

@@ -33,13 +33,15 @@ export const SPACINGS = {
 
 export const FONTS = {
   roboto: "Roboto, sans-serif",
-  montserrat: "monospace, Montserrat",
+  montserrat: "Montserrat, sans-serif",
 };
 
 export const FONT_WEIGHTS = {
+  extraLight: "300",
   light: "400",
   regular: "500",
   medium: "600",
+  bold: "700",
   extraBold: "800",
 };
 
@@ -52,6 +54,6 @@ export const BREAKPOINTS = {
 };
 
 export const SIDEBAR_WIDTHS = {
-  min: 200,
-  max: 350,
+  large: 450,
+  // TO DO: set out other widths when dealing with responsive
 };

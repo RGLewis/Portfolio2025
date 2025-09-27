@@ -1,72 +1,108 @@
-import { device, focusVisible, pxToRem, SPACINGS } from "@/global-styles";
+import {
+  device,
+  focusVisible,
+  OutlineOffsetTypes,
+  pxToRem,
+  SPACINGS,
+  transition,
+} from "@/global-styles";
 import { NavLink } from "react-router-dom";
-import styled, { css } from "styled-components";
-
-/**
- * TODO:
- * Deal with hover and active states later
- * Deal with focus states
- */
-
-const navLinkStyles = css`
-  position: relative;
-  padding: 0 ${pxToRem(10)};
-  letter-spacing: ${pxToRem(2)};
-  text-transform: uppercase;
-  display: block;
-  background: linear-gradient(
-    to bottom,
-    ${({ theme }) => theme.white} 0%,
-    ${({ theme }) => theme.white} 100%
-  );
-  background-position: 0 100%;
-  background-repeat: repeat-x;
-  background-size: ${pxToRem(0)} ${pxToRem(0)};
-  transition: all 200ms ease-in-out;
-
-  &:hover {
-    background-size: ${pxToRem(10)} ${pxToRem(60)};
-    color: ${({ theme }) => theme.menuBackground};
-  }
-
-  &.active,
-  &[data-active="true"] {
-    background-size: ${pxToRem(60)} ${pxToRem(60)};
-    color: ${({ theme }) => theme.menuBackground};
-  }
-`;
+import styled from "styled-components";
 
 export const StyledNavLink = styled(NavLink)`
   color: ${({ theme }) => theme.white};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(20)};
-  padding: ${SPACINGS.sm};
+  line-height: 1.2;
   display: flex;
   align-items: center;
-  gap: ${SPACINGS.sm};
+  flex: 1;
+  padding: ${SPACINGS.xs};
+  border-radius: ${pxToRem(4)};
+  position: relative;
+  overflow: hidden;
+  ${transition({
+    attr: "color",
+  })}
+  text-transform: uppercase;
+  letter-spacing: ${pxToRem(2)};
 
-  ${focusVisible()} // TODO: Hover Styles
-    @media ${device.large} {
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: ${({ theme }) => theme.white};
+    ${transition({
+      attr: "height",
+    })}
+    z-index: -1;
+    border-radius: ${pxToRem(4)};
+  }
+
+  ${focusVisible({ outlineOffset: OutlineOffsetTypes.LARGE })}
+
+  @media ${device.large} {
     font-size: ${pxToRem(50)};
+    line-height: 1.1;
   }
 `;
 
 export const StyledHashLink = styled.a<{ isActive?: boolean }>`
   color: ${({ theme, isActive }) =>
     isActive ? theme.menuBackground : theme.white};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(16)};
+  line-height: 1.2;
+  padding: 0 ${SPACINGS.sm};
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: ${pxToRem(1.5)};
+  ${transition({
+    attr: "color",
+  })}
 
-  ${focusVisible()}
+  /* Create the peeling background effect */
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: ${({ isActive }) => (isActive ? "100%" : "0%")};
+    background-color: ${({ theme }) => theme.white};
+    ${transition({
+      attr: "height",
+    })}
+    z-index: -1;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.menuBackground};
+
+    &::before {
+      height: 100%;
+    }
+  }
+
+  ${focusVisible({})}
 
   @media ${device.large} {
     font-size: ${pxToRem(30)};
+    line-height: 1.1;
   }
 `;
 
 export const NavList = styled.ul`
   display: flex;
   flex-direction: column;
+  gap: ${SPACINGS.lg};
+  width: fit-content;
 `;
 
 export const ListItem = styled.li`
@@ -74,6 +110,18 @@ export const ListItem = styled.li`
   display: flex;
   align-items: center;
   gap: ${SPACINGS.sm};
+  position: relative;
+  width: fit-content;
+
+  &:hover a,
+  &:has(a.active) a,
+  &:has(a[data-active="true"]) a {
+    color: ${({ theme }) => theme.menuBackground};
+
+    &::before {
+      height: 100%;
+    }
+  }
 `;
 
 export const IconButton = styled.button`
@@ -87,7 +135,7 @@ export const IconButton = styled.button`
   color: ${({ theme }) => theme.white};
   border-radius: ${pxToRem(4)};
 
-  ${focusVisible()}
+  ${focusVisible({})}
 
   &:hover {
     background-color: ${({ theme }) => theme.blackOpaque};

@@ -7,4 +7,5 @@ export type NavLinkProps = {
 export type HashLinkProps = NavLinkProps & {
   isActive?: boolean;
   slug: string;
+  tabIndex?: number;
 };
