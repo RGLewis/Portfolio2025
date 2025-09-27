@@ -1,7 +1,7 @@
+import { Sidebar } from "@/components/sidebar/sidebar";
 import { pxToRem, SIDEBAR_WIDTHS } from "@/global-styles";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { Sidebar } from "../components/sidebar/sidebar";
 
 const LayoutContainer = styled.div`
   display: flex;

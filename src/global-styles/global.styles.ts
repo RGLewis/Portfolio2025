@@ -10,6 +10,7 @@ import {
   LIGHT_THEME_COLOR_MAPPINGS,
 } from "./constants";
 
+import { focusVisible } from "./mixins";
 import { baseFontSize } from "./utils";
 
 export const lightTheme = {
@@ -56,63 +57,36 @@ export const globalTheme = {
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
 
-  * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+  *, *::before, *::after { 
+    box-sizing: border-box; 
+  }
 
   p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
   }
 
   img {
-    max-width:100%;
+    max-width: 100%;
     width: 100%;
     display: block;
   }
 
   ul {
-      padding: 0;
-      margin: 0;
-    }
+    padding: 0;
+    margin: 0;
+  }
 
   button, input, textarea, a {
     outline: none;
     border: 1px solid transparent;
 
-    //TODO: Focus States
-    // &:focus-visible {
-    //   outline: 2px solid ${({ theme }) => theme.white};
-    //   outline-offset: 2px;
-    // }
-
-    // &:active {
-    //   border-color: ${({ theme }) => theme.accent};
-    // }
-  }
-
-  /* override default */
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:focus,
-  select:-webkit-autofill,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px ${({ theme }) => theme.white} inset;
-    -moz-box-shadow: 0 0 0px 1000px ${({ theme }) => theme.white} inset;
-    box-shadow: 0 0 0px 1000px ${({ theme }) => theme.white} inset;
+    ${focusVisible({})}
   }
 
   a {
     text-decoration: none;
     outline: 1px solid transparent;
-
-    // TODO: FOCUS STATES
-    // &:focus, &:active {
-    //   outline-color: ${({ theme }) => theme.secondaryFont};
-    // }
   }
-
 
   html {
     font-size: ${baseFontSize}px;
@@ -130,18 +104,11 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     height: 100%;
     min-height: 100vh;
-
-    @supports (-webkit-touch-callout: none) {
-      min-height: -webkit-fill-available;
-    }
+    min-height: 100dvh;
   }
 
   #root {
     height: 100%;
     min-height: 100vh;
-
-    @supports (-webkit-touch-callout: none) {
-      min-height: -webkit-fill-available;
-    }
-  }
+    min-height: 100dvh;
 `;

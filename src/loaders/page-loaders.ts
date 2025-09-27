@@ -1,7 +1,7 @@
+import { pageQuery } from "@/queries/page-query";
+import type { PageData } from "@/types/content-types";
+import { contentfulClient } from "@/utils/contentful-client";
 import type { LoaderFunction } from "react-router-dom";
-import { pageQuery } from "../queries/page-query";
-import type { PageData } from "../types/content-types";
-import { contentfulClient } from "../utils/contentful-client";
 
 export const createPageLoader = (pageId: string): LoaderFunction => {
   return async () => {

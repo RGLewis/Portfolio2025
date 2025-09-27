@@ -1,7 +1,7 @@
+import { pageQuery } from "@/queries/page-query";
+import type { PageData } from "@/types/content-types";
+import { contentfulClient } from "@/utils/contentful-client";
 import { useEffect, useState } from "react";
-import { pageQuery } from "../queries/page-query";
-import type { PageData } from "../types/content-types";
-import { contentfulClient } from "../utils/contentful-client";
 
 type UsePageQuery = {
   data: PageData | null;

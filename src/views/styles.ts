@@ -1,5 +1,5 @@
+import { device, pxToRem } from "@/global-styles";
 import { styled } from "styled-components";
-import { device, pxToRem } from "../global-styles";
 
 export const PageContainer = styled.div`
   min-height: 100vh;
@@ -24,4 +24,13 @@ export const PageContainer = styled.div`
   @media ${device.large} {
     padding: ${pxToRem(40)};
   }
+`;
+
+export const Headshot = styled.img`
+  width: ${pxToRem(300)};
+  height: ${pxToRem(300)};
+  border-radius: 50%;
+  box-shadow: 0 ${pxToRem(3)} ${pxToRem(15)} ${({ theme }) => theme.blackOpaque};
+  border: ${pxToRem(2)} solid ${({ theme }) => theme.accent};
+  margin-bottom: ${pxToRem(20)};
 `;

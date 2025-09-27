@@ -1,5 +1,5 @@
+import type { PageData } from "@/types/content-types";
 import { useLoaderData } from "react-router-dom";
-import type { PageData } from "../types/content-types";
 
 export const AboutView = () => {
   const data = useLoaderData() as PageData;

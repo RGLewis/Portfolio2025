@@ -3,7 +3,7 @@ import {
   PageMappings,
   type HomePageContent,
   type NavContent,
-} from "../types/content-types";
+} from "@/types/content-types";
 import homeImage from "./home.JPG";
 
 export const HOME_PAGE_CONTENT: HomePageContent = {

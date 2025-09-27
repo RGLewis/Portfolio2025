@@ -1,17 +1,14 @@
 import { NAV_CONTENT } from "@/assets/content";
-import { heightAnimation, SPACINGS } from "@/global-styles";
 import { PageMappings, type NavItem } from "@/types/content-types";
 import { useState } from "react";
-import { styled } from "styled-components";
 import { ExpandCollapseButton } from "./expand-collapse-button";
 import { HashLink } from "./hash-link";
-import { ListItem, NavList, StyledNavLink } from "./nav.styles";
-
-const SubLinksAnimationContainer = styled.div<{ isExpanded: boolean }>`
-  ${({ isExpanded }) => heightAnimation(isExpanded)}
-  margin-left: ${SPACINGS.lg};
-  margin-top: ${SPACINGS.lg};
-`;
+import {
+  ListItem,
+  NavList,
+  StyledNavLink,
+  SubLinksAnimationContainer,
+} from "./nav.styles";
 
 export const Nav = () => {
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);

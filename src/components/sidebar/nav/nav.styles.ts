@@ -1,45 +1,58 @@
 import {
   device,
+  EasingTypes,
   focusVisible,
+  heightAnimation,
   OutlineOffsetTypes,
   pxToRem,
   SPACINGS,
   transition,
 } from "@/global-styles";
 import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const StyledNavLink = styled(NavLink)`
+const ICON_SIZE = 40;
+const ICON_WEIGHT = 3;
+
+const navLinkBaseStyles = css`
   color: ${({ theme }) => theme.white};
-  font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
-  font-size: ${pxToRem(20)};
   line-height: 1.2;
-  display: flex;
-  align-items: center;
-  flex: 1;
-  padding: ${SPACINGS.xs};
-  border-radius: ${pxToRem(4)};
   position: relative;
   overflow: hidden;
+  text-transform: uppercase;
   ${transition({
     attr: "color",
   })}
-  text-transform: uppercase;
-  letter-spacing: ${pxToRem(2)};
 
+  /* Shared peeling background effect */
   &::before {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 0%;
     background-color: ${({ theme }) => theme.white};
     ${transition({
       attr: "height",
     })}
     z-index: -1;
+  }
+`;
+
+export const StyledNavLink = styled(NavLink)`
+  ${navLinkBaseStyles}
+
+  font-size: ${pxToRem(20)};
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: ${SPACINGS.xs};
+  border-radius: ${pxToRem(4)};
+  letter-spacing: ${pxToRem(2)};
+
+  &::before {
+    height: 0%;
     border-radius: ${pxToRem(4)};
   }
 
@@ -52,34 +65,16 @@ export const StyledNavLink = styled(NavLink)`
 `;
 
 export const StyledHashLink = styled.a<{ isActive?: boolean }>`
+  ${navLinkBaseStyles}
+
   color: ${({ theme, isActive }) =>
     isActive ? theme.menuBackground : theme.white};
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(16)};
-  line-height: 1.2;
   padding: 0 ${SPACINGS.sm};
-  position: relative;
-  overflow: hidden;
-  text-transform: uppercase;
   letter-spacing: ${pxToRem(1.5)};
-  ${transition({
-    attr: "color",
-  })}
 
-  /* Create the peeling background effect */
   &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     height: ${({ isActive }) => (isActive ? "100%" : "0%")};
-    background-color: ${({ theme }) => theme.white};
-    ${transition({
-      attr: "height",
-    })}
-    z-index: -1;
   }
 
   &:hover {
@@ -90,7 +85,7 @@ export const StyledHashLink = styled.a<{ isActive?: boolean }>`
     }
   }
 
-  ${focusVisible({})}
+  ${focusVisible({ outlineOffset: OutlineOffsetTypes.DEFAULT })}
 
   @media ${device.large} {
     font-size: ${pxToRem(30)};
@@ -103,6 +98,7 @@ export const NavList = styled.ul`
   flex-direction: column;
   gap: ${SPACINGS.lg};
   width: fit-content;
+  padding: ${pxToRem(2)};
 `;
 
 export const ListItem = styled.li`
@@ -124,7 +120,7 @@ export const ListItem = styled.li`
   }
 `;
 
-export const IconButton = styled.button`
+export const IconButton = styled.button<{ isExpanded: boolean }>`
   background: none;
   border: none;
   padding: ${SPACINGS.xs};
@@ -132,12 +128,53 @@ export const IconButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.white};
+  color: inherit;
   border-radius: ${pxToRem(4)};
+  width: ${pxToRem(ICON_SIZE)};
+  height: ${pxToRem(ICON_SIZE)};
+  position: relative;
+  ${transition({
+    attr: "color, transform",
+  })}
 
   ${focusVisible({})}
 
+  /* Subtle scale effect for button interactivity */
   &:hover {
-    background-color: ${({ theme }) => theme.blackOpaque};
+    transform: scale(1.1);
   }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    ${transition({
+      attr: "all",
+      easing: EasingTypes.EASE,
+    })}
+  }
+
+  /* Horizontal line (always visible) */
+  &::before {
+    width: ${pxToRem(ICON_SIZE / 2)};
+    height: ${pxToRem(ICON_WEIGHT)};
+    color: ${({ theme }) => theme.white};
+  }
+
+  /* Vertical line (rotates to become invisible when expanded) */
+  &::after {
+    width: ${pxToRem(ICON_WEIGHT)};
+    height: ${pxToRem(ICON_SIZE / 2)};
+    color: ${({ theme }) => theme.white};
+    transform: ${({ isExpanded }) =>
+      isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};
+    opacity: ${({ isExpanded }) => (isExpanded ? 0 : 1)};
+  }
+`;
+
+export const SubLinksAnimationContainer = styled.div<{ isExpanded: boolean }>`
+  ${({ isExpanded }) => heightAnimation(isExpanded)}
+  margin-left: ${SPACINGS.lg};
+  margin-top: ${SPACINGS.lg};
 `;

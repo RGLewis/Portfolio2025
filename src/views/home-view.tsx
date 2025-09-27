@@ -1,27 +1,15 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import { HOME_PAGE_CONTENT } from "../assets/content";
-import { HeadingClasses, TypographyVariants } from "../atoms/typography/types";
+import { HOME_PAGE_CONTENT } from "@/assets/content";
+import { HeadingClasses, TypographyVariants } from "@/atoms/typography/types";
 import {
   StyledHeadingFirst,
   StyledHeadingThird,
-} from "../atoms/typography/typography.styles";
-import { pxToRem } from "../global-styles";
-import { prefetchPages } from "../loaders/page-loaders";
-import { PageContainer } from "./styles";
-
-const Headshot = styled.img`
-  width: ${pxToRem(300)};
-  height: ${pxToRem(300)};
-  border-radius: 50%;
-  box-shadow: 0 ${pxToRem(3)} ${pxToRem(15)} ${({ theme }) => theme.blackOpaque};
-  border: ${pxToRem(2)} solid ${({ theme }) => theme.accent};
-  margin-bottom: ${pxToRem(20)};
-`;
+} from "@/atoms/typography/typography.styles";
+import { prefetchPages } from "@/loaders/page-loaders";
+import { useEffect } from "react";
+import { Headshot, PageContainer } from "./styles";
 
 export const HomeView = () => {
   useEffect(() => {
-    // Prefetch other pages when home loads
     prefetchPages();
   }, []);
 
