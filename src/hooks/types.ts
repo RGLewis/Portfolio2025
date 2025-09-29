@@ -78,3 +78,13 @@ export type NavigationData = {
     };
   };
 };
+
+export enum IconSizes {
+  MEDIUM = 30,
+  LARGE = 40,
+}
+
+export enum IconWeights {
+  THIN = 2,
+  THICK = 3,
+}

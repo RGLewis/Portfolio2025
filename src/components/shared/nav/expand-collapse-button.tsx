@@ -1,3 +1,4 @@
+import { useIconSize } from "@/hooks/use-icon-size";
 import React from "react";
 import { IconButton } from "./nav.styles";
 
@@ -12,11 +13,15 @@ export const ExpandCollapseButton: React.FC<ExpandCollapseButtonProps> = ({
   ariaLabel,
   onClick,
 }) => {
+  const { iconSize, iconWeight } = useIconSize();
+
   return (
     <IconButton
       onClick={onClick}
       isExpanded={isExpanded}
       aria-label={ariaLabel}
+      iconSize={iconSize}
+      iconWeight={iconWeight}
     />
   );
 };

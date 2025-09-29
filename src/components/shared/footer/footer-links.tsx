@@ -1,18 +1,7 @@
 import { FOOTER_CONTENT } from "@/assets/content";
 import { TypographyVariants } from "@/atoms/typography/types";
 import { StyledLink, StyledSlash } from "@/atoms/typography/typography.styles";
-import styled from "styled-components";
-
-const FooterLinksContainer = styled.ul`
-  display: flex;
-  flex-direction: row;
-`;
-
-export const ListItem = styled.li`
-  list-style: none;
-  display: flex;
-  align-items: center;
-`;
+import { FooterLinksContainer, ListItem } from "./footer.styles";
 
 export const FooterLinks = () => {
   const linksArray = Object.entries(FOOTER_CONTENT.links);

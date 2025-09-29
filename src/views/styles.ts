@@ -2,7 +2,7 @@ import { device, pxToRem } from "@/global-styles";
 import { styled } from "styled-components";
 
 export const PageContainer = styled.div`
-  min-height: 100vh;
+  min-height: 100%;
   padding: ${pxToRem(20)};
   width: 100%;
   display: flex;
