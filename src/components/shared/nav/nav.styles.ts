@@ -7,12 +7,11 @@ import {
   pxToRem,
   SPACINGS,
   transition,
+  Z_INDEX,
 } from "@/global-styles";
+import type { IconSizes, IconWeights } from "@/hooks/types";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
-
-const ICON_SIZE = 40;
-const ICON_WEIGHT = 3;
 
 const navLinkBaseStyles = css`
   color: ${({ theme }) => theme.white};
@@ -36,7 +35,7 @@ const navLinkBaseStyles = css`
     ${transition({
       attr: "height",
     })}
-    z-index: -1;
+    z-index: ${Z_INDEX.negative};
   }
 `;
 
@@ -57,6 +56,11 @@ export const StyledNavLink = styled(NavLink)`
   }
 
   ${focusVisible({ outlineOffset: OutlineOffsetTypes.LARGE })}
+
+  @media ${device.medium} {
+    font-size: ${pxToRem(30)};
+    line-height: 1.1;
+  }
 
   @media ${device.large} {
     font-size: ${pxToRem(50)};
@@ -120,7 +124,11 @@ export const ListItem = styled.li`
   }
 `;
 
-export const IconButton = styled.button<{ isExpanded: boolean }>`
+export const IconButton = styled.button<{
+  isExpanded: boolean;
+  iconSize: IconSizes;
+  iconWeight: IconWeights;
+}>`
   background: none;
   border: none;
   padding: ${SPACINGS.xs};
@@ -130,8 +138,8 @@ export const IconButton = styled.button<{ isExpanded: boolean }>`
   justify-content: center;
   color: inherit;
   border-radius: ${pxToRem(4)};
-  width: ${pxToRem(ICON_SIZE)};
-  height: ${pxToRem(ICON_SIZE)};
+  width: ${({ iconSize }) => pxToRem(iconSize)};
+  height: ${({ iconSize }) => pxToRem(iconSize)};
   position: relative;
   ${transition({
     attr: "color, transform",
@@ -157,15 +165,15 @@ export const IconButton = styled.button<{ isExpanded: boolean }>`
 
   /* Horizontal line (always visible) */
   &::before {
-    width: ${pxToRem(ICON_SIZE / 2)};
-    height: ${pxToRem(ICON_WEIGHT)};
+    width: ${({ iconSize }) => pxToRem(iconSize / 2)};
+    height: ${({ iconWeight }) => pxToRem(iconWeight)};
     color: ${({ theme }) => theme.white};
   }
 
   /* Vertical line (rotates to become invisible when expanded) */
   &::after {
-    width: ${pxToRem(ICON_WEIGHT)};
-    height: ${pxToRem(ICON_SIZE / 2)};
+    width: ${({ iconWeight }) => pxToRem(iconWeight)};
+    height: ${({ iconSize }) => pxToRem(iconSize / 2)};
     color: ${({ theme }) => theme.white};
     transform: ${({ isExpanded }) =>
       isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};

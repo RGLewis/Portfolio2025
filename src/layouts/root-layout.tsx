@@ -1,29 +1,20 @@
 import { Sidebar } from "@/components/sidebar/sidebar";
-import { pxToRem, SIDEBAR_WIDTHS } from "@/global-styles";
+
+import { MobileMenu } from "@/components/mobile-menu/mobile-menu";
+import { zIndexClass, ZIndexLevel } from "@/global-styles";
+import { useMobileViewport } from "@/hooks/use-mobile-viewport";
 import { Outlet } from "react-router-dom";
-import styled from "styled-components";
-
-const LayoutContainer = styled.div`
-  display: flex;
-  min-height: 100vh;
-
-  @supports (-webkit-touch-callout: none) {
-    min-height: -webkit-fill-available;
-  }
-`;
-
-const MainContent = styled.main`
-  flex: 1;
-  min-width: 0;
-  margin-left: ${pxToRem(SIDEBAR_WIDTHS.large)};
-  background: ${({ theme }) => theme.background};
-`;
+import { LayoutContainer, MainContent } from "./styles";
 
 export const RootLayout = () => {
+  const isMobile = useMobileViewport();
+
+  const navComponent = isMobile ? <MobileMenu /> : <Sidebar />;
+
   return (
     <LayoutContainer>
-      <Sidebar />
-      <MainContent>
+      {navComponent}
+      <MainContent {...zIndexClass(ZIndexLevel.BASE)}>
         <Outlet />
       </MainContent>
     </LayoutContainer>

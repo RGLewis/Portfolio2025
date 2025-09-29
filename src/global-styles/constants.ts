@@ -55,5 +55,14 @@ export const BREAKPOINTS = {
 
 export const SIDEBAR_WIDTHS = {
   large: 450,
-  // TO DO: set out other widths when dealing with responsive
+  medium: 300,
 };
+
+export const Z_INDEX = {
+  negative: -1,
+  base: 100,
+  second: 200,
+  third: 300,
+};
+
+export const MOBILE_HEADER_HEIGHT = 70;

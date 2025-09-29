@@ -8,6 +8,7 @@ import {
   FONTS,
   GLOBAL_COLOR_MAPPINGS,
   LIGHT_THEME_COLOR_MAPPINGS,
+  Z_INDEX,
 } from "./constants";
 
 import { focusVisible } from "./mixins";
@@ -111,4 +112,21 @@ export const GlobalStyle = createGlobalStyle`
     height: 100%;
     min-height: 100vh;
     min-height: 100dvh;
+  }
+
+  .z-index_negative {
+    z-index: ${Z_INDEX.negative};
+  }
+
+  .z-index_base {
+    z-index: ${Z_INDEX.base};
+  }
+
+  .z-index_second {
+    z-index: ${Z_INDEX.second};
+  }
+
+  .z-index_third {
+    z-index: ${Z_INDEX.third};
+  }
 `;
