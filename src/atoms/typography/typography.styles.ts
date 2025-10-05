@@ -60,21 +60,13 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
   }
 `;
 
-export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
+export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
-  font-size: ${pxToRem(20)};
+  font-size: ${pxToRem(30)};
   color: ${({ theme, variant }) => theme[variant]};
   padding: ${SPACINGS.xs} 0;
   text-transform: capitalize;
   letter-spacing: ${pxToRem(0.5)};
-
-  @media ${device.large} {
-    font-size: ${pxToRem(25)};
-  }
-
-  @media ${device.extraLarge} {
-    font-size: ${pxToRem(30)};
-  }
 `;
 
 export const StyledBody = styled.p<{ variant: TypographyVariants }>`

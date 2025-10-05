@@ -4,6 +4,7 @@ if (
   !import.meta.env.VITE_CONTENTFUL_SPACE_ID ||
   !import.meta.env.VITE_CONTENTFUL_ACCESS_TOKEN
 ) {
+  // TODO: Error handling
   throw new Error("Missing Contentful environment variables");
 }
 

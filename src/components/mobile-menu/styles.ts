@@ -24,7 +24,7 @@ const hoverTransition = (delay: Hamburger_Timings) => css`
 const NAV_OFFSET = 10;
 
 export const HamburgerSpan = styled.span<{
-  isMenuOpen: boolean;
+  $isMenuOpen: boolean;
 }>`
   height: ${pxToRem(1)};
   width: ${pxToRem(30)};
@@ -35,17 +35,17 @@ export const HamburgerSpan = styled.span<{
     speed: "300ms",
   })}
   transform-origin: center;
-  border-radius: ${(props) => (props.isMenuOpen ? 0 : `${borderRadius(2)}`)};
+  border-radius: ${(props) => (props.$isMenuOpen ? 0 : `${borderRadius(2)}`)};
 
   &:nth-child(1) {
     transform: ${(props) =>
-      props.isMenuOpen
+      props.$isMenuOpen
         ? `translateY(${pxToRem(10)}) rotate(45deg)`
         : "translateY(0) rotate(0deg)"};
 
     button:hover & {
       transform: ${(props) =>
-        props.isMenuOpen
+        props.$isMenuOpen
           ? `translateY(${pxToRem(10)}) rotate(45deg) scale(1.05)`
           : "scaleY(1.3)"};
       ${hoverTransition(Hamburger_Timings.FIRST)}
@@ -54,24 +54,25 @@ export const HamburgerSpan = styled.span<{
 
   &:nth-child(2) {
     width: ${pxToRem(20)};
-    opacity: ${(props) => (props.isMenuOpen ? 0 : 1)};
-    transform: ${(props) => (props.isMenuOpen ? "scaleX(0)" : "scaleX(1)")};
+    opacity: ${(props) => (props.$isMenuOpen ? 0 : 1)};
+    transform: ${(props) => (props.$isMenuOpen ? "scaleX(0)" : "scaleX(1)")};
 
     button:hover & {
-      transform: ${(props) => (props.isMenuOpen ? "scaleX(0)" : "scaleY(1.3)")};
+      transform: ${(props) =>
+        props.$isMenuOpen ? "scaleX(0)" : "scaleY(1.3)"};
       ${hoverTransition(Hamburger_Timings.SECOND)}
     }
   }
 
   &:nth-child(3) {
     transform: ${(props) =>
-      props.isMenuOpen
+      props.$isMenuOpen
         ? `translateY(${pxToRem(-10)}) rotate(-45deg)`
         : "translateY(0) rotate(0deg)"};
 
     button:hover & {
       transform: ${(props) =>
-        props.isMenuOpen
+        props.$isMenuOpen
           ? `translateY(${pxToRem(-10)}) rotate(-45deg) scale(1.05)`
           : "scaleY(1.3)"};
       ${hoverTransition(Hamburger_Timings.THIRD)}
@@ -103,7 +104,7 @@ export const StyledMobileHeader = styled.div`
   background: ${({ theme }) => theme.menuBackground};
 `;
 
-export const NavContainer = styled.div<{ isMenuOpen: boolean }>`
+export const NavContainer = styled.div<{ $isMenuOpen: boolean }>`
   position: fixed;
   top: ${pxToRem(MOBILE_HEADER_HEIGHT)};
   padding: ${pxToRem(NAV_OFFSET * 2)};
@@ -111,8 +112,8 @@ export const NavContainer = styled.div<{ isMenuOpen: boolean }>`
   right: ${pxToRem(-NAV_OFFSET)};
   bottom: 0;
   background: ${({ theme }) => theme.menuBackground};
-  transform: ${({ isMenuOpen }) =>
-    isMenuOpen ? "translateX(0)" : "translateX(-100%)"};
+  transform: ${({ $isMenuOpen }) =>
+    $isMenuOpen ? "translateX(0)" : "translateX(-100%)"};
   ${transition({
     attr: "transform",
     speed: "400ms",

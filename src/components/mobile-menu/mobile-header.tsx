@@ -1,3 +1,4 @@
+import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { zIndexClass, ZIndexLevel } from "@/global-styles";
 import { HamburgerButton, HamburgerSpan, StyledMobileHeader } from "./styles";
 
@@ -15,14 +16,18 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   };
 
   return (
-    <StyledMobileHeader {...zIndexClass(ZIndexLevel.THIRD)}>
+    <StyledMobileHeader
+      {...zIndexClass(ZIndexLevel.THIRD)}
+      data-testid={NAVIGATION_DATA_TEST_IDS.mobileHeader}
+    >
       <HamburgerButton
         onClick={toggleMenu}
         aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+        data-testid={NAVIGATION_DATA_TEST_IDS.hamburgerButton}
       >
-        <HamburgerSpan isMenuOpen={isMenuOpen} />
-        <HamburgerSpan isMenuOpen={isMenuOpen} />
-        <HamburgerSpan isMenuOpen={isMenuOpen} />
+        <HamburgerSpan $isMenuOpen={isMenuOpen} />
+        <HamburgerSpan $isMenuOpen={isMenuOpen} />
+        <HamburgerSpan $isMenuOpen={isMenuOpen} />
       </HamburgerButton>
     </StyledMobileHeader>
   );
