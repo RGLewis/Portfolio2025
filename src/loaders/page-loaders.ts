@@ -35,5 +35,4 @@ export const prefetchPages = async () => {
   ];
 
   await Promise.allSettled(prefetchPromises);
-  // Data is now cached by the GraphQL client
 };

@@ -125,9 +125,9 @@ export const ListItem = styled.li`
 `;
 
 export const IconButton = styled.button<{
-  isExpanded: boolean;
-  iconSize: IconSizes;
-  iconWeight: IconWeights;
+  $isExpanded: boolean;
+  $iconSize: IconSizes;
+  $iconWeight: IconWeights;
 }>`
   background: none;
   border: none;
@@ -138,8 +138,8 @@ export const IconButton = styled.button<{
   justify-content: center;
   color: inherit;
   border-radius: ${pxToRem(4)};
-  width: ${({ iconSize }) => pxToRem(iconSize)};
-  height: ${({ iconSize }) => pxToRem(iconSize)};
+  width: ${({ $iconSize }) => pxToRem($iconSize)};
+  height: ${({ $iconSize }) => pxToRem($iconSize)};
   position: relative;
   ${transition({
     attr: "color, transform",
@@ -165,24 +165,24 @@ export const IconButton = styled.button<{
 
   /* Horizontal line (always visible) */
   &::before {
-    width: ${({ iconSize }) => pxToRem(iconSize / 2)};
-    height: ${({ iconWeight }) => pxToRem(iconWeight)};
+    width: ${({ $iconSize }) => pxToRem($iconSize / 2)};
+    height: ${({ $iconWeight }) => pxToRem($iconWeight)};
     color: ${({ theme }) => theme.white};
   }
 
   /* Vertical line (rotates to become invisible when expanded) */
   &::after {
-    width: ${({ iconWeight }) => pxToRem(iconWeight)};
-    height: ${({ iconSize }) => pxToRem(iconSize / 2)};
+    width: ${({ $iconWeight }) => pxToRem($iconWeight)};
+    height: ${({ $iconSize }) => pxToRem($iconSize / 2)};
     color: ${({ theme }) => theme.white};
-    transform: ${({ isExpanded }) =>
-      isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};
-    opacity: ${({ isExpanded }) => (isExpanded ? 0 : 1)};
+    transform: ${({ $isExpanded }) =>
+      $isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};
+    opacity: ${({ $isExpanded }) => ($isExpanded ? 0 : 1)};
   }
 `;
 
-export const SubLinksAnimationContainer = styled.div<{ isExpanded: boolean }>`
-  ${({ isExpanded }) => heightAnimation(isExpanded)}
+export const SubLinksAnimationContainer = styled.div<{ $isExpanded: boolean }>`
+  ${({ $isExpanded }) => heightAnimation($isExpanded)}
   margin-left: ${SPACINGS.lg};
   margin-top: ${SPACINGS.lg};
 `;

@@ -1,7 +1,9 @@
+import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import React from "react";
 import { StyledHashLink } from "./nav.styles";
 import type { HashLinkProps } from "./types";
 
+// TODO: Add tests when functionality is complete
 export const HashLink = ({
   to,
   text,
@@ -45,6 +47,8 @@ export const HashLink = ({
       }}
       isActive={isActive}
       tabIndex={tabIndex}
+      data-testid={NAVIGATION_DATA_TEST_IDS.experienceLink(text)}
+      data-slug={slug}
     >
       {text}
     </StyledHashLink>

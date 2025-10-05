@@ -1,3 +1,4 @@
+import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { useIconSize } from "@/hooks/use-icon-size";
 import React from "react";
 import { IconButton } from "./nav.styles";
@@ -18,10 +19,12 @@ export const ExpandCollapseButton: React.FC<ExpandCollapseButtonProps> = ({
   return (
     <IconButton
       onClick={onClick}
-      isExpanded={isExpanded}
+      $isExpanded={isExpanded}
       aria-label={ariaLabel}
-      iconSize={iconSize}
-      iconWeight={iconWeight}
+      $iconSize={iconSize}
+      $iconWeight={iconWeight}
+      aria-expanded={isExpanded}
+      data-testid={NAVIGATION_DATA_TEST_IDS.expandCollapseButton}
     />
   );
 };

@@ -1,9 +1,10 @@
 {
   "preset": "ts-jest",
   "testEnvironment": "jsdom",
-  "setupFilesAfterEnv": ["<rootDir>/src/setupTests.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/src//test-utils/setup-tests.ts"],
   "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/src/$1"
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(jpg|jpeg|png|gif|svg|JPG|JPEG|PNG|GIF|SVG)$": "<rootDir>/src/__mocks__/fileMock.js"
   },
   "testMatch": [
     "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
@@ -19,7 +20,7 @@
     "^.+\\.(ts|tsx)$": [
       "ts-jest",
       {
-        "tsconfig": "tsconfig.json"
+        "tsconfig": "tsconfig.test.json"
       }
     ]
   },

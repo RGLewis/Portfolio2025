@@ -12,17 +12,16 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <HomeView />,
-        // No loader needed for static home page
       },
       {
         path: "/about",
         element: <AboutView />,
-        loader: aboutLoader, // Data loads before route renders
+        loader: aboutLoader,
       },
       {
         path: "/experience",
         element: <ExperienceView />,
-        loader: experienceLoader, // Data loads before route renders
+        loader: experienceLoader,
         children: [
           {
             path: "#profile",

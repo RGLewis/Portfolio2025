@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["jest", "@testing-library/jest-dom", "jest-axe"],
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/test-utils/setup-tests.ts",
+    "src/test-utils/test-utils.tsx",
+    "src/types/styled.d.ts",
+    "src/types/image.d.ts"
+  ]
+}
