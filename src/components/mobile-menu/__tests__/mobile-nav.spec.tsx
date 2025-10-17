@@ -4,22 +4,31 @@ import {
   expectNoA11yViolations,
   renderWithProviders,
 } from "@/test-utils/test-utils";
+import { waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MobileNav } from "../mobile-nav";
 
+const defaultProps = {
+  isMenuOpen: true,
+  onLinkClick: jest.fn(),
+};
+
 describe("MobileNav", () => {
+  const { mobileNav, nav, footer, navLink } = NAVIGATION_DATA_TEST_IDS;
+
   it("renders the mobile navigation and its components", () => {
     const { getByTestId } = renderWithProviders(
-      <MobileNav isMenuOpen={true} />
+      <MobileNav {...defaultProps} />
     );
 
-    const mobileNav = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileNav);
-    expect(mobileNav).toBeInTheDocument();
+    const mobileNavElement = getByTestId(mobileNav);
+    expect(mobileNavElement).toBeInTheDocument();
 
-    const nav = getByTestId(NAVIGATION_DATA_TEST_IDS.nav);
-    expect(nav).toBeInTheDocument();
+    const navElement = getByTestId(nav);
+    expect(navElement).toBeInTheDocument();
 
-    const footer = getByTestId(NAVIGATION_DATA_TEST_IDS.footer);
-    expect(footer).toBeInTheDocument();
+    const footerElement = getByTestId(footer);
+    expect(footerElement).toBeInTheDocument();
   });
 
   it.each([
@@ -29,26 +38,45 @@ describe("MobileNav", () => {
     "applies the correct styles when the menu is open: $isMenuOpen",
     ({ isMenuOpen, translateX }) => {
       const { getByTestId } = renderWithProviders(
-        <MobileNav isMenuOpen={isMenuOpen} />
+        <MobileNav {...defaultProps} isMenuOpen={isMenuOpen} />
       );
 
-      const mobileNav = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileNav);
-      expect(mobileNav).toHaveStyle(`transform: translateX(${translateX})`);
+      const mobileNavElement = getByTestId(mobileNav);
+      expect(mobileNavElement).toHaveStyle(
+        `transform: translateX(${translateX})`
+      );
     }
   );
 
   it("has the correct z-index class applied", () => {
     const { getByTestId } = renderWithProviders(
-      <MobileNav isMenuOpen={true} />
+      <MobileNav {...defaultProps} />
     );
 
-    const mobileNav = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileNav);
-    expect(mobileNav).toHaveClass(getZIndexClass(ZIndexLevel.SECOND));
+    const mobileNavElement = getByTestId(mobileNav);
+    expect(mobileNavElement).toHaveClass(getZIndexClass(ZIndexLevel.SECOND));
+  });
+
+  it("closes the menu when a link is clicked", async () => {
+    const user = userEvent.setup();
+    const onLinkClickMock = jest.fn();
+
+    const { getByTestId } = renderWithProviders(
+      <MobileNav isMenuOpen={true} onLinkClick={onLinkClickMock} />
+    );
+
+    const aboutLink = getByTestId(navLink("About"));
+
+    await user.click(aboutLink);
+
+    await waitFor(() => {
+      expect(onLinkClickMock).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("Accessibility", () => {
     it("should have no accessibility violations", async () => {
-      await expectNoA11yViolations(<MobileNav isMenuOpen={true} />);
+      await expectNoA11yViolations(<MobileNav {...defaultProps} />);
     });
   });
 });

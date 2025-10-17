@@ -1,20 +1,29 @@
-import { ComponentType, type PageData } from "@/types/content-types";
-import { NodeType, type RichTextDocument } from "@/types/rich-text";
+import { SkillLevels, TypeNames, type PageData } from "@/types/content-types";
+import type { Document } from "@contentful/rich-text-types";
+import { BLOCKS } from "@contentful/rich-text-types";
+
+/**
+ * Mock rich text content string for validation in tests
+ */
+export const MOCK_RICH_TEXT_CONTENT = "This is mock content";
 
 /**
  * Default mock rich text document
+ * Used internally by factory functions
  */
-const defaultRichTextDocument: RichTextDocument = {
-  nodeType: NodeType.DOCUMENT,
+const defaultRichTextDocument: Document = {
+  nodeType: BLOCKS.DOCUMENT,
   data: {},
   content: [
     {
-      nodeType: NodeType.PARAGRAPH,
+      nodeType: BLOCKS.PARAGRAPH,
+      data: {},
       content: [
         {
-          nodeType: NodeType.TEXT,
-          value: "This is mock content",
+          nodeType: "text",
+          value: MOCK_RICH_TEXT_CONTENT,
           marks: [],
+          data: {},
         },
       ],
     },
@@ -59,21 +68,17 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
   const defaults: PageData = {
     page: {
       title: "Test Page",
-      image: {
-        description: "Test image description",
-        url: "https://example.com/test-image.jpg",
-      },
       componentsCollection: {
         items: [
           {
-            type: ComponentType.RICH_TEXT,
+            __typename: TypeNames.RICH_TEXT,
             title: "Test Rich Text Section",
             content: {
               json: defaultRichTextDocument,
             },
           },
           {
-            type: ComponentType.WORK_ACCORDION,
+            __typename: TypeNames.WORK_ACCORDION,
             title: "Test Work Experience",
             accordionItemsCollection: {
               items: [
@@ -97,21 +102,21 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
             },
           },
           {
-            type: ComponentType.SKILLS,
+            __typename: TypeNames.SKILLS,
             title: "Test Skills",
             skillsItemCollection: {
               items: [
                 {
                   title: "JavaScript",
-                  level: "Expert",
+                  level: SkillLevels.EXPERT,
                 },
                 {
                   title: "TypeScript",
-                  level: "Advanced",
+                  level: SkillLevels.ADVANCED,
                 },
                 {
                   title: "React",
-                  level: "Expert",
+                  level: SkillLevels.EXPERT,
                 },
               ],
             },
@@ -126,10 +131,6 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
     page: {
       ...defaults.page,
       ...overrides?.page,
-      image: {
-        ...defaults.page.image,
-        ...overrides?.page?.image,
-      },
       componentsCollection: {
         ...defaults.page.componentsCollection,
         ...overrides?.page?.componentsCollection,
@@ -147,33 +148,10 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
 export const createRichTextComponent = (
   overrides?: Partial<PageData["page"]["componentsCollection"]["items"][0]>
 ) => ({
-  type: ComponentType.RICH_TEXT,
+  __typename: TypeNames.RICH_TEXT,
   title: "Rich Text Section",
   content: {
     json: defaultRichTextDocument,
-  },
-  ...overrides,
-});
-
-/**
- * Create a mock work accordion component
- */
-export const createWorkAccordionComponent = (
-  overrides?: Partial<PageData["page"]["componentsCollection"]["items"][1]>
-) => ({
-  type: ComponentType.WORK_ACCORDION,
-  title: "Work Experience",
-  accordionItemsCollection: {
-    items: [
-      {
-        sys: { id: "work-1" },
-        jobTitle: "Software Engineer",
-        workplace: "Tech Company",
-        accordionContent: {
-          json: defaultRichTextDocument,
-        },
-      },
-    ],
   },
   ...overrides,
 });
@@ -184,15 +162,49 @@ export const createWorkAccordionComponent = (
 export const createSkillsComponent = (
   overrides?: Partial<PageData["page"]["componentsCollection"]["items"][2]>
 ) => ({
-  type: ComponentType.SKILLS,
+  __typename: TypeNames.SKILLS,
   title: "Skills",
   skillsItemCollection: {
     items: [
       {
         title: "JavaScript",
-        level: "Expert",
+        level: SkillLevels.EXPERT,
       },
     ],
+  },
+  ...overrides,
+});
+
+/**
+ * Create a mock work accordion item (single item, not the full component)
+ * This is useful for testing individual Accordion components
+ *
+ * @param overrides - Partial WorkAccordionItem to override defaults
+ * @returns A single WorkAccordionItem
+ *
+ * @example
+ * ```tsx
+ * // Create with defaults
+ * const item = createWorkAccordionItem();
+ *
+ * // Override specific fields
+ * const item = createWorkAccordionItem({
+ *   jobTitle: "Frontend Developer",
+ *   workplace: "Another Company"
+ * });
+ * ```
+ */
+export const createWorkAccordionItem = (overrides?: {
+  sys?: { id: string };
+  jobTitle?: string;
+  workplace?: string;
+  accordionContent?: { json: Document };
+}) => ({
+  sys: { id: "work-1" },
+  jobTitle: "Software Engineer",
+  workplace: "Tech Company",
+  accordionContent: {
+    json: defaultRichTextDocument,
   },
   ...overrides,
 });

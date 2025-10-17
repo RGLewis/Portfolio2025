@@ -7,20 +7,22 @@ import {
 import { Sidebar } from "./sidebar";
 
 describe("Sidebar", () => {
+  const { sidebar, nav, footer } = NAVIGATION_DATA_TEST_IDS;
+
   describe("Rendering", () => {
     it("renders the sidebar with nav and footer", () => {
       const { getByTestId } = renderWithProviders(<Sidebar />);
 
-      expect(getByTestId(NAVIGATION_DATA_TEST_IDS.sidebar)).toBeInTheDocument();
-      expect(getByTestId(NAVIGATION_DATA_TEST_IDS.nav)).toBeInTheDocument();
-      expect(getByTestId(NAVIGATION_DATA_TEST_IDS.footer)).toBeInTheDocument();
+      expect(getByTestId(sidebar)).toBeInTheDocument();
+      expect(getByTestId(nav)).toBeInTheDocument();
+      expect(getByTestId(footer)).toBeInTheDocument();
     });
 
     it("has the correct z-index class applied", () => {
       const { getByTestId } = renderWithProviders(<Sidebar />);
 
-      const sidebar = getByTestId(NAVIGATION_DATA_TEST_IDS.sidebar);
-      expect(sidebar).toHaveClass(getZIndexClass(ZIndexLevel.SECOND));
+      const sidebarElement = getByTestId(sidebar);
+      expect(sidebarElement).toHaveClass(getZIndexClass(ZIndexLevel.SECOND));
     });
   });
 

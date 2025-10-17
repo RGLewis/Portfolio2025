@@ -1,14 +1,14 @@
+import { Footer } from "@/components/footer";
+import { Nav } from "@/components/nav";
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { zIndexClass, ZIndexLevel } from "@/global-styles";
-import { Footer, Nav } from "../shared";
 import { StyledSidebar } from "./sidebar.styles";
 
 export const Sidebar = () => {
+  const { sidebar } = NAVIGATION_DATA_TEST_IDS;
+
   return (
-    <StyledSidebar
-      {...zIndexClass(ZIndexLevel.SECOND)}
-      data-testid={NAVIGATION_DATA_TEST_IDS.sidebar}
-    >
+    <StyledSidebar {...zIndexClass(ZIndexLevel.SECOND)} data-testid={sidebar}>
       <Nav />
       <Footer />
     </StyledSidebar>

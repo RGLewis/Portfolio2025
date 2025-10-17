@@ -2,5 +2,6 @@ export {
   createPageData,
   createRichTextComponent,
   createSkillsComponent,
-  createWorkAccordionComponent,
+  createWorkAccordionItem,
+  MOCK_RICH_TEXT_CONTENT,
 } from "./createPageData";

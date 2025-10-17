@@ -23,7 +23,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
     text-transform: uppercase;
     letter-spacing: ${pxToRem(2)};
     text-align: left;
-    margin-top: ${pxToRem(-35)};
+    margin-top: ${pxToRem(-55)};
     text-shadow: ${({ theme }) =>
       `${pxToRem(0)} ${pxToRem(5)} ${pxToRem(30)} ${theme.black}`};
   }
@@ -37,7 +37,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
     font-size: ${pxToRem(55)};
 
     &.page-heading {
-      margin-top: ${pxToRem(-45)};
+      margin-top: ${pxToRem(-85)};
     }
   }
 
@@ -46,7 +46,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
 
     &.page-heading {
       font-size: ${pxToRem(60)};
-      margin-top: ${pxToRem(-50)};
+      margin-top: ${pxToRem(-90)};
     }
   }
 
@@ -55,7 +55,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
 
     &.page-heading {
       font-size: ${pxToRem(80)};
-      margin-top: ${pxToRem(-70)};
+      margin-top: ${pxToRem(-110)};
     }
   }
 `;
@@ -67,6 +67,79 @@ export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
   padding: ${SPACINGS.xs} 0;
   text-transform: capitalize;
   letter-spacing: ${pxToRem(0.5)};
+
+  &.underlined {
+    padding: ${SPACINGS.sm} 0;
+    border-bottom: ${pxToRem(1)} solid ${({ theme }) => theme.accent};
+  }
+
+  @media ${device.large} {
+    font-size: ${pxToRem(16)};
+
+    &.large {
+      font-size: ${pxToRem(36)};
+    }
+  }
+
+  @media ${device.extraLarge} {
+    font-size: ${pxToRem(50)};
+
+    &.large {
+      font-size: ${pxToRem(56)};
+    }
+  }
+`;
+
+export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-size: ${pxToRem(22)};
+  color: ${({ theme, variant }) => theme[variant]};
+  padding: ${SPACINGS.xs} 0;
+  text-transform: capitalize;
+  letter-spacing: ${pxToRem(0.5)};
+
+  @media ${device.large} {
+    font-size: ${pxToRem(24)};
+  }
+
+  @media ${device.extraLarge} {
+    font-size: ${pxToRem(28)};
+  }
+`;
+
+export const StyledHeadingFourth = styled.h4<{ variant: TypographyVariants }>`
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: ${pxToRem(20)};
+  color: ${({ theme, variant }) => theme[variant]};
+  padding: ${SPACINGS.xs} 0;
+  letter-spacing: ${pxToRem(0.3)};
+
+  @media ${device.large} {
+    font-size: ${pxToRem(24)};
+  }
+
+  @media ${device.extraLarge} {
+    font-size: ${pxToRem(28)};
+  }
+`;
+
+export const StyledHeadingFifth = styled.h5<{ variant: TypographyVariants }>`
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-family: ${({ theme }) => theme.fonts.montserrat};
+  font-size: ${pxToRem(18)};
+  color: ${({ theme, variant }) => theme[variant]};
+  padding: ${SPACINGS.xs} 0;
+  letter-spacing: ${pxToRem(0.2)};
+
+  @media ${device.large} {
+    font-size: ${pxToRem(20)};
+  }
+
+  @media ${device.extraLarge} {
+    font-size: ${pxToRem(22)};
+  }
 `;
 
 export const StyledBody = styled.p<{ variant: TypographyVariants }>`
@@ -74,6 +147,7 @@ export const StyledBody = styled.p<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};
   color: ${({ theme, variant }) => theme[variant]};
+  margin-bottom: ${SPACINGS.md};
 
   &.bold {
     font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -88,7 +162,9 @@ export const StyledBody = styled.p<{ variant: TypographyVariants }>`
   }
 
   @media ${device.large} {
-    font-size: ${pxToRem(16)} &.large {
+    font-size: ${pxToRem(16)};
+
+    &.large {
       font-size: ${pxToRem(20)};
     }
   }
@@ -132,5 +208,40 @@ export const StyledSlash = styled.p`
 
   @media ${device.medium} {
     margin: 0 ${SPACINGS.sm};
+  }
+`;
+
+export const StyledUnorderedList = styled.ul<{ variant: TypographyVariants }>`
+  list-style-type: disc;
+  padding-left: ${SPACINGS.lg};
+  margin: ${SPACINGS.md} 0;
+  color: ${({ theme, variant }) => theme[variant]};
+
+  li::marker {
+    color: ${({ theme }) => theme.accent};
+  }
+`;
+
+export const StyledOrderedList = styled.ol<{ variant: TypographyVariants }>`
+  list-style-type: decimal;
+  padding-left: ${SPACINGS.lg};
+  margin: ${SPACINGS.md} 0;
+  color: ${({ theme, variant }) => theme[variant]};
+
+  li::marker {
+    color: ${({ theme }) => theme.accent};
+  }
+`;
+
+export const StyledListItem = styled.li<{ variant: TypographyVariants }>`
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: ${({ theme }) => theme.fontWeights.extraLight};
+  font-size: ${pxToRem(14)};
+  color: ${({ theme, variant }) => theme[variant]};
+  margin: ${SPACINGS.xs} 0;
+  line-height: 1.6;
+
+  @media ${device.large} {
+    font-size: ${pxToRem(16)};
   }
 `;

@@ -1,4 +1,5 @@
 import { GLOBAL_COLOR_MAPPINGS, SPACINGS } from "./constants";
+import type { ThemeColors } from "./types";
 import { pxToRem } from "./utils";
 
 export const borderRadius = (borderRadius: number) => `
@@ -25,7 +26,7 @@ export enum OutlineOffsetTypes {
 }
 
 type FocusVisibleTypes = {
-  outlineColor?: string;
+  outlineColor?: ThemeColors[keyof ThemeColors];
   outlineOffset?: OutlineOffsetTypes;
 };
 

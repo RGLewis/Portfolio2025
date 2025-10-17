@@ -2,16 +2,23 @@ import { NAV_CONTENT } from "@/assets/content";
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { PageMappings, type NavItem } from "@/types/content-types";
 import { useState } from "react";
-import { ExpandCollapseButton } from "./expand-collapse-button";
+import { ExpandCollapseButton } from "../expand-collapse-button/expand-collapse-button";
 import { HashLink } from "./hash-link";
 import {
   ListItem,
   NavList,
   StyledNavLink,
   SubLinksAnimationContainer,
-} from "./nav.styles";
+} from "./styles";
 
-export const Nav = () => {
+type NavProps = {
+  onLinkClick?: () => void;
+};
+
+export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
+  const { nav, navLink, expandCollapseButton, subLinksContainer } =
+    NAVIGATION_DATA_TEST_IDS;
+
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
 
   const toggleExperienceExpanded = () => {
@@ -30,7 +37,7 @@ export const Nav = () => {
   });
 
   return (
-    <nav data-testid={NAVIGATION_DATA_TEST_IDS.nav}>
+    <nav data-testid={nav}>
       <NavList>
         {mainLinks.map((item) => {
           const { text, link } = item;
@@ -40,11 +47,12 @@ export const Nav = () => {
             <ListItem key={text}>
               <StyledNavLink
                 to={link}
+                onClick={onLinkClick}
                 aria-expanded={
                   isExperience && isExperienceExpanded ? "true" : "false"
                 }
                 aria-controls={isExperience ? "experience-submenu" : undefined}
-                data-testid={NAVIGATION_DATA_TEST_IDS.navLink(text)}
+                data-testid={navLink(text)}
               >
                 {text}
               </StyledNavLink>
@@ -57,7 +65,7 @@ export const Nav = () => {
                       : "Expand experience menu"
                   }
                   onClick={toggleExperienceExpanded}
-                  data-testid={NAVIGATION_DATA_TEST_IDS.expandCollapseButton}
+                  dataTestId={expandCollapseButton}
                 />
               )}
             </ListItem>
@@ -67,7 +75,7 @@ export const Nav = () => {
 
       <SubLinksAnimationContainer
         $isExpanded={isExperienceExpanded}
-        data-testid={NAVIGATION_DATA_TEST_IDS.subLinksContainer}
+        data-testid={subLinksContainer}
         role="region"
         aria-label={`Experience submenu ${
           isExperienceExpanded ? "expanded" : "collapsed"
@@ -83,7 +91,10 @@ export const Nav = () => {
                   to={link}
                   text={text}
                   slug={slug as string}
-                  onClick={() => console.log(`clicked ${text}`)}
+                  onClick={() => {
+                    console.log(`clicked ${text}`);
+                    onLinkClick?.();
+                  }}
                   tabIndex={isExperienceExpanded ? 0 : -1}
                 />
               </ListItem>

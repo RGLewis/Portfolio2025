@@ -5,6 +5,8 @@ export const PageContainer = styled.div`
   min-height: 100%;
   padding: ${pxToRem(20)};
   width: 100%;
+  max-width: ${pxToRem(1600)};
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
 
@@ -14,6 +16,14 @@ export const PageContainer = styled.div`
 
   &.center-justify {
     justify-content: center;
+  }
+
+  &.inner-page {
+    width: 90%;
+
+    @media ${device.large} {
+      width: 70%;
+    }
   }
 
   @supports (-webkit-touch-callout: none) {

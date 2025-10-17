@@ -1,6 +1,6 @@
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import React from "react";
-import { StyledHashLink } from "./nav.styles";
+import { StyledHashLink } from "./styles";
 import type { HashLinkProps } from "./types";
 
 // TODO: Add tests when functionality is complete
@@ -12,6 +12,8 @@ export const HashLink = ({
   slug,
   tabIndex,
 }: HashLinkProps) => {
+  const { experienceLink } = NAVIGATION_DATA_TEST_IDS;
+
   const scrollTo = (e: { preventDefault: () => void }) => {
     // prevent default scroll
     e.preventDefault();
@@ -47,7 +49,7 @@ export const HashLink = ({
       }}
       isActive={isActive}
       tabIndex={tabIndex}
-      data-testid={NAVIGATION_DATA_TEST_IDS.experienceLink(text)}
+      data-testid={experienceLink(text)}
       data-slug={slug}
     >
       {text}

@@ -2,12 +2,9 @@ export const pageQuery = `
   query getPage($id: String!) {
     page(id: $id) {
       title
-      image {
-        description
-        url
-      }
       componentsCollection {
         items {
+          __typename
           ... on RichTextWriteUp {
             title
             content {
@@ -16,7 +13,7 @@ export const pageQuery = `
           }
           ... on WorkAccordion {
             title
-            accordionItemsCollection {
+            accordionItemsCollection(limit: 20) {
               items {
                 ... on WorkAccordionItem {
                   sys {

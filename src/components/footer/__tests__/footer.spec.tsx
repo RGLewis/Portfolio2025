@@ -6,16 +6,14 @@ import {
 import { Footer } from "../footer";
 
 describe("Footer", () => {
+  const { footer, footerLinks, footerCopy } = NAVIGATION_DATA_TEST_IDS;
+
   it("renders the Footer component and its children", () => {
     const { getByTestId } = renderWithProviders(<Footer />);
 
-    expect(getByTestId(NAVIGATION_DATA_TEST_IDS.footer)).toBeInTheDocument();
-    expect(
-      getByTestId(NAVIGATION_DATA_TEST_IDS.footerLinks)
-    ).toBeInTheDocument();
-    expect(
-      getByTestId(NAVIGATION_DATA_TEST_IDS.footerCopy)
-    ).toBeInTheDocument();
+    expect(getByTestId(footer)).toBeInTheDocument();
+    expect(getByTestId(footerLinks)).toBeInTheDocument();
+    expect(getByTestId(footerCopy)).toBeInTheDocument();
   });
 
   describe("Accessibility", () => {
