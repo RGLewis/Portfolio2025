@@ -11,6 +11,8 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   isMenuOpen,
   setIsMenuOpen,
 }) => {
+  const { mobileHeader, hamburgerButton } = NAVIGATION_DATA_TEST_IDS;
+
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
@@ -18,12 +20,12 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   return (
     <StyledMobileHeader
       {...zIndexClass(ZIndexLevel.THIRD)}
-      data-testid={NAVIGATION_DATA_TEST_IDS.mobileHeader}
+      data-testid={mobileHeader}
     >
       <HamburgerButton
         onClick={toggleMenu}
         aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-        data-testid={NAVIGATION_DATA_TEST_IDS.hamburgerButton}
+        data-testid={hamburgerButton}
       >
         <HamburgerSpan $isMenuOpen={isMenuOpen} />
         <HamburgerSpan $isMenuOpen={isMenuOpen} />

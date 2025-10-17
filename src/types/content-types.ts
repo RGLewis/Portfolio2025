@@ -1,9 +1,9 @@
-import type { RichTextDocument } from "./rich-text";
+import type { Document } from "@contentful/rich-text-types";
 
-export enum ComponentType {
-  RICH_TEXT = "richText",
-  WORK_ACCORDION = "workAccordion",
-  SKILLS = "skills",
+export enum TypeNames {
+  RICH_TEXT = "RichTextWriteUp",
+  WORK_ACCORDION = "WorkAccordion",
+  SKILLS = "Skills",
 }
 
 // Common types
@@ -16,36 +16,42 @@ type ContentfulCollection<T> = {
 };
 
 type RichTextContent = {
-  json: RichTextDocument;
+  json: Document;
 };
 
 // Page Component Types
-type RichTextComponent = {
-  type: ComponentType.RICH_TEXT;
+export type RichTextComponent = {
+  __typename: TypeNames.RICH_TEXT;
   title: string;
   content: RichTextContent;
 };
 
-type WorkAccordionItem = {
+export type WorkAccordionItem = {
   sys: ContentfulSys;
   jobTitle: string;
   workplace: string;
   accordionContent: RichTextContent;
 };
 
-type WorkAccordionComponent = {
-  type: ComponentType.WORK_ACCORDION;
+export type WorkAccordionComponent = {
+  __typename: TypeNames.WORK_ACCORDION;
   title: string;
   accordionItemsCollection: ContentfulCollection<WorkAccordionItem>;
 };
 
-type SkillsItem = {
+export enum SkillLevels {
+  COMFORTABLE = "Comfortable",
+  ADVANCED = "Advanced",
+  EXPERT = "Expert",
+}
+
+export type SkillsItem = {
   title: string;
-  level: string;
+  level: SkillLevels;
 };
 
-type SkillsComponent = {
-  type: ComponentType.SKILLS;
+export type SkillsComponent = {
+  __typename: TypeNames.SKILLS;
   title: string;
   skillsItemCollection: ContentfulCollection<SkillsItem>;
 };
@@ -55,15 +61,9 @@ export type PageComponent =
   | WorkAccordionComponent
   | SkillsComponent;
 
-type ContentfulImage = {
-  description: string;
-  url: string;
-};
-
 export type PageData = {
   page: {
     title: string;
-    image: ContentfulImage;
     componentsCollection: ContentfulCollection<PageComponent>;
   };
 };
@@ -90,6 +90,14 @@ export type HomePageContent = {
   tagline: string;
   image: string;
   alt: string;
+};
+
+export type InnerPageContent = {
+  title: string;
+  image: {
+    src: string;
+    alt: string;
+  };
 };
 
 type BaseNavItem = {

@@ -1,13 +1,13 @@
-import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { renderWithProviders } from "@/test-utils/test-utils";
 import userEvent from "@testing-library/user-event";
-import { ExpandCollapseButton } from "../expand-collapse-button";
+import { ExpandCollapseButton } from "./expand-collapse-button";
 
 describe("ExpandCollapseButton", () => {
   const defaultProps = {
     isExpanded: false,
     ariaLabel: "Toggle menu",
     onClick: jest.fn(),
+    dataTestId: "expand-collapse-button",
   };
 
   describe("Rendering", () => {
@@ -16,9 +16,7 @@ describe("ExpandCollapseButton", () => {
         <ExpandCollapseButton {...defaultProps} />
       );
 
-      expect(
-        getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton)
-      ).toBeInTheDocument();
+      expect(getByTestId(defaultProps.dataTestId)).toBeInTheDocument();
     });
   });
   describe("Interactions", () => {
@@ -30,7 +28,7 @@ describe("ExpandCollapseButton", () => {
         <ExpandCollapseButton {...defaultProps} onClick={onClickMock} />
       );
 
-      const button = getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton);
+      const button = getByTestId(defaultProps.dataTestId);
       await user.click(button);
 
       expect(onClickMock).toHaveBeenCalledTimes(1);
@@ -41,7 +39,7 @@ describe("ExpandCollapseButton", () => {
         <ExpandCollapseButton {...defaultProps} isExpanded={false} />
       );
 
-      const button = getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton);
+      const button = getByTestId(defaultProps.dataTestId);
       expect(button).toHaveAttribute("aria-expanded", "false");
 
       rerender(<ExpandCollapseButton {...defaultProps} isExpanded={true} />);
@@ -53,7 +51,7 @@ describe("ExpandCollapseButton", () => {
         <ExpandCollapseButton {...defaultProps} />
       );
 
-      const button = getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton);
+      const button = getByTestId(defaultProps.dataTestId);
       expect(button).toHaveAttribute("aria-label", defaultProps.ariaLabel);
     });
   });

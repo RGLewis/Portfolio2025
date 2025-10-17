@@ -11,6 +11,7 @@ import userEvent from "@testing-library/user-event";
 import { MobileHeader } from "../mobile-header";
 
 describe("MobileHeader", () => {
+  const { mobileHeader, hamburgerButton } = NAVIGATION_DATA_TEST_IDS;
   const mockSetIsMenuOpen = jest.fn();
 
   beforeEach(() => {
@@ -29,9 +30,7 @@ describe("MobileHeader", () => {
       (isMenuOpen) => {
         renderMobileHeader(isMenuOpen);
 
-        const button = screen.getByTestId(
-          NAVIGATION_DATA_TEST_IDS.hamburgerButton
-        );
+        const button = screen.getByTestId(hamburgerButton);
         expect(button).toHaveAttribute(
           "aria-label",
           isMenuOpen ? "Close Menu" : "Open Menu"
@@ -42,9 +41,7 @@ describe("MobileHeader", () => {
     it("should render all three hamburger spans", () => {
       renderMobileHeader();
 
-      const button = screen.getByTestId(
-        NAVIGATION_DATA_TEST_IDS.hamburgerButton
-      );
+      const button = screen.getByTestId(hamburgerButton);
       const spans = button.querySelectorAll("span");
 
       expect(spans).toHaveLength(3);
@@ -53,7 +50,7 @@ describe("MobileHeader", () => {
     it("should render with the correct z-index class", () => {
       renderMobileHeader();
 
-      const header = screen.getByTestId(NAVIGATION_DATA_TEST_IDS.mobileHeader);
+      const header = screen.getByTestId(mobileHeader);
       expect(header).toHaveClass(getZIndexClass(ZIndexLevel.THIRD));
     });
   });
@@ -64,9 +61,7 @@ describe("MobileHeader", () => {
       async ({ isMenuOpen }) => {
         renderMobileHeader(isMenuOpen);
 
-        const button = screen.getByTestId(
-          NAVIGATION_DATA_TEST_IDS.hamburgerButton
-        );
+        const button = screen.getByTestId(hamburgerButton);
 
         const user = userEvent.setup();
         await user.click(button);

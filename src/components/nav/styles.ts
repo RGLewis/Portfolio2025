@@ -1,6 +1,5 @@
 import {
   device,
-  EasingTypes,
   focusVisible,
   heightAnimation,
   OutlineOffsetTypes,
@@ -9,7 +8,6 @@ import {
   transition,
   Z_INDEX,
 } from "@/global-styles";
-import type { IconSizes, IconWeights } from "@/hooks/types";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -121,63 +119,6 @@ export const ListItem = styled.li`
     &::before {
       height: 100%;
     }
-  }
-`;
-
-export const IconButton = styled.button<{
-  $isExpanded: boolean;
-  $iconSize: IconSizes;
-  $iconWeight: IconWeights;
-}>`
-  background: none;
-  border: none;
-  padding: ${SPACINGS.xs};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: inherit;
-  border-radius: ${pxToRem(4)};
-  width: ${({ $iconSize }) => pxToRem($iconSize)};
-  height: ${({ $iconSize }) => pxToRem($iconSize)};
-  position: relative;
-  ${transition({
-    attr: "color, transform",
-  })}
-
-  ${focusVisible({})}
-
-  /* Subtle scale effect for button interactivity */
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    background: currentColor;
-    ${transition({
-      attr: "all",
-      easing: EasingTypes.EASE,
-    })}
-  }
-
-  /* Horizontal line (always visible) */
-  &::before {
-    width: ${({ $iconSize }) => pxToRem($iconSize / 2)};
-    height: ${({ $iconWeight }) => pxToRem($iconWeight)};
-    color: ${({ theme }) => theme.white};
-  }
-
-  /* Vertical line (rotates to become invisible when expanded) */
-  &::after {
-    width: ${({ $iconWeight }) => pxToRem($iconWeight)};
-    height: ${({ $iconSize }) => pxToRem($iconSize / 2)};
-    color: ${({ theme }) => theme.white};
-    transform: ${({ $isExpanded }) =>
-      $isExpanded ? "rotate(90deg) scale(0)" : "rotate(0deg) scale(1)"};
-    opacity: ${({ $isExpanded }) => ($isExpanded ? 0 : 1)};
   }
 `;
 

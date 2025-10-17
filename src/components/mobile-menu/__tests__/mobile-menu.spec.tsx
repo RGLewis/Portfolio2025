@@ -7,18 +7,20 @@ import "@testing-library/jest-dom";
 import { MobileMenu } from "../mobile-menu";
 
 describe("MobileMenu", () => {
+  const { mobileMenu, mobileHeader, mobileNav } = NAVIGATION_DATA_TEST_IDS;
+
   describe("Rendering", () => {
     it("should render components correctly", () => {
       const { getByTestId } = renderWithProviders(<MobileMenu />);
 
-      const menu = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileMenu);
+      const menu = getByTestId(mobileMenu);
       expect(menu).toBeInTheDocument();
 
-      const mobileHeader = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileHeader);
-      expect(mobileHeader).toBeInTheDocument();
+      const headerElement = getByTestId(mobileHeader);
+      expect(headerElement).toBeInTheDocument();
 
-      const mobileNav = getByTestId(NAVIGATION_DATA_TEST_IDS.mobileNav);
-      expect(mobileNav).toBeInTheDocument();
+      const navElement = getByTestId(mobileNav);
+      expect(navElement).toBeInTheDocument();
     });
   });
   describe("Accessibility", () => {

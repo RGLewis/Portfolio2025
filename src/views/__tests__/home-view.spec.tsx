@@ -10,17 +10,16 @@ import { HomeView } from "../home-view";
 jest.mock("@/loaders/page-loaders");
 
 describe("HomeView", () => {
+  const { pageContainer, profileImage: profileImageTestId } =
+    HOME_PAGE_DATA_TEST_IDS;
+
   describe("Rendering", () => {
     it("renders the home view with correct content", () => {
       const { getByTestId, getByText } = renderWithProviders(<HomeView />);
 
-      expect(
-        getByTestId(HOME_PAGE_DATA_TEST_IDS.pageContainer)
-      ).toBeInTheDocument();
+      expect(getByTestId(pageContainer)).toBeInTheDocument();
 
-      expect(
-        getByTestId(HOME_PAGE_DATA_TEST_IDS.profileImage)
-      ).toBeInTheDocument();
+      expect(getByTestId(profileImageTestId)).toBeInTheDocument();
 
       expect(getByText(HOME_PAGE_CONTENT.name)).toBeInTheDocument();
       expect(getByText(HOME_PAGE_CONTENT.tagline)).toBeInTheDocument();
@@ -29,9 +28,7 @@ describe("HomeView", () => {
     it("renders the profile image with correct src and alt attributes", () => {
       const { getByTestId } = renderWithProviders(<HomeView />);
 
-      const profileImage = getByTestId(
-        HOME_PAGE_DATA_TEST_IDS.profileImage
-      ) as HTMLImageElement;
+      const profileImage = getByTestId(profileImageTestId) as HTMLImageElement;
 
       expect(profileImage).toBeInTheDocument();
       expect(profileImage.src).toContain(HOME_PAGE_CONTENT.image);

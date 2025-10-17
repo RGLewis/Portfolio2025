@@ -9,23 +9,16 @@ import {
 import { RootLayout } from "./root-layout";
 
 describe("RootLayout", () => {
+  const { mobileMenu, sidebar } = NAVIGATION_DATA_TEST_IDS;
+  const { rootLayout, mainContent } = LAYOUT_DATA_TEST_IDS;
+
   describe("Rendering", () => {
     it.each([
-      [
-        "mobile",
-        false,
-        NAVIGATION_DATA_TEST_IDS.mobileMenu,
-        NAVIGATION_DATA_TEST_IDS.sidebar,
-      ],
-      [
-        "desktop",
-        true,
-        NAVIGATION_DATA_TEST_IDS.sidebar,
-        NAVIGATION_DATA_TEST_IDS.mobileMenu,
-      ],
+      ["mobile", false, sidebar, mobileMenu],
+      ["desktop", true, mobileMenu, sidebar],
     ] as const)(
       "renders the %s navigation component",
-      (_label, matches, expectedTestId, notExpectedTestId) => {
+      (_label, matches, notExpectedTestId, expectedTestId) => {
         mockMatchMediaWithBreakpoint(BREAKPOINTS.medium, matches);
 
         const { getByTestId, queryByTestId } = renderWithProviders(
@@ -42,9 +35,9 @@ describe("RootLayout", () => {
 
       const { getByTestId } = renderWithProviders(<RootLayout />);
 
-      expect(getByTestId(LAYOUT_DATA_TEST_IDS.rootLayout)).toBeInTheDocument();
+      expect(getByTestId(rootLayout)).toBeInTheDocument();
 
-      expect(getByTestId(LAYOUT_DATA_TEST_IDS.mainContent)).toBeInTheDocument();
+      expect(getByTestId(mainContent)).toBeInTheDocument();
     });
 
     it("renders the correct z-index class on main content", () => {
@@ -52,7 +45,7 @@ describe("RootLayout", () => {
 
       const { getByTestId } = renderWithProviders(<RootLayout />);
 
-      expect(getByTestId(LAYOUT_DATA_TEST_IDS.mainContent)).toHaveClass(
+      expect(getByTestId(mainContent)).toHaveClass(
         getZIndexClass(ZIndexLevel.BASE)
       );
     });

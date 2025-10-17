@@ -19,6 +19,14 @@ NAV_CONTENT.forEach((item) => {
   }
 });
 
+const {
+  nav,
+  navLink,
+  expandCollapseButton,
+  subLinksContainer,
+  experienceLink,
+} = NAVIGATION_DATA_TEST_IDS;
+
 /**
  * Helper function to toggle the experience submenu by clicking the expand/collapse button
  */
@@ -26,7 +34,7 @@ const toggleExperienceSubmenu = async (
   getByTestId: ReturnType<typeof renderWithProviders>["getByTestId"]
 ) => {
   const user = userEvent.setup();
-  await user.click(getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton));
+  await user.click(getByTestId(expandCollapseButton));
 };
 
 describe("Nav", () => {
@@ -34,24 +42,16 @@ describe("Nav", () => {
     it("renders the navigation", () => {
       const { getByTestId } = renderWithProviders(<Nav />);
 
-      expect(getByTestId(NAVIGATION_DATA_TEST_IDS.nav)).toBeInTheDocument();
-      expect(
-        getByTestId(NAVIGATION_DATA_TEST_IDS.expandCollapseButton)
-      ).toBeInTheDocument();
-      expect(
-        getByTestId(NAVIGATION_DATA_TEST_IDS.subLinksContainer)
-      ).toBeInTheDocument();
+      expect(getByTestId(nav)).toBeInTheDocument();
+      expect(getByTestId(expandCollapseButton)).toBeInTheDocument();
+      expect(getByTestId(subLinksContainer)).toBeInTheDocument();
 
       mainLinks.forEach((item) => {
-        expect(
-          getByTestId(NAVIGATION_DATA_TEST_IDS.navLink(item.text))
-        ).toBeInTheDocument();
+        expect(getByTestId(navLink(item.text))).toBeInTheDocument();
       });
 
       experienceLinks.forEach((item) => {
-        expect(
-          getByTestId(NAVIGATION_DATA_TEST_IDS.experienceLink(item.text))
-        ).toBeInTheDocument();
+        expect(getByTestId(experienceLink(item.text))).toBeInTheDocument();
       });
     });
 
@@ -59,9 +59,10 @@ describe("Nav", () => {
       const { getByTestId } = renderWithProviders(<Nav />);
 
       mainLinks.forEach((item) => {
-        expect(
-          getByTestId(NAVIGATION_DATA_TEST_IDS.navLink(item.text))
-        ).toHaveAttribute("href", item.link);
+        expect(getByTestId(navLink(item.text))).toHaveAttribute(
+          "href",
+          item.link
+        );
       });
     });
 
@@ -69,9 +70,7 @@ describe("Nav", () => {
       const { getByTestId } = renderWithProviders(<Nav />);
 
       experienceLinks.forEach((item) => {
-        const link = getByTestId(
-          NAVIGATION_DATA_TEST_IDS.experienceLink(item.text)
-        );
+        const link = getByTestId(experienceLink(item.text));
         expect(link).toHaveAttribute("href", item.link);
         expect(link).toHaveAttribute("data-slug", item.slug);
       });
@@ -85,9 +84,7 @@ describe("Nav", () => {
         const user = userEvent.setup();
         const { getByTestId } = renderWithProviders(<Nav />);
 
-        const linkElement = getByTestId(
-          NAVIGATION_DATA_TEST_IDS.navLink(text)
-        ) as HTMLAnchorElement;
+        const linkElement = getByTestId(navLink(text)) as HTMLAnchorElement;
 
         expect(linkElement).toHaveAttribute("href", link);
 
@@ -102,7 +99,7 @@ describe("Nav", () => {
     it("toggles sub-links container aria-label when button is clicked", async () => {
       const { getByTestId } = renderWithProviders(<Nav />);
 
-      const container = getByTestId(NAVIGATION_DATA_TEST_IDS.subLinksContainer);
+      const container = getByTestId(subLinksContainer);
 
       expect(container).toHaveAttribute(
         "aria-label",

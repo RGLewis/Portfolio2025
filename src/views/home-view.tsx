@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { Headshot, PageContainer } from "./styles";
 
 export const HomeView = () => {
+  const { pageContainer, profileImage } = HOME_PAGE_DATA_TEST_IDS;
+
   useEffect(() => {
     prefetchPages();
   }, []);
@@ -17,12 +19,12 @@ export const HomeView = () => {
   return (
     <PageContainer
       className="center-align center-justify"
-      data-testid={HOME_PAGE_DATA_TEST_IDS.pageContainer}
+      data-testid={pageContainer}
     >
       <Headshot
         src={HOME_PAGE_CONTENT.image}
         alt={HOME_PAGE_CONTENT.alt}
-        data-testid={HOME_PAGE_DATA_TEST_IDS.profileImage}
+        data-testid={profileImage}
       />
       <StyledHeadingFirst
         variant={TypographyVariants.PRIMARY}
