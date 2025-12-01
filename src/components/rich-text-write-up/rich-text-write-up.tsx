@@ -6,9 +6,9 @@ import {
   StyledHeadingFourth,
   StyledHeadingSecond,
   StyledHeadingThird,
-  StyledLink,
   StyledListItem,
   StyledOrderedList,
+  StyledRichTextLink,
   StyledUnorderedList,
 } from "@/atoms/typography/typography.styles";
 import {
@@ -95,14 +95,14 @@ export const RichTextWriteUp: React.FC<RichTextWriteUpProps> = ({
           <StyledListItem variant={variant}>{children}</StyledListItem>
         ),
         [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => (
-          <StyledLink
+          <StyledRichTextLink
             href={node.data.uri}
             variant={variant}
             target="_blank"
             rel="noopener noreferrer"
           >
             {children}
-          </StyledLink>
+          </StyledRichTextLink>
         ),
       } as RenderNode,
     }),

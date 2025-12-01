@@ -7,7 +7,6 @@ declare module "styled-components" {
     backgroundOpaque: string;
     primaryFont: string;
     secondaryFont: string;
-    headerAccent: string;
     accent: string;
     contrast: string;
     blackOpaque: string;

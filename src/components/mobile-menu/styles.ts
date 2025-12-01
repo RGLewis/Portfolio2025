@@ -28,7 +28,7 @@ export const HamburgerSpan = styled.span<{
 }>`
   height: ${pxToRem(1)};
   width: ${pxToRem(30)};
-  border-bottom: ${pxToRem(4)} solid ${({ theme }) => theme.headerAccent};
+  border-bottom: ${pxToRem(4)} solid ${({ theme }) => theme.white};
   margin: ${pxToRem(3)} 0;
   ${transition({
     attr: "all",

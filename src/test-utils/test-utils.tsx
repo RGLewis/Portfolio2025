@@ -1,9 +1,33 @@
+import { NavigationProvider } from "@/contexts/navigation-context";
 import { darkTheme, globalTheme, lightTheme } from "@/global-styles";
 import type { RenderOptions, RenderResult } from "@testing-library/react";
 import { render } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+
+/**
+ * Mock IntersectionObserver for tests
+ */
+global.IntersectionObserver = class IntersectionObserver
+  implements IntersectionObserver
+{
+  readonly root = null;
+  readonly rootMargin = "";
+  readonly thresholds: ReadonlyArray<number> = [];
+
+  constructor(
+    _callback: IntersectionObserverCallback,
+    _options?: IntersectionObserverInit
+  ) {}
+
+  disconnect(): void {}
+  observe(_target: Element): void {}
+  unobserve(_target: Element): void {}
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
+};
 
 /**
  * Type for theme options in tests
@@ -15,6 +39,7 @@ type ThemeMode = "light" | "dark";
  */
 interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
   theme?: ThemeMode;
+  initialEntries?: string[];
 }
 
 /**
@@ -88,16 +113,18 @@ export const mockMatchMediaWithBreakpoint = (
 const TestWrapper = ({
   children,
   theme = "light",
+  initialEntries = ["/"],
 }: {
   children: ReactNode;
   theme?: ThemeMode;
+  initialEntries?: string[];
 }) => {
   const selectedTheme = theme === "dark" ? darkTheme : lightTheme;
 
   return (
-    <MemoryRouter>
+    <MemoryRouter initialEntries={initialEntries}>
       <ThemeProvider theme={{ ...selectedTheme, ...globalTheme }}>
-        {children}
+        <NavigationProvider>{children}</NavigationProvider>
       </ThemeProvider>
     </MemoryRouter>
   );
@@ -122,11 +149,17 @@ const TestWrapper = ({
  */
 export const renderWithProviders = (
   ui: ReactElement,
-  { theme = "light", ...options }: CustomRenderOptions = {}
+  {
+    theme = "light",
+    initialEntries = ["/"],
+    ...options
+  }: CustomRenderOptions = {}
 ): RenderResult => {
   return render(ui, {
     wrapper: ({ children }) => (
-      <TestWrapper theme={theme}>{children}</TestWrapper>
+      <TestWrapper theme={theme} initialEntries={initialEntries}>
+        {children}
+      </TestWrapper>
     ),
     ...options,
   });

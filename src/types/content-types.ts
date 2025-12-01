@@ -102,8 +102,14 @@ export type InnerPageContent = {
 
 type BaseNavItem = {
   text: PageMappings;
-  icon?: string;
 };
+
+export enum Slugs {
+  PROFILE = "profile",
+  WORK = "work",
+  SKILLS = "skills",
+  EDUCATION = "education",
+}
 
 export type RouteNavItem = BaseNavItem & {
   link: string;
@@ -112,7 +118,7 @@ export type RouteNavItem = BaseNavItem & {
 
 export type HashNavItem = BaseNavItem & {
   link: string;
-  slug: string;
+  slug: Slugs;
 };
 
 export type NavItem = RouteNavItem | HashNavItem;

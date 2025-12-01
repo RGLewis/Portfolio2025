@@ -1,3 +1,5 @@
+import type { Slugs } from "@/types/content-types";
+
 export type NavLinkProps = {
   to: string;
   text: string;
@@ -6,6 +8,6 @@ export type NavLinkProps = {
 
 export type HashLinkProps = NavLinkProps & {
   isActive?: boolean;
-  slug: string;
-  tabIndex?: number;
+  slug: Slugs;
+  isExperienceExpanded?: boolean;
 };

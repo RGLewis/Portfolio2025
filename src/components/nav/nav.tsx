@@ -1,7 +1,14 @@
 import { NAV_CONTENT } from "@/assets/content";
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
-import { PageMappings, type NavItem } from "@/types/content-types";
-import { useState } from "react";
+import { useNavigationContext } from "@/contexts/navigation-context";
+import { useIsDesktop } from "@/hooks/use-media-query";
+import {
+  PageMappings,
+  type HashNavItem,
+  type RouteNavItem,
+} from "@/types/content-types";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ExpandCollapseButton } from "../expand-collapse-button/expand-collapse-button";
 import { HashLink } from "./hash-link";
 import {
@@ -19,22 +26,37 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
   const { nav, navLink, expandCollapseButton, subLinksContainer } =
     NAVIGATION_DATA_TEST_IDS;
 
+  const isDesktop = useIsDesktop();
+  const location = useLocation();
+  const { setActiveSection } = useNavigationContext();
   const [isExperienceExpanded, setIsExperienceExpanded] = useState(false);
 
   const toggleExperienceExpanded = () => {
     setIsExperienceExpanded((prev) => !prev);
   };
 
-  const mainLinks: NavItem[] = [];
-  const experienceLinks: NavItem[] = [];
-
-  NAV_CONTENT.forEach((item) => {
-    if (item.slug) {
-      experienceLinks.push(item);
-    } else {
-      mainLinks.push(item);
+  // Reset experience expanded state and active section when navigating away from Experience page
+  useEffect(() => {
+    if (location.pathname !== "/experience") {
+      setIsExperienceExpanded(false);
+      setActiveSection(null);
     }
-  });
+  }, [location.pathname, setActiveSection]);
+
+  const mainLinks: RouteNavItem[] = NAV_CONTENT.filter(
+    (item): item is RouteNavItem => !("slug" in item)
+  );
+
+  const experienceLinks: HashNavItem[] = NAV_CONTENT.filter(
+    (item): item is HashNavItem => "slug" in item
+  );
+
+  const handleOnLinkClick = () => {
+    if (!isDesktop && isExperienceExpanded) {
+      setIsExperienceExpanded(false);
+    }
+    onLinkClick?.();
+  };
 
   return (
     <nav data-testid={nav}>
@@ -47,7 +69,7 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
             <ListItem key={text}>
               <StyledNavLink
                 to={link}
-                onClick={onLinkClick}
+                onClick={handleOnLinkClick}
                 aria-expanded={
                   isExperience && isExperienceExpanded ? "true" : "false"
                 }
@@ -90,12 +112,9 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
                 <HashLink
                   to={link}
                   text={text}
-                  slug={slug as string}
-                  onClick={() => {
-                    console.log(`clicked ${text}`);
-                    onLinkClick?.();
-                  }}
-                  tabIndex={isExperienceExpanded ? 0 : -1}
+                  slug={slug}
+                  onClick={handleOnLinkClick}
+                  isExperienceExpanded={isExperienceExpanded}
                 />
               </ListItem>
             );

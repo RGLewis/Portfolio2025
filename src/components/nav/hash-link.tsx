@@ -1,4 +1,5 @@
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
+import { useNavigationContext } from "@/contexts/navigation-context";
 import React from "react";
 import { StyledHashLink } from "./styles";
 import type { HashLinkProps } from "./types";
@@ -8,36 +9,17 @@ export const HashLink = ({
   to,
   text,
   onClick,
-  isActive,
   slug,
-  tabIndex,
+  isExperienceExpanded,
 }: HashLinkProps) => {
   const { experienceLink } = NAVIGATION_DATA_TEST_IDS;
+  const { navigateToSection, activeSection } = useNavigationContext();
 
-  const scrollTo = (e: { preventDefault: () => void }) => {
-    // prevent default scroll
-    e.preventDefault();
-
-    // get offset for mobile
-    const element = document.getElementById(slug);
-    if (!element) return; // element not found, do nothing
-    const offset = 90; // 90 px fixed header
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = element.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition - offset;
-
-    const scrollPosition = offsetPosition;
-
-    // run smooth scroll
-    window.scrollTo({
-      top: scrollPosition,
-      behavior: "smooth",
-    });
-  };
+  const isActive = activeSection === slug;
 
   const onLinkClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    scrollTo(e);
+    e.preventDefault();
+    navigateToSection(slug);
     onClick();
   };
 
@@ -47,8 +29,8 @@ export const HashLink = ({
       onClick={(e) => {
         onLinkClick(e);
       }}
-      isActive={isActive}
-      tabIndex={tabIndex}
+      $isActive={isActive}
+      tabIndex={isExperienceExpanded ? 0 : -1}
       data-testid={experienceLink(text)}
       data-slug={slug}
     >

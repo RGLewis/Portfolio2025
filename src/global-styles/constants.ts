@@ -23,12 +23,20 @@ export const DARK_THEME_COLOR_MAPPINGS = {
   whiteTransparentLight: "rgba(255,255,255, 0.3)",
 };
 
+export const SPACINGS_UNITS = {
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
+};
+
 export const SPACINGS = {
-  xs: pxToRem(4),
-  sm: pxToRem(8),
-  md: pxToRem(16),
-  lg: pxToRem(24),
-  xl: pxToRem(32),
+  xs: pxToRem(SPACINGS_UNITS.xs),
+  sm: pxToRem(SPACINGS_UNITS.sm),
+  md: pxToRem(SPACINGS_UNITS.md),
+  lg: pxToRem(SPACINGS_UNITS.lg),
+  xl: pxToRem(SPACINGS_UNITS.xl),
 };
 
 export const FONTS = {

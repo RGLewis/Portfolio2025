@@ -1,3 +1,4 @@
+import { BREAKPOINTS } from "@/global-styles";
 import { useEffect, useState } from "react";
 
 /**
@@ -34,4 +35,12 @@ export const useMediaQuery = (query: string): boolean => {
   }, [query]);
 
   return matches;
+};
+
+/**
+ * Hook to detect if viewport is desktop size (medium breakpoint and above)
+ * @returns {boolean} true if viewport is >= medium breakpoint (768px)
+ */
+export const useIsDesktop = (): boolean => {
+  return useMediaQuery(`(min-width: ${BREAKPOINTS.medium})`);
 };

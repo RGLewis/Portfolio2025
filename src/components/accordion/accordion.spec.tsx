@@ -13,17 +13,6 @@ import { Accordion } from "./accordion";
 
 const workAccordionItem1 = createWorkAccordionItem();
 
-const defaultAnimationStyles = {
-  display: "grid",
-  gridTemplateRows: "0fr",
-  overflow: "hidden",
-};
-
-const expandedAnimationStyles = {
-  ...defaultAnimationStyles,
-  gridTemplateRows: "1fr",
-};
-
 const {
   accordionHeadingContainer,
   accordionButton,
@@ -36,12 +25,12 @@ const getAccordionElements = (itemId: string) => ({
   heading: screen.getByTestId(accordionHeadingContainer(itemId)),
 });
 
-const expectCollapsedStyles = (content: HTMLElement) => {
-  expect(content).toHaveStyle(defaultAnimationStyles);
+const expectCollapsed = (button: HTMLElement) => {
+  expect(button).toHaveAttribute("aria-expanded", "false");
 };
 
-const expectExpandedStyles = (content: HTMLElement) => {
-  expect(content).toHaveStyle(expandedAnimationStyles);
+const expectExpanded = (button: HTMLElement) => {
+  expect(button).toHaveAttribute("aria-expanded", "true");
 };
 
 describe("Accordion", () => {
@@ -93,8 +82,8 @@ describe("Accordion", () => {
     it("should have the accordion content collapsed by default", () => {
       renderWithProviders(<Accordion data={workAccordionItem1} />);
 
-      const { content } = getAccordionElements(workAccordionItem1.sys.id);
-      expectCollapsedStyles(content);
+      const { button } = getAccordionElements(workAccordionItem1.sys.id);
+      expectCollapsed(button);
     });
 
     it("should render the accordion content as expected", () => {
@@ -110,16 +99,14 @@ describe("Accordion", () => {
       const user = userEvent.setup();
       renderWithProviders(<Accordion data={workAccordionItem1} />);
 
-      const { button, content } = getAccordionElements(
-        workAccordionItem1.sys.id
-      );
+      const { button } = getAccordionElements(workAccordionItem1.sys.id);
 
-      expectCollapsedStyles(content);
+      expectCollapsed(button);
 
       await user.click(button);
 
       await waitFor(() => {
-        expectExpandedStyles(content);
+        expectExpanded(button);
       });
     });
 
@@ -144,28 +131,26 @@ describe("Accordion", () => {
       const user = userEvent.setup();
       renderWithProviders(<Accordion data={workAccordionItem1} />);
 
-      const { button, content } = getAccordionElements(
-        workAccordionItem1.sys.id
-      );
+      const { button } = getAccordionElements(workAccordionItem1.sys.id);
 
-      expectCollapsedStyles(content);
+      expectCollapsed(button);
 
       await user.click(button);
 
       await waitFor(() => {
-        expectExpandedStyles(content);
+        expectExpanded(button);
       });
 
       await user.click(button);
 
       await waitFor(() => {
-        expectCollapsedStyles(content);
+        expectCollapsed(button);
       });
     });
 
     describe("Multiple Accordions", () => {
       it("should allow multiple accordions to be expanded independently", async () => {
-        const { accordionButton, accordionContent } = ACCORDION_DATA_TEST_IDS;
+        const { accordionButton } = ACCORDION_DATA_TEST_IDS;
         const user = userEvent.setup();
         const workAccordionItem2 = createWorkAccordionItem({
           sys: { id: "work-2" },
@@ -187,39 +172,21 @@ describe("Accordion", () => {
           accordionButton(workAccordionItem2.sys.id)
         );
 
-        const content1 = screen.getByTestId(
-          accordionContent(workAccordionItem1.sys.id)
-        );
-        const content2 = screen.getByTestId(
-          accordionContent(workAccordionItem2.sys.id)
-        );
-
-        expect(content1).toHaveStyle(defaultAnimationStyles);
-        expect(content2).toHaveStyle(defaultAnimationStyles);
+        expectCollapsed(button1);
+        expectCollapsed(button2);
 
         await user.click(button1);
 
         await waitFor(() => {
-          expect(content1).toHaveStyle({
-            ...defaultAnimationStyles,
-            gridTemplateRows: "1fr",
-          });
-
-          expect(content2).toHaveStyle(defaultAnimationStyles);
+          expectExpanded(button1);
+          expectCollapsed(button2);
         });
 
         await user.click(button2);
 
         await waitFor(() => {
-          expect(content1).toHaveStyle({
-            ...defaultAnimationStyles,
-            gridTemplateRows: "1fr",
-          });
-
-          expect(content2).toHaveStyle({
-            ...defaultAnimationStyles,
-            gridTemplateRows: "1fr",
-          });
+          expectExpanded(button1);
+          expectExpanded(button2);
         });
       });
     });

@@ -6,7 +6,7 @@ import {
   mockMatchMediaWithBreakpoint,
   renderWithProviders,
 } from "@/test-utils/test-utils";
-import { RootLayout } from "./root-layout";
+import { RootLayout } from "../root-layout";
 
 describe("RootLayout", () => {
   const { mobileMenu, sidebar } = NAVIGATION_DATA_TEST_IDS;
