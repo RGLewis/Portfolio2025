@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { toHaveNoViolations } from "jest-axe";
 import { TextDecoder, TextEncoder } from "util";
 
-// Polyfill TextEncoder/TextDecoder for jsdom
+// Polyfill TextEncoder/TextDecoder for jsdom (required by react-router)
 // @ts-ignore - Type mismatch between Node and DOM TextEncoder
 global.TextEncoder = TextEncoder;
 // @ts-ignore - Type mismatch between Node and DOM TextDecoder

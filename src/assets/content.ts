@@ -1,6 +1,7 @@
 import {
   FooterLinksMappings,
   PageMappings,
+  Slugs,
   type HomePageContent,
   type InnerPageContent,
   type NavContent,
@@ -36,37 +37,35 @@ export const NAV_CONTENT: NavContent = [
   {
     text: PageMappings.HOME,
     link: "/",
-    icon: "HouseIcon",
   },
   {
     text: PageMappings.ABOUT,
     link: `/${PageMappings.ABOUT.toLowerCase()}`,
-    icon: "HandWavingIcon",
-  },
-  {
-    text: PageMappings.PROFILE,
-    link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
-    slug: PageMappings.PROFILE.toLowerCase(),
   },
   {
     text: PageMappings.EXPERIENCE,
     link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
-    icon: "LightbulbIcon",
   },
+  {
+    text: PageMappings.PROFILE,
+    link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
+    slug: Slugs.PROFILE,
+  },
+
   {
     text: PageMappings.WORK,
     link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
-    slug: PageMappings.WORK.toLowerCase(),
+    slug: Slugs.WORK,
   },
   {
     text: PageMappings.SKILLS,
     link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
-    slug: PageMappings.SKILLS.toLowerCase(),
+    slug: Slugs.SKILLS,
   },
   {
     text: PageMappings.EDUCATION,
     link: `/${PageMappings.EXPERIENCE.toLowerCase()}`,
-    slug: PageMappings.EDUCATION.toLowerCase(),
+    slug: Slugs.EDUCATION,
   },
 ];
 

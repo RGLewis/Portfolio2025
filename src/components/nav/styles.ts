@@ -3,10 +3,11 @@ import {
   focusVisible,
   heightAnimation,
   OutlineOffsetTypes,
+  peelUpEffect,
   pxToRem,
   SPACINGS,
   transition,
-  Z_INDEX,
+  ZIndexLevel,
 } from "@/global-styles";
 import { NavLink } from "react-router-dom";
 import styled, { css } from "styled-components";
@@ -22,19 +23,8 @@ const navLinkBaseStyles = css`
     attr: "color",
   })}
 
-  /* Shared peeling background effect */
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: ${({ theme }) => theme.white};
-    ${transition({
-      attr: "height",
-    })}
-    z-index: ${Z_INDEX.negative};
-  }
+  /* Peel-up background effect */
+  ${peelUpEffect(({ theme }) => theme.white, ZIndexLevel.NEGATIVE)}
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -66,25 +56,17 @@ export const StyledNavLink = styled(NavLink)`
   }
 `;
 
-export const StyledHashLink = styled.a<{ isActive?: boolean }>`
+export const StyledHashLink = styled.a<{ $isActive?: boolean }>`
   ${navLinkBaseStyles}
 
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.menuBackground : theme.white};
+  color: ${({ theme }) => theme.white};
   font-size: ${pxToRem(16)};
   padding: 0 ${SPACINGS.sm};
   letter-spacing: ${pxToRem(1.5)};
-
-  &::before {
-    height: ${({ isActive }) => (isActive ? "100%" : "0%")};
-  }
+  text-decoration: ${({ $isActive }) => ($isActive ? "underline" : "none")};
 
   &:hover {
     color: ${({ theme }) => theme.menuBackground};
-
-    &::before {
-      height: 100%;
-    }
   }
 
   ${focusVisible({ outlineOffset: OutlineOffsetTypes.DEFAULT })}

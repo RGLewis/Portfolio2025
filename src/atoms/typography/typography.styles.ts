@@ -1,11 +1,19 @@
 import {
+  baseLinkStyles,
+  baseListStyles,
+  baseTypographyStyles,
   device,
   focusVisible,
+  peelUpEffect,
   pxToRem,
+  responsiveFontSize,
   SPACINGS,
   transition,
+  underlineAnimation,
+  underlinedHeading,
+  ZIndexLevel,
 } from "@/global-styles";
-import { styled } from "styled-components";
+import { styled, type DefaultTheme } from "styled-components";
 import { TypographyVariants } from "./types";
 
 export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
@@ -29,8 +37,7 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
   }
 
   &.underlined {
-    padding: ${SPACINGS.sm} 0;
-    border-bottom-color: ${({ theme }) => theme.accent};
+    ${underlinedHeading()}
   }
 
   @media ${device.medium} {
@@ -69,8 +76,7 @@ export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
   letter-spacing: ${pxToRem(0.5)};
 
   &.underlined {
-    padding: ${SPACINGS.sm} 0;
-    border-bottom: ${pxToRem(1)} solid ${({ theme }) => theme.accent};
+    ${underlinedHeading()}
   }
 
   @media ${device.large} {
@@ -93,53 +99,26 @@ export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
 export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.roboto};
-  font-size: ${pxToRem(22)};
-  color: ${({ theme, variant }) => theme[variant]};
-  padding: ${SPACINGS.xs} 0;
+  ${baseTypographyStyles()}
   text-transform: capitalize;
   letter-spacing: ${pxToRem(0.5)};
-
-  @media ${device.large} {
-    font-size: ${pxToRem(24)};
-  }
-
-  @media ${device.extraLarge} {
-    font-size: ${pxToRem(28)};
-  }
+  ${responsiveFontSize({ base: 22, large: 24, extraLarge: 28 })}
 `;
 
 export const StyledHeadingFourth = styled.h4<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: ${pxToRem(20)};
-  color: ${({ theme, variant }) => theme[variant]};
-  padding: ${SPACINGS.xs} 0;
+  ${baseTypographyStyles()}
   letter-spacing: ${pxToRem(0.3)};
-
-  @media ${device.large} {
-    font-size: ${pxToRem(24)};
-  }
-
-  @media ${device.extraLarge} {
-    font-size: ${pxToRem(28)};
-  }
+  ${responsiveFontSize({ base: 20, large: 24, extraLarge: 28 })}
 `;
 
 export const StyledHeadingFifth = styled.h5<{ variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
-  font-size: ${pxToRem(18)};
-  color: ${({ theme, variant }) => theme[variant]};
-  padding: ${SPACINGS.xs} 0;
+  ${baseTypographyStyles()}
   letter-spacing: ${pxToRem(0.2)};
-
-  @media ${device.large} {
-    font-size: ${pxToRem(20)};
-  }
-
-  @media ${device.extraLarge} {
-    font-size: ${pxToRem(22)};
-  }
+  ${responsiveFontSize({ base: 18, large: 20, extraLarge: 22 })}
 `;
 
 export const StyledBody = styled.p<{ variant: TypographyVariants }>`
@@ -171,32 +150,44 @@ export const StyledBody = styled.p<{ variant: TypographyVariants }>`
 `;
 
 export const StyledLink = styled.a<{ variant: TypographyVariants }>`
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  font-weight: ${({ theme }) => theme.fontWeights.light};
+  ${baseLinkStyles()}
   color: ${({ theme, variant }) => theme[variant]};
-  position: relative;
   padding: ${SPACINGS.xs};
 
-  &::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: ${pxToRem(2)};
-    bottom: 0;
-    left: 0;
-    background-color: ${({ theme }) => theme.white};
-    transform: scaleX(0);
-    transform-origin: left;
+  ${underlineAnimation(({ theme }) => theme.white, 2)}
+
+  ${focusVisible({})};
+`;
+
+export const StyledRichTextLink = styled.a<{ variant: TypographyVariants }>`
+  ${baseLinkStyles()}
+  color: ${({ theme, variant }) => theme[variant]};
+  padding: ${SPACINGS.xs};
+
+  &:hover {
+    color: ${({ theme }) => theme.background};
     ${transition({
-      attr: "transform",
+      attr: "color",
     })};
   }
 
-  ${focusVisible({})};
-
-  &:hover::before {
-    transform: scaleX(1);
+  /* Static underline */
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: ${pxToRem(1)};
+    bottom: 0;
+    left: 0;
+    background-color: ${({ theme }) => theme.accent};
   }
+
+  /* Peel-up background effect */
+  ${peelUpEffect(({ theme }) => theme.accent, ZIndexLevel.NEGATIVE)}
+
+  ${focusVisible({
+    outlineColor: ({ theme }: { theme: DefaultTheme }) => theme.accent,
+  })};
 `;
 
 export const StyledSlash = styled.p`
@@ -213,24 +204,12 @@ export const StyledSlash = styled.p`
 
 export const StyledUnorderedList = styled.ul<{ variant: TypographyVariants }>`
   list-style-type: disc;
-  padding-left: ${SPACINGS.lg};
-  margin: ${SPACINGS.md} 0;
-  color: ${({ theme, variant }) => theme[variant]};
-
-  li::marker {
-    color: ${({ theme }) => theme.accent};
-  }
+  ${baseListStyles()}
 `;
 
 export const StyledOrderedList = styled.ol<{ variant: TypographyVariants }>`
   list-style-type: decimal;
-  padding-left: ${SPACINGS.lg};
-  margin: ${SPACINGS.md} 0;
-  color: ${({ theme, variant }) => theme[variant]};
-
-  li::marker {
-    color: ${({ theme }) => theme.accent};
-  }
+  ${baseListStyles()}
 `;
 
 export const StyledListItem = styled.li<{ variant: TypographyVariants }>`

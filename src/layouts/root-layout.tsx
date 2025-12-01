@@ -2,9 +2,11 @@ import { Sidebar } from "@/components/sidebar";
 
 import { MobileMenu } from "@/components/mobile-menu";
 import { LAYOUT_DATA_TEST_IDS } from "@/constants";
+import { NavigationProvider } from "@/contexts/navigation-context";
 import { BREAKPOINTS, zIndexClass, ZIndexLevel } from "@/global-styles";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Outlet } from "react-router-dom";
+import { ScrollToTop } from "./scroll-to-top";
 import { LayoutContainer, MainContent } from "./styles";
 
 export const RootLayout = () => {
@@ -15,11 +17,17 @@ export const RootLayout = () => {
   const navComponent = isDesktop ? <Sidebar /> : <MobileMenu />;
 
   return (
-    <LayoutContainer data-testid={rootLayout}>
-      {navComponent}
-      <MainContent {...zIndexClass(ZIndexLevel.BASE)} data-testid={mainContent}>
-        <Outlet />
-      </MainContent>
-    </LayoutContainer>
+    <NavigationProvider>
+      <ScrollToTop />
+      <LayoutContainer data-testid={rootLayout}>
+        {navComponent}
+        <MainContent
+          {...zIndexClass(ZIndexLevel.BASE)}
+          data-testid={mainContent}
+        >
+          <Outlet />
+        </MainContent>
+      </LayoutContainer>
+    </NavigationProvider>
   );
 };

@@ -10,6 +10,7 @@ import { RichTextWriteUp } from "@/components/rich-text-write-up";
 import { SkillsItem } from "@/components/skills-item";
 import {
   PageMappings,
+  Slugs,
   TypeNames,
   type PageData,
   type RichTextComponent,
@@ -70,6 +71,7 @@ export const ExperienceView = () => {
         </StyledHeadingFirst>
 
         <StyledHeadingSecond
+          id={Slugs.PROFILE}
           className="underlined large"
           variant={TypographyVariants.PRIMARY}
         >
@@ -85,6 +87,7 @@ export const ExperienceView = () => {
         )}
 
         <StyledHeadingSecond
+          id={Slugs.WORK}
           className="underlined large"
           variant={TypographyVariants.PRIMARY}
         >
@@ -97,6 +100,7 @@ export const ExperienceView = () => {
         ))}
 
         <StyledHeadingSecond
+          id={Slugs.SKILLS}
           className="underlined large"
           variant={TypographyVariants.PRIMARY}
         >
@@ -107,6 +111,7 @@ export const ExperienceView = () => {
         ))}
 
         <StyledHeadingSecond
+          id={Slugs.EDUCATION}
           className="underlined large"
           variant={TypographyVariants.PRIMARY}
         >

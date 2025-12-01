@@ -6,7 +6,6 @@ export type ThemeColors = Pick<
   | "backgroundOpaque"
   | "primaryFont"
   | "secondaryFont"
-  | "headerAccent"
   | "accent"
   | "contrast"
   | "blackOpaque"
@@ -17,3 +16,13 @@ export type ThemeColors = Pick<
   | "opaqueContrast"
   | "alert"
 >;
+
+export enum EasingTypes {
+  EASE_IN_OUT = "ease-in-out",
+  EASE = "ease",
+}
+
+export enum OutlineOffsetTypes {
+  LARGE = "large",
+  DEFAULT = "default",
+}

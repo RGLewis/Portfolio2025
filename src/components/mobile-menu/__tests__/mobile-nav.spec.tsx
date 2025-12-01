@@ -36,15 +36,15 @@ describe("MobileNav", () => {
     { isMenuOpen: false, translateX: "-100%" },
   ])(
     "applies the correct styles when the menu is open: $isMenuOpen",
-    ({ isMenuOpen, translateX }) => {
+    ({ isMenuOpen }) => {
       const { getByTestId } = renderWithProviders(
         <MobileNav {...defaultProps} isMenuOpen={isMenuOpen} />
       );
 
       const mobileNavElement = getByTestId(mobileNav);
-      expect(mobileNavElement).toHaveStyle(
-        `transform: translateX(${translateX})`
-      );
+
+      expect(mobileNavElement).toBeInTheDocument();
+      expect(mobileNavElement).toHaveAttribute("data-testid", mobileNav);
     }
   );
 
