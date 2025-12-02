@@ -27,12 +27,12 @@ export const HomeView = () => {
         data-testid={profileImage}
       />
       <StyledHeadingFirst
-        variant={TypographyVariants.PRIMARY}
+        $variant={TypographyVariants.PRIMARY}
         className={HeadingClasses.UNDERLINED}
       >
         {HOME_PAGE_CONTENT.name}
       </StyledHeadingFirst>
-      <StyledHeadingSecond variant={TypographyVariants.PRIMARY}>
+      <StyledHeadingSecond $variant={TypographyVariants.PRIMARY}>
         {HOME_PAGE_CONTENT.tagline}
       </StyledHeadingSecond>
     </PageContainer>

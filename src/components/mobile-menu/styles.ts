@@ -32,7 +32,6 @@ export const HamburgerSpan = styled.span<{
   margin: ${pxToRem(3)} 0;
   ${transition({
     attr: "all",
-    speed: "300ms",
   })}
   transform-origin: center;
   border-radius: ${(props) => (props.$isMenuOpen ? 0 : `${borderRadius(2)}`)};

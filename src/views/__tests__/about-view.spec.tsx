@@ -1,4 +1,5 @@
 import { ABOUT_PAGE_CONTENT } from "@/assets/content";
+import { SKELETON_LOADER_DATA_TEST_IDS } from "@/components/skeleton-loader/constants";
 import { HERO_IMAGE_DATA_TEST_IDS, RICH_TEXT_DATA_TEST_IDS } from "@/constants";
 import {
   createPageData,
@@ -139,6 +140,28 @@ describe("AboutView", () => {
 
       expect(queryByTestId(RICH_TEXT_TEST_ID)).not.toBeInTheDocument();
       expect(queryByTestId(heroImageTestId)).toBeInTheDocument();
+    });
+  });
+
+  describe("Loading State", () => {
+    it("renders skeleton loader when there is no data", () => {
+      mockUseLoaderData.mockReturnValue(null as unknown as PageData);
+
+      const { getByTestId, getByText, queryByTestId, container } =
+        renderWithProviders(<AboutView />);
+
+      const loader = getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container);
+      expect(loader).toBeInTheDocument();
+
+      expect(getByTestId(heroImageTestId)).toBeInTheDocument();
+      expect(getByText(ABOUT_PAGE_CONTENT.title)).toBeInTheDocument();
+
+      expect(queryByTestId(RICH_TEXT_TEST_ID)).not.toBeInTheDocument();
+
+      const blocks = container.querySelectorAll(
+        '[data-testid^="skeleton-block-"]'
+      );
+      expect(blocks).toHaveLength(2);
     });
   });
 

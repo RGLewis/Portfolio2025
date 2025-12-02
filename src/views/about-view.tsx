@@ -3,14 +3,10 @@ import { TypographyVariants } from "@/atoms/typography/types";
 import { StyledHeadingFirst } from "@/atoms/typography/typography.styles";
 import { HeroImage } from "@/components/hero-image";
 import { RichTextWriteUp } from "@/components/rich-text-write-up";
+import { SkeletonLoader } from "@/components/skeleton-loader";
 import { RICH_TEXT_DATA_TEST_IDS } from "@/constants";
-import {
-  PageMappings,
-  TypeNames,
-  type PageData,
-  type RichTextComponent,
-} from "@/types/content-types";
-import { findComponentByTitle } from "@/utils/contentful-utils";
+import { type PageData } from "@/types/content-types";
+import { extractAboutData } from "@/utils/page-data-utils";
 import { useLoaderData } from "react-router-dom";
 import { PageContainer } from "./styles";
 
@@ -18,11 +14,9 @@ export const AboutView = () => {
   const { richTextSection } = RICH_TEXT_DATA_TEST_IDS;
   const data = useLoaderData() as PageData;
 
-  const aboutRichText = findComponentByTitle<RichTextComponent>({
-    data,
-    typename: TypeNames.RICH_TEXT,
-    title: PageMappings.ABOUT,
-  });
+  const showLoader = !data;
+
+  const { aboutRichText } = extractAboutData(data);
 
   return (
     <div>
@@ -34,22 +28,31 @@ export const AboutView = () => {
 
       <PageContainer className="inner-page">
         <StyledHeadingFirst
-          variant={TypographyVariants.WHITE}
+          $variant={TypographyVariants.WHITE}
           className="page-heading"
         >
           {ABOUT_PAGE_CONTENT.title}
         </StyledHeadingFirst>
 
-        {aboutRichText && (
-          <RichTextWriteUp
-            document={aboutRichText.content.json}
-            variant={TypographyVariants.PRIMARY}
-            isUnderlined
-            isLarge
-            dataTestId={richTextSection(ABOUT_PAGE_CONTENT.title)}
+        {showLoader ? (
+          <SkeletonLoader
+            blocks={2}
+            linesPerBlock={5}
+            shouldShowSubheadings={false}
           />
+        ) : (
+          <>
+            {aboutRichText && (
+              <RichTextWriteUp
+                document={aboutRichText.content.json}
+                variant={TypographyVariants.PRIMARY}
+                isUnderlined
+                isLarge
+                dataTestId={richTextSection(ABOUT_PAGE_CONTENT.title)}
+              />
+            )}
+          </>
         )}
-        {/* TODO: Add loader */}
         {/* TODO: Add snackbar for errors */}
       </PageContainer>
     </div>

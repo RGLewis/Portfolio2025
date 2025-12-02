@@ -20,6 +20,7 @@ export type ThemeColors = Pick<
 export enum EasingTypes {
   EASE_IN_OUT = "ease-in-out",
   EASE = "ease",
+  EASE_OUT = "ease-out",
 }
 
 export enum OutlineOffsetTypes {

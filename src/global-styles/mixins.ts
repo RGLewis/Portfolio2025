@@ -8,7 +8,7 @@ import { ZIndexLevel, getZIndexValue } from "./z-index-utils";
 type TransitionArgTypes = {
   attr: string;
   speed?: string;
-  easing?: string;
+  easing?: EasingTypes | string;
   delay?: string;
 };
 
@@ -169,8 +169,8 @@ export const underlineAnimation = (
  * Base typography styles - color and padding
  */
 export const baseTypographyStyles = () => `
-  color: ${({ theme, variant }: { theme: DefaultTheme; variant: string }) =>
-    theme[variant as keyof DefaultTheme]};
+  color: ${({ theme, $variant }: { theme: DefaultTheme; $variant: string }) =>
+    theme[$variant as keyof DefaultTheme]};
   padding: ${SPACINGS.xs} 0;
 `;
 
@@ -202,8 +202,8 @@ export const responsiveFontSize = (sizes: {
 export const baseListStyles = () => `
   padding-left: ${SPACINGS.lg};
   margin: ${SPACINGS.md} 0;
-  color: ${({ theme, variant }: { theme: DefaultTheme; variant: string }) =>
-    theme[variant as keyof DefaultTheme]};
+  color: ${({ theme, $variant }: { theme: DefaultTheme; $variant: string }) =>
+    theme[$variant as keyof DefaultTheme]};
 
   li::marker {
     color: ${({ theme }: { theme: DefaultTheme }) => theme.accent};

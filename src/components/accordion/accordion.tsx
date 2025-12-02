@@ -36,11 +36,11 @@ export const Accordion = ({ data }: AccordionProps) => {
           data-testid={accordionHeadingContainer(sys.id)}
         >
           {workplace ? (
-            <StyledHeadingThird variant={TypographyVariants.PRIMARY}>
+            <StyledHeadingThird $variant={TypographyVariants.PRIMARY}>
               {jobTitle.toUpperCase()}, {workplace}
             </StyledHeadingThird>
           ) : (
-            <StyledHeadingThird variant={TypographyVariants.PRIMARY}>
+            <StyledHeadingThird $variant={TypographyVariants.PRIMARY}>
               {jobTitle.toUpperCase()}
             </StyledHeadingThird>
           )}

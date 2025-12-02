@@ -1,4 +1,5 @@
 import { EXPERIENCE_PAGE_CONTENT } from "@/assets/content";
+import { SKELETON_LOADER_DATA_TEST_IDS } from "@/components/skeleton-loader/constants";
 import {
   ACCORDION_DATA_TEST_IDS,
   HERO_IMAGE_DATA_TEST_IDS,
@@ -187,18 +188,10 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_1
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).toBeInTheDocument();
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_2
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_2))
       ).toBeInTheDocument();
     });
 
@@ -219,25 +212,13 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_1
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).toBeInTheDocument();
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_2
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_2))
       ).toBeInTheDocument();
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_3
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_3))
       ).toBeInTheDocument();
     });
 
@@ -247,11 +228,7 @@ describe("ExperienceView", () => {
       const { queryByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        queryByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_1
-          )
-        )
+        queryByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).not.toBeInTheDocument();
     });
   });
@@ -266,14 +243,10 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(
-          skillsItem(TEST_SKILLS.JAVASCRIPT)
-        )
+        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
       ).toBeInTheDocument();
       expect(
-        getByTestId(
-          skillsItem(TEST_SKILLS.TYPESCRIPT)
-        )
+        getByTestId(skillsItem(TEST_SKILLS.TYPESCRIPT))
       ).toBeInTheDocument();
     });
 
@@ -294,18 +267,12 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(
-          skillsItem(TEST_SKILLS.JAVASCRIPT)
-        )
+        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
       ).toBeInTheDocument();
       expect(
-        getByTestId(
-          skillsItem(TEST_SKILLS.TYPESCRIPT)
-        )
+        getByTestId(skillsItem(TEST_SKILLS.TYPESCRIPT))
       ).toBeInTheDocument();
-      expect(
-        getByTestId(skillsItem(TEST_SKILLS.REACT))
-      ).toBeInTheDocument();
+      expect(getByTestId(skillsItem(TEST_SKILLS.REACT))).toBeInTheDocument();
     });
 
     it("does not render skills items when skills data is missing", () => {
@@ -314,9 +281,7 @@ describe("ExperienceView", () => {
       const { queryByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        queryByTestId(
-          skillsItem(TEST_SKILLS.JAVASCRIPT)
-        )
+        queryByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
       ).not.toBeInTheDocument();
     });
   });
@@ -358,17 +323,11 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(
-          accordionHeadingContainer(
-            TEST_WORK_IDS.WORK_1
-          )
-        )
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).toBeInTheDocument();
 
       expect(
-        getByTestId(
-          skillsItem(TEST_SKILLS.JAVASCRIPT)
-        )
+        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
       ).toBeInTheDocument();
     });
 
@@ -377,9 +336,32 @@ describe("ExperienceView", () => {
 
       const { queryByTestId } = renderWithProviders(<ExperienceView />);
 
-      expect(
-        queryByTestId(heroImage)
-      ).toBeInTheDocument();
+      expect(queryByTestId(heroImage)).toBeInTheDocument();
+    });
+  });
+
+  describe("Loading State", () => {
+    it("renders skeleton loader when there is no data", () => {
+      mockUseLoaderData.mockReturnValue(null as unknown as PageData);
+
+      const { getByTestId, queryByTestId, getByText, container } =
+        renderWithProviders(<ExperienceView />);
+
+      const loader = getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container);
+      expect(loader).toBeInTheDocument();
+
+      expect(getByTestId(heroImage)).toBeInTheDocument();
+      expect(getByText(EXPERIENCE_PAGE_CONTENT.title)).toBeInTheDocument();
+
+      const skillsItem = SKILLS_ITEM_DATA_TEST_IDS.skillsItem(
+        TEST_SKILLS.JAVASCRIPT
+      );
+      expect(queryByTestId(skillsItem)).not.toBeInTheDocument();
+
+      const blocks = container.querySelectorAll(
+        '[data-testid^="skeleton-block-"]'
+      );
+      expect(blocks).toHaveLength(4);
     });
   });
 

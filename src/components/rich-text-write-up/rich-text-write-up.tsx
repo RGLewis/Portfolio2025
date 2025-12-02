@@ -51,7 +51,7 @@ export const RichTextWriteUp: React.FC<RichTextWriteUpProps> = ({
       renderNode: {
         [BLOCKS.HEADING_1]: (_node: Block | Inline, children: ReactNode) => (
           <StyledHeadingFirst
-            variant={variant}
+            $variant={variant}
             className={isUnderlined ? "underlined" : ""}
           >
             {children}
@@ -59,7 +59,7 @@ export const RichTextWriteUp: React.FC<RichTextWriteUpProps> = ({
         ),
         [BLOCKS.HEADING_2]: (_node: Block | Inline, children: ReactNode) => (
           <StyledHeadingSecond
-            variant={variant}
+            $variant={variant}
             className={`${isUnderlined ? "underlined" : ""} ${
               isLarge ? "large" : ""
             }`.trim()}
@@ -68,36 +68,36 @@ export const RichTextWriteUp: React.FC<RichTextWriteUpProps> = ({
           </StyledHeadingSecond>
         ),
         [BLOCKS.HEADING_3]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledHeadingThird variant={variant}>{children}</StyledHeadingThird>
+          <StyledHeadingThird $variant={variant}>{children}</StyledHeadingThird>
         ),
         [BLOCKS.HEADING_4]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledHeadingFourth variant={variant}>
+          <StyledHeadingFourth $variant={variant}>
             {children}
           </StyledHeadingFourth>
         ),
         [BLOCKS.HEADING_5]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledHeadingFifth variant={variant}>{children}</StyledHeadingFifth>
+          <StyledHeadingFifth $variant={variant}>{children}</StyledHeadingFifth>
         ),
         [BLOCKS.PARAGRAPH]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledBody variant={variant} className={isLarge ? "large" : ""}>
+          <StyledBody $variant={variant} className={isLarge ? "large" : ""}>
             {children}
           </StyledBody>
         ),
         [BLOCKS.UL_LIST]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledUnorderedList variant={variant}>
+          <StyledUnorderedList $variant={variant}>
             {children}
           </StyledUnorderedList>
         ),
         [BLOCKS.OL_LIST]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledOrderedList variant={variant}>{children}</StyledOrderedList>
+          <StyledOrderedList $variant={variant}>{children}</StyledOrderedList>
         ),
         [BLOCKS.LIST_ITEM]: (_node: Block | Inline, children: ReactNode) => (
-          <StyledListItem variant={variant}>{children}</StyledListItem>
+          <StyledListItem $variant={variant}>{children}</StyledListItem>
         ),
         [INLINES.HYPERLINK]: (node: Block | Inline, children: ReactNode) => (
           <StyledRichTextLink
             href={node.data.uri}
-            variant={variant}
+            $variant={variant}
             target="_blank"
             rel="noopener noreferrer"
           >
