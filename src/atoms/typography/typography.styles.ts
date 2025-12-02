@@ -16,12 +16,12 @@ import {
 import { styled, type DefaultTheme } from "styled-components";
 import { TypographyVariants } from "./types";
 
-export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
+export const StyledHeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.extraBold};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   line-height: 1.4;
   font-size: ${pxToRem(40)};
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   text-transform: capitalize;
   padding-bottom: 0;
   border-bottom: ${pxToRem(1)} solid transparent;
@@ -67,10 +67,10 @@ export const StyledHeadingFirst = styled.h1<{ variant: TypographyVariants }>`
   }
 `;
 
-export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
+export const StyledHeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(30)};
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs} 0;
   text-transform: capitalize;
   letter-spacing: ${pxToRem(0.5)};
@@ -96,7 +96,7 @@ export const StyledHeadingSecond = styled.h2<{ variant: TypographyVariants }>`
   }
 `;
 
-export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
+export const StyledHeadingThird = styled.h3<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.roboto};
   ${baseTypographyStyles()}
@@ -105,7 +105,7 @@ export const StyledHeadingThird = styled.h3<{ variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 22, large: 24, extraLarge: 28 })}
 `;
 
-export const StyledHeadingFourth = styled.h4<{ variant: TypographyVariants }>`
+export const StyledHeadingFourth = styled.h4<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   ${baseTypographyStyles()}
@@ -113,7 +113,7 @@ export const StyledHeadingFourth = styled.h4<{ variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 20, large: 24, extraLarge: 28 })}
 `;
 
-export const StyledHeadingFifth = styled.h5<{ variant: TypographyVariants }>`
+export const StyledHeadingFifth = styled.h5<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   ${baseTypographyStyles()}
@@ -121,11 +121,11 @@ export const StyledHeadingFifth = styled.h5<{ variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 18, large: 20, extraLarge: 22 })}
 `;
 
-export const StyledBody = styled.p<{ variant: TypographyVariants }>`
+export const StyledBody = styled.p<{ $variant: TypographyVariants }>`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   margin-bottom: ${SPACINGS.md};
 
   &.bold {
@@ -149,9 +149,9 @@ export const StyledBody = styled.p<{ variant: TypographyVariants }>`
   }
 `;
 
-export const StyledLink = styled.a<{ variant: TypographyVariants }>`
+export const StyledLink = styled.a<{ $variant: TypographyVariants }>`
   ${baseLinkStyles()}
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs};
 
   ${underlineAnimation(({ theme }) => theme.white, 2)}
@@ -159,9 +159,9 @@ export const StyledLink = styled.a<{ variant: TypographyVariants }>`
   ${focusVisible({})};
 `;
 
-export const StyledRichTextLink = styled.a<{ variant: TypographyVariants }>`
+export const StyledRichTextLink = styled.a<{ $variant: TypographyVariants }>`
   ${baseLinkStyles()}
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs};
 
   &:hover {
@@ -202,21 +202,21 @@ export const StyledSlash = styled.p`
   }
 `;
 
-export const StyledUnorderedList = styled.ul<{ variant: TypographyVariants }>`
+export const StyledUnorderedList = styled.ul<{ $variant: TypographyVariants }>`
   list-style-type: disc;
   ${baseListStyles()}
 `;
 
-export const StyledOrderedList = styled.ol<{ variant: TypographyVariants }>`
+export const StyledOrderedList = styled.ol<{ $variant: TypographyVariants }>`
   list-style-type: decimal;
   ${baseListStyles()}
 `;
 
-export const StyledListItem = styled.li<{ variant: TypographyVariants }>`
+export const StyledListItem = styled.li<{ $variant: TypographyVariants }>`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};
-  color: ${({ theme, variant }) => theme[variant]};
+  color: ${({ theme, $variant }) => theme[$variant]};
   margin: ${SPACINGS.xs} 0;
   line-height: 1.6;
 

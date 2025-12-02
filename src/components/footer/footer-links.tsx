@@ -21,7 +21,7 @@ export const FooterLinks = () => {
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              variant={TypographyVariants.WHITE}
+              $variant={TypographyVariants.WHITE}
               data-testid={footerLink(text)}
             >
               {text}

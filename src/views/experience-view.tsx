@@ -7,52 +7,29 @@ import {
 import { Accordion } from "@/components/accordion";
 import { HeroImage } from "@/components/hero-image";
 import { RichTextWriteUp } from "@/components/rich-text-write-up";
+import { SkeletonLoader } from "@/components/skeleton-loader";
 import { SkillsItem } from "@/components/skills-item";
 import {
   PageMappings,
   Slugs,
-  TypeNames,
   type PageData,
-  type RichTextComponent,
-  type SkillsComponent,
   type SkillsItem as SkillsItemType,
-  type WorkAccordionComponent,
 } from "@/types/content-types";
-import { findComponentByTitle } from "@/utils/contentful-utils";
+import { extractExperienceData } from "@/utils/page-data-utils";
 import { useLoaderData } from "react-router-dom";
 import { PageContainer } from "./styles";
 
 export const ExperienceView = () => {
   const data = useLoaderData() as PageData;
 
-  const workAccordion = findComponentByTitle<WorkAccordionComponent>({
-    data,
-    typename: TypeNames.WORK_ACCORDION,
-    title: PageMappings.WORK,
-  });
+  const showLoader = !data;
 
-  const skillsComponent = findComponentByTitle<SkillsComponent>({
-    data,
-    typename: TypeNames.SKILLS,
-    title: PageMappings.SKILLS,
-  });
-
-  const profileRichText = findComponentByTitle<RichTextComponent>({
-    data,
-    typename: TypeNames.RICH_TEXT,
-    title: PageMappings.PROFILE,
-  });
-
-  const educationRichText = findComponentByTitle<RichTextComponent>({
-    data,
-    typename: TypeNames.RICH_TEXT,
-    title: PageMappings.EDUCATION,
-  });
-
-  const accordionItems = workAccordion?.accordionItemsCollection.items || [];
-  const { skillsItemCollection } = skillsComponent || {
-    skillsItemCollection: { items: [] },
-  };
+  const {
+    profileRichText,
+    accordionItems,
+    skillsItemCollection,
+    educationRichText,
+  } = extractExperienceData(data);
 
   return (
     <div>
@@ -64,68 +41,73 @@ export const ExperienceView = () => {
 
       <PageContainer className="inner-page">
         <StyledHeadingFirst
-          variant={TypographyVariants.WHITE}
+          $variant={TypographyVariants.WHITE}
           className="page-heading"
         >
           {EXPERIENCE_PAGE_CONTENT.title}
         </StyledHeadingFirst>
 
-        <StyledHeadingSecond
-          id={Slugs.PROFILE}
-          className="underlined large"
-          variant={TypographyVariants.PRIMARY}
-        >
-          {PageMappings.PROFILE}
-        </StyledHeadingSecond>
-        {profileRichText && (
-          <RichTextWriteUp
-            document={profileRichText.content.json}
-            variant={TypographyVariants.PRIMARY}
-            isUnderlined
-            isLarge
-          />
+        {showLoader ? (
+          <SkeletonLoader blocks={4} linesPerBlock={4} />
+        ) : (
+          <>
+            <StyledHeadingSecond
+              id={Slugs.PROFILE}
+              className="underlined large"
+              $variant={TypographyVariants.PRIMARY}
+            >
+              {PageMappings.PROFILE}
+            </StyledHeadingSecond>
+            {profileRichText && (
+              <RichTextWriteUp
+                document={profileRichText.content.json}
+                variant={TypographyVariants.PRIMARY}
+                isUnderlined
+                isLarge
+              />
+            )}
+
+            <StyledHeadingSecond
+              id={Slugs.WORK}
+              className="underlined large"
+              $variant={TypographyVariants.PRIMARY}
+            >
+              {PageMappings.WORK}
+            </StyledHeadingSecond>
+            {accordionItems.map((item) => (
+              <div key={item.sys.id}>
+                <Accordion data={item} />
+              </div>
+            ))}
+
+            <StyledHeadingSecond
+              id={Slugs.SKILLS}
+              className="underlined large"
+              $variant={TypographyVariants.PRIMARY}
+            >
+              {PageMappings.SKILLS}
+            </StyledHeadingSecond>
+            {skillsItemCollection.items.map((item: SkillsItemType) => (
+              <SkillsItem key={item.title} data={item} />
+            ))}
+
+            <StyledHeadingSecond
+              id={Slugs.EDUCATION}
+              className="underlined large"
+              $variant={TypographyVariants.PRIMARY}
+            >
+              {PageMappings.EDUCATION}
+            </StyledHeadingSecond>
+            {educationRichText && (
+              <RichTextWriteUp
+                document={educationRichText.content.json}
+                variant={TypographyVariants.PRIMARY}
+                isUnderlined
+                isLarge
+              />
+            )}
+          </>
         )}
-
-        <StyledHeadingSecond
-          id={Slugs.WORK}
-          className="underlined large"
-          variant={TypographyVariants.PRIMARY}
-        >
-          {PageMappings.WORK}
-        </StyledHeadingSecond>
-        {accordionItems.map((item) => (
-          <div key={item.sys.id}>
-            <Accordion data={item} />
-          </div>
-        ))}
-
-        <StyledHeadingSecond
-          id={Slugs.SKILLS}
-          className="underlined large"
-          variant={TypographyVariants.PRIMARY}
-        >
-          {PageMappings.SKILLS}
-        </StyledHeadingSecond>
-        {skillsItemCollection.items.map((item: SkillsItemType) => (
-          <SkillsItem key={item.title} data={item} />
-        ))}
-
-        <StyledHeadingSecond
-          id={Slugs.EDUCATION}
-          className="underlined large"
-          variant={TypographyVariants.PRIMARY}
-        >
-          {PageMappings.EDUCATION}
-        </StyledHeadingSecond>
-        {educationRichText && (
-          <RichTextWriteUp
-            document={educationRichText.content.json}
-            variant={TypographyVariants.PRIMARY}
-            isUnderlined
-            isLarge
-          />
-        )}
-        {/* TODO: Add loader */}
         {/* TODO: Add snackbar for errors */}
       </PageContainer>
     </div>

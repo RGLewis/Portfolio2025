@@ -20,7 +20,7 @@ export const HeroImage: React.FC<HeroImageProps> = ({
       data-testid={heroImage}
       alt={description}
       src={src}
-      isVerticalTop={isVerticalTop}
+      $isVerticalTop={isVerticalTop}
     />
   );
 };

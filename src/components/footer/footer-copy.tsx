@@ -10,10 +10,10 @@ export const FooterCopy = () => {
 
   return (
     <FooterCopyContainer data-testid={footerCopy}>
-      <StyledBody variant={TypographyVariants.WHITE} className="small">
+      <StyledBody $variant={TypographyVariants.WHITE} className="small">
         {techStack}
       </StyledBody>
-      <StyledBody variant={TypographyVariants.WHITE} className="small">
+      <StyledBody $variant={TypographyVariants.WHITE} className="small">
         {copyright}
       </StyledBody>
     </FooterCopyContainer>

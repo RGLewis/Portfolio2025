@@ -20,7 +20,7 @@ export const SkillsItem = ({ data }: SkillsItemProps) => {
       <SkillsTitle>{data.title}</SkillsTitle>
       <SkillsBar>
         <LevelContainer
-          level={data.level}
+          $level={data.level}
           data-testid={skillsLevel(data.title)}
         >
           <SkillsLabel>{data.level}</SkillsLabel>
