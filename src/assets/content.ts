@@ -1,7 +1,9 @@
+import type { PageLoadErrorTypes } from "@/loaders/types";
 import {
   FooterLinksMappings,
   PageMappings,
   Slugs,
+  type ErrorSnackbarContent,
   type HomePageContent,
   type InnerPageContent,
   type NavContent,
@@ -31,6 +33,12 @@ export const EXPERIENCE_PAGE_CONTENT: InnerPageContent = {
     src: experienceImage,
     alt: "A black keyboard illuminated by a purple light",
   },
+};
+
+export const ERROR_SNACKBAR_CONTENT: ErrorSnackbarContent = {
+  heading: "Error Loading Content",
+  body: (page: PageLoadErrorTypes) =>
+    `Error loading the ${page} page. Please refresh.`,
 };
 
 export const NAV_CONTENT: NavContent = [

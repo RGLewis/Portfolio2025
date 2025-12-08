@@ -1,3 +1,4 @@
+import type { PageLoadErrorTypes } from "@/loaders/types";
 import type { Document } from "@contentful/rich-text-types";
 
 export enum TypeNames {
@@ -136,4 +137,9 @@ export type FooterContent = {
   };
   techStack: string;
   copyright: string;
+};
+
+export type ErrorSnackbarContent = {
+  heading: string;
+  body: (page: PageLoadErrorTypes) => string;
 };

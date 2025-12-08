@@ -1,4 +1,4 @@
-import { SKELETON_LOADER_DATA_TEST_IDS } from "./constants";
+import { SKELETON_LOADER_DATA_TEST_IDS } from "@/constants";
 import {
   SkeletonBlock,
   SkeletonContainer,
@@ -22,6 +22,7 @@ export const SkeletonLoader = ({
   return (
     <SkeletonContainer
       data-testid={container}
+      role="status"
       aria-busy="true"
       aria-label="Loading content"
     >

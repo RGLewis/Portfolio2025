@@ -11,6 +11,12 @@ global.TextDecoder = TextDecoder;
 // Extend Jest matchers with jest-axe
 expect.extend(toHaveNoViolations);
 
+// Mock window.scrollTo (not implemented in jsdom)
+Object.defineProperty(window, "scrollTo", {
+  writable: true,
+  value: jest.fn(),
+});
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: jest.fn().mockImplementation((query) => ({

@@ -1,6 +1,11 @@
 import { ABOUT_PAGE_CONTENT } from "@/assets/content";
-import { SKELETON_LOADER_DATA_TEST_IDS } from "@/components/skeleton-loader/constants";
-import { HERO_IMAGE_DATA_TEST_IDS, RICH_TEXT_DATA_TEST_IDS } from "@/constants";
+import {
+  HERO_IMAGE_DATA_TEST_IDS,
+  RICH_TEXT_DATA_TEST_IDS,
+  SKELETON_LOADER_DATA_TEST_IDS,
+  SNACKBAR_DATA_TEST_IDS,
+} from "@/constants";
+import { PageLoadErrorTypes, type PageLoaderResult } from "@/loaders/types";
 import {
   createPageData,
   createRichTextComponent,
@@ -14,9 +19,9 @@ import {
   PageMappings,
   TypeNames,
   type PageComponent,
-  type PageData,
   type RichTextComponent,
 } from "@/types/content-types";
+import { waitFor } from "@testing-library/react";
 import { useLoaderData } from "react-router-dom";
 import { AboutView } from "../about-view";
 
@@ -59,7 +64,10 @@ describe("AboutView", () => {
 
   describe("Static Content", () => {
     beforeEach(() => {
-      mockUseLoaderData.mockReturnValue(createPageData());
+      mockUseLoaderData.mockReturnValue({
+        data: createPageData(),
+        error: null,
+      } as PageLoaderResult);
     });
 
     it("renders hero image", () => {
@@ -89,9 +97,10 @@ describe("AboutView", () => {
 
   describe("Dynamic Content - With Data", () => {
     it("renders RichTextWriteUp when aboutRichText exists", () => {
-      mockUseLoaderData.mockReturnValue(
-        createAboutPageData([createAboutRichText()])
-      );
+      mockUseLoaderData.mockReturnValue({
+        data: createAboutPageData([createAboutRichText()]),
+        error: null,
+      } as PageLoaderResult);
 
       const { getByTestId } = renderWithProviders(<AboutView />);
 
@@ -125,7 +134,10 @@ describe("AboutView", () => {
     ])(
       "does not render RichTextWriteUp when $description",
       ({ components }) => {
-        mockUseLoaderData.mockReturnValue(createAboutPageData(components));
+        mockUseLoaderData.mockReturnValue({
+          data: createAboutPageData(components),
+          error: null,
+        } as PageLoaderResult);
 
         const { queryByTestId } = renderWithProviders(<AboutView />);
 
@@ -134,7 +146,9 @@ describe("AboutView", () => {
     );
 
     it("does not crash when loader returns undefined data", () => {
-      mockUseLoaderData.mockReturnValue(undefined as unknown as PageData);
+      mockUseLoaderData.mockReturnValue(
+        undefined as unknown as PageLoaderResult
+      );
 
       const { queryByTestId } = renderWithProviders(<AboutView />);
 
@@ -144,14 +158,19 @@ describe("AboutView", () => {
   });
 
   describe("Loading State", () => {
-    it("renders skeleton loader when there is no data", () => {
-      mockUseLoaderData.mockReturnValue(null as unknown as PageData);
+    it("renders skeleton loader when there is no data after delay", async () => {
+      mockUseLoaderData.mockReturnValue(
+        undefined as unknown as PageLoaderResult
+      );
 
       const { getByTestId, getByText, queryByTestId, container } =
         renderWithProviders(<AboutView />);
 
-      const loader = getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container);
-      expect(loader).toBeInTheDocument();
+      await waitFor(() => {
+        expect(
+          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
+        ).toBeInTheDocument();
+      });
 
       expect(getByTestId(heroImageTestId)).toBeInTheDocument();
       expect(getByText(ABOUT_PAGE_CONTENT.title)).toBeInTheDocument();
@@ -165,9 +184,40 @@ describe("AboutView", () => {
     });
   });
 
+  describe("Error State", () => {
+    it("renders skeleton loader, error snackbar and static content when there is an error", async () => {
+      mockUseLoaderData.mockReturnValue({
+        data: null,
+        error: PageLoadErrorTypes.ABOUT_PAGE,
+      } as PageLoaderResult);
+
+      const { getByTestId, getByText } = renderWithProviders(<AboutView />);
+
+      await waitFor(() => {
+        expect(
+          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
+        ).toBeInTheDocument();
+      });
+
+      expect(
+        getByTestId(
+          SNACKBAR_DATA_TEST_IDS.errorSnackbarContainer(
+            PageLoadErrorTypes.ABOUT_PAGE
+          )
+        )
+      ).toBeInTheDocument();
+
+      expect(getByTestId(heroImageTestId)).toBeInTheDocument();
+      expect(getByText(ABOUT_PAGE_CONTENT.title)).toBeInTheDocument();
+    });
+  });
+
   describe("Accessibility", () => {
     beforeEach(() => {
-      mockUseLoaderData.mockReturnValue(createPageData());
+      mockUseLoaderData.mockReturnValue({
+        data: createPageData(),
+        error: null,
+      } as PageLoaderResult);
     });
 
     it("has no accessibility violations", async () => {

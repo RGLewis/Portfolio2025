@@ -25,10 +25,10 @@ type ThemeColorsFunction = (props: { theme: DefaultTheme }) => string;
  * Generates border radius styles.
  * @param borderRadius - Border radius in pixels
  */
-export const borderRadius = (borderRadius: number) => `
-border-radius: ${pxToRem(borderRadius)};
--webkit-border-radius: ${pxToRem(borderRadius)};
--moz-border-radius: ${pxToRem(borderRadius)};
+export const borderRadius = (borderRadius: number) => css`
+  border-radius: ${pxToRem(borderRadius)};
+  -webkit-border-radius: ${pxToRem(borderRadius)};
+  -moz-border-radius: ${pxToRem(borderRadius)};
 `;
 
 /**
@@ -43,7 +43,7 @@ export const transition = ({
   speed = "300ms",
   easing = EasingTypes.EASE_IN_OUT,
   delay = "0s",
-}: TransitionArgTypes) => `
+}: TransitionArgTypes) => css`
   -webkit-transition: ${attr} ${speed} ${easing} ${delay};
   -moz-transition: ${attr} ${speed} ${easing} ${delay};
   -o-transition: ${attr} ${speed} ${easing} ${delay};
@@ -80,12 +80,12 @@ export const heightAnimation = (
   isExpanded: boolean,
   duration: string = "500ms",
   easing: string = "cubic-bezier(0.4, 0, 0.2, 1)"
-) => `
+) => css`
   display: grid;
   grid-template-rows: ${isExpanded ? "1fr" : "0fr"};
   overflow: hidden;
   transition: grid-template-rows ${duration} ${easing};
-  
+
   > * {
     min-height: 0;
   }
@@ -94,7 +94,7 @@ export const heightAnimation = (
 /**
  * Base link styles shared across link components
  */
-export const baseLinkStyles = () => `
+export const baseLinkStyles = () => css`
   font-family: ${({ theme }: { theme: DefaultTheme }) => theme.fonts.roboto};
   font-weight: ${({ theme }: { theme: DefaultTheme }) =>
     theme.fontWeights.light};
@@ -168,9 +168,8 @@ export const underlineAnimation = (
 /**
  * Base typography styles - color and padding
  */
-export const baseTypographyStyles = () => `
-  color: ${({ theme, $variant }: { theme: DefaultTheme; $variant: string }) =>
-    theme[$variant as keyof DefaultTheme]};
+export const baseTypographyStyles = () => css<{ $variant: string }>`
+  color: ${({ theme, $variant }) => theme[$variant as keyof DefaultTheme]};
   padding: ${SPACINGS.xs} 0;
 `;
 
@@ -182,16 +181,16 @@ export const responsiveFontSize = (sizes: {
   base: number;
   large: number;
   extraLarge: number;
-}) => `
+}) => css`
   font-size: ${pxToRem(sizes.base)};
 
   @media ${({ theme }: { theme: DefaultTheme }) =>
-    `(min-width: ${theme.breakpoints.large})`} {
+      `(min-width: ${theme.breakpoints.large})`} {
     font-size: ${pxToRem(sizes.large)};
   }
 
   @media ${({ theme }: { theme: DefaultTheme }) =>
-    `(min-width: ${theme.breakpoints.extraLarge})`} {
+      `(min-width: ${theme.breakpoints.extraLarge})`} {
     font-size: ${pxToRem(sizes.extraLarge)};
   }
 `;
@@ -199,14 +198,13 @@ export const responsiveFontSize = (sizes: {
 /**
  * Base list styles shared across ordered and unordered lists
  */
-export const baseListStyles = () => `
+export const baseListStyles = () => css<{ $variant: string }>`
   padding-left: ${SPACINGS.lg};
   margin: ${SPACINGS.md} 0;
-  color: ${({ theme, $variant }: { theme: DefaultTheme; $variant: string }) =>
-    theme[$variant as keyof DefaultTheme]};
+  color: ${({ theme, $variant }) => theme[$variant as keyof DefaultTheme]};
 
   li::marker {
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.accent};
+    color: ${({ theme }) => theme.accent};
   }
 `;
 
@@ -216,8 +214,8 @@ export const baseListStyles = () => `
  */
 export const underlinedHeading = (
   padding: (typeof SPACINGS)[keyof typeof SPACINGS] = SPACINGS.sm
-) => `
+) => css`
   padding: ${padding} 0;
-  border-bottom: ${pxToRem(1)} solid ${({ theme }: { theme: DefaultTheme }) =>
-  theme.accent};
+  border-bottom: ${pxToRem(1)} solid
+    ${({ theme }: { theme: DefaultTheme }) => theme.accent};
 `;

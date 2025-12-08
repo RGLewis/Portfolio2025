@@ -4,7 +4,7 @@ export const GLOBAL_COLOR_MAPPINGS = {
   white: "#ffffff",
   black: "#050505",
   mint: "#5cdb95",
-  alertRed: "#cf1b1b",
+  alertRed: "#D97370",
   blackTransparent: "rgba(5,5,5, 0.2)",
 };
 
