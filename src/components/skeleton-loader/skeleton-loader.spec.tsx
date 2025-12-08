@@ -1,6 +1,6 @@
+import { SKELETON_LOADER_DATA_TEST_IDS } from "@/constants";
 import { renderWithProviders } from "@/test-utils/test-utils";
 import { screen } from "@testing-library/react";
-import { SKELETON_LOADER_DATA_TEST_IDS } from "./constants";
 import { SkeletonLoader } from "./skeleton-loader";
 
 const { container, block, subheading, line } = SKELETON_LOADER_DATA_TEST_IDS;

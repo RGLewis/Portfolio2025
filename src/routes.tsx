@@ -22,24 +22,6 @@ export const router = createBrowserRouter([
         path: "/experience",
         element: <ExperienceView />,
         loader: experienceLoader,
-        children: [
-          {
-            path: "#profile",
-            element: <div>Profile Section</div>,
-          },
-          {
-            path: "#work",
-            element: <div>Work Section</div>,
-          },
-          {
-            path: "#skills",
-            element: <div>Skills Section</div>,
-          },
-          {
-            path: "#education",
-            element: <div>Education Section</div>,
-          },
-        ],
       },
     ],
   },

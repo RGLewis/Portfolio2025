@@ -1,3 +1,5 @@
+import type { PageLoadErrorTypes } from "./loaders/types";
+
 export const NAVIGATION_DATA_TEST_IDS = {
   sidebar: "sidebar",
   mobileHeader: "mobile-header",
@@ -47,4 +49,17 @@ export const HERO_IMAGE_DATA_TEST_IDS = {
 
 export const RICH_TEXT_DATA_TEST_IDS = {
   richTextSection: (title: string) => `rich-text-section-${title}`,
+};
+
+export const SNACKBAR_DATA_TEST_IDS = {
+  errorSnackbarContainer: (page: PageLoadErrorTypes) =>
+    `error-snackbar-container-${page}`,
+};
+
+export const SKELETON_LOADER_DATA_TEST_IDS = {
+  container: "skeleton-loader",
+  block: (index: number) => `skeleton-block-${index}`,
+  subheading: (index: number) => `skeleton-subheading-${index}`,
+  line: (blockIndex: number, lineIndex: number) =>
+    `skeleton-line-${blockIndex}-${lineIndex}`,
 };

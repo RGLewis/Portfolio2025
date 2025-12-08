@@ -5,14 +5,16 @@ import {
   StyledHeadingSecond,
 } from "@/atoms/typography/typography.styles";
 import { Accordion } from "@/components/accordion";
+import { ErrorSnackbar } from "@/components/error-snackbar";
 import { HeroImage } from "@/components/hero-image";
 import { RichTextWriteUp } from "@/components/rich-text-write-up";
 import { SkeletonLoader } from "@/components/skeleton-loader";
 import { SkillsItem } from "@/components/skills-item";
+import { useDelayedLoading } from "@/hooks/use-delayed-loading";
+import { PageLoadErrorTypes, type PageLoaderResult } from "@/loaders/types";
 import {
   PageMappings,
   Slugs,
-  type PageData,
   type SkillsItem as SkillsItemType,
 } from "@/types/content-types";
 import { extractExperienceData } from "@/utils/page-data-utils";
@@ -20,16 +22,18 @@ import { useLoaderData } from "react-router-dom";
 import { PageContainer } from "./styles";
 
 export const ExperienceView = () => {
-  const data = useLoaderData() as PageData;
+  const loaderResult = useLoaderData() as PageLoaderResult;
 
-  const showLoader = !data;
+  const isLoading = !loaderResult?.data;
+  const showLoader = useDelayedLoading(isLoading);
+  const showError = loaderResult?.error === PageLoadErrorTypes.EXPERIENCE_PAGE;
 
   const {
     profileRichText,
     accordionItems,
     skillsItemCollection,
     educationRichText,
-  } = extractExperienceData(data);
+  } = extractExperienceData(loaderResult?.data);
 
   return (
     <div>
@@ -108,7 +112,10 @@ export const ExperienceView = () => {
             )}
           </>
         )}
-        {/* TODO: Add snackbar for errors */}
+        <ErrorSnackbar
+          isVisible={showError}
+          errorType={PageLoadErrorTypes.EXPERIENCE_PAGE}
+        />
       </PageContainer>
     </div>
   );
