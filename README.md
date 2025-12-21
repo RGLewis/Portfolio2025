@@ -10,7 +10,7 @@ Hi, I'm Rafaela. Welcome to my portfolio repo!
 
 - **Email:** [rafaela.codes@gmail.com](mailto:rafaela.codes@gmail.com)
 - **GitHub:** [github.com/RGLewis](https://github.com/RGLewis)
-- **LinkedIn:** [linkedin.com/in/rafaela-lewis-ghildyal](https://www.linkedin.com/in/rafaela-lewis-ghildyal)
+- **LinkedIn:** [https://www.linkedin.com/in/rafaela-lewis/](https://www.linkedin.com/in/rafaela-lewis/)
 
 ## 🛠️ Built With
 
