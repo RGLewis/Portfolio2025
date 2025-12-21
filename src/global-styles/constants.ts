@@ -1,26 +1,15 @@
 import { pxToRem } from "./utils";
 
-export const GLOBAL_COLOR_MAPPINGS = {
+export const COLORS = {
   white: "#ffffff",
   black: "#050505",
-  mint: "#5cdb95",
-  alertRed: "#D97370",
-  blackTransparent: "rgba(5,5,5, 0.2)",
-};
-
-export const LIGHT_THEME_COLOR_MAPPINGS = {
   charcoal: "#363636",
   slate: "#1f4068",
   electricBlue: "#1F6CC7",
+  alertRed: "#D97370",
+  blackTransparent: "rgba(5,5,5, 0.2)",
   whiteTransparent: "rgba(255,255,255, 0.5)",
   blueTransparent: "rgba(31,108,199, 0.7)",
-};
-
-export const DARK_THEME_COLOR_MAPPINGS = {
-  deepNavy: "#200C90",
-  lightGray: "#D9D9D9",
-  navyTransparent: "rgba(32,12,144, 0.3)",
-  whiteTransparentLight: "rgba(255,255,255, 0.3)",
 };
 
 export const SPACINGS_UNITS = {

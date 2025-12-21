@@ -1,52 +1,25 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
-import {
-  BREAKPOINTS,
-  DARK_THEME_COLOR_MAPPINGS,
-  FONT_WEIGHTS,
-  FONTS,
-  GLOBAL_COLOR_MAPPINGS,
-  LIGHT_THEME_COLOR_MAPPINGS,
-  Z_INDEX,
-} from "./constants";
+import { BREAKPOINTS, COLORS, FONT_WEIGHTS, FONTS, Z_INDEX } from "./constants";
 
 import { focusVisible } from "./mixins";
 import { baseFontSize } from "./utils";
 
-export const lightTheme = {
-  background: GLOBAL_COLOR_MAPPINGS.white,
-  backgroundOpaque: LIGHT_THEME_COLOR_MAPPINGS.whiteTransparent,
-  primaryFont: LIGHT_THEME_COLOR_MAPPINGS.charcoal,
-  secondaryFont: LIGHT_THEME_COLOR_MAPPINGS.slate,
-  accent: LIGHT_THEME_COLOR_MAPPINGS.electricBlue,
-  contrast: GLOBAL_COLOR_MAPPINGS.black,
-  blackOpaque: GLOBAL_COLOR_MAPPINGS.blackTransparent,
-  menuBackground: LIGHT_THEME_COLOR_MAPPINGS.electricBlue,
-  menuBorder: LIGHT_THEME_COLOR_MAPPINGS.electricBlue,
-  white: GLOBAL_COLOR_MAPPINGS.white,
-  black: GLOBAL_COLOR_MAPPINGS.black,
-  opaqueContrast: LIGHT_THEME_COLOR_MAPPINGS.blueTransparent,
-  alert: GLOBAL_COLOR_MAPPINGS.alertRed,
-};
-
-export const darkTheme = {
-  background: DARK_THEME_COLOR_MAPPINGS.deepNavy,
-  backgroundOpaque: DARK_THEME_COLOR_MAPPINGS.navyTransparent,
-  primaryFont: GLOBAL_COLOR_MAPPINGS.white,
-  secondaryFont: DARK_THEME_COLOR_MAPPINGS.lightGray,
-  accent: GLOBAL_COLOR_MAPPINGS.mint,
-  contrast: GLOBAL_COLOR_MAPPINGS.white,
-  blackOpaque: GLOBAL_COLOR_MAPPINGS.blackTransparent,
-  menuBackground: DARK_THEME_COLOR_MAPPINGS.deepNavy,
-  menuBorder: GLOBAL_COLOR_MAPPINGS.white,
-  white: GLOBAL_COLOR_MAPPINGS.white,
-  black: GLOBAL_COLOR_MAPPINGS.black,
-  opaqueContrast: DARK_THEME_COLOR_MAPPINGS.whiteTransparentLight,
-  alert: GLOBAL_COLOR_MAPPINGS.alertRed,
-};
-
-export const globalTheme = {
+export const theme = {
+  background: COLORS.white,
+  backgroundOpaque: COLORS.whiteTransparent,
+  primaryFont: COLORS.charcoal,
+  secondaryFont: COLORS.slate,
+  accent: COLORS.electricBlue,
+  contrast: COLORS.black,
+  blackOpaque: COLORS.blackTransparent,
+  menuBackground: COLORS.electricBlue,
+  menuBorder: COLORS.electricBlue,
+  white: COLORS.white,
+  black: COLORS.black,
+  opaqueContrast: COLORS.blueTransparent,
+  alert: COLORS.alertRed,
   baseFontSize: `${baseFontSize}px`,
   fonts: FONTS,
   fontWeights: FONT_WEIGHTS,
