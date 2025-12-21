@@ -1,6 +1,6 @@
 import type { DefaultTheme } from "styled-components";
 import { css } from "styled-components";
-import { GLOBAL_COLOR_MAPPINGS, SPACINGS } from "./constants";
+import { COLORS, SPACINGS } from "./constants";
 import { EasingTypes, OutlineOffsetTypes, type ThemeColors } from "./types";
 import { pxToRem } from "./utils";
 import { ZIndexLevel, getZIndexValue } from "./z-index-utils";
@@ -56,7 +56,7 @@ export const transition = ({
  * @param outlineOffset - Outline offset (default: 2)
  */
 export const focusVisible = ({
-  outlineColor = GLOBAL_COLOR_MAPPINGS.white,
+  outlineColor = COLORS.white,
   outlineOffset = OutlineOffsetTypes.DEFAULT,
 }: FocusVisibleTypes) => {
   return css`

@@ -41,10 +41,8 @@ export const StyledHeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
   }
 
   @media ${device.medium} {
-    font-size: ${pxToRem(55)};
-
     &.page-heading {
-      margin-top: ${pxToRem(-85)};
+      margin-top: ${pxToRem(-55)};
     }
   }
 
@@ -80,8 +78,6 @@ export const StyledHeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
   }
 
   @media ${device.large} {
-    font-size: ${pxToRem(16)};
-
     &.large {
       font-size: ${pxToRem(36)};
     }

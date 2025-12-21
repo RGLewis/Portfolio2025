@@ -1,5 +1,5 @@
 import { NavigationProvider } from "@/contexts/navigation-context";
-import { darkTheme, globalTheme, lightTheme } from "@/global-styles";
+import { theme } from "@/global-styles";
 import type { RenderOptions, RenderResult } from "@testing-library/react";
 import { render } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";
@@ -30,15 +30,9 @@ global.IntersectionObserver = class IntersectionObserver
 };
 
 /**
- * Type for theme options in tests
- */
-type ThemeMode = "light" | "dark";
-
-/**
- * Custom render options that include theme selection
+ * Custom render options
  */
 interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
-  theme?: ThemeMode;
   initialEntries?: string[];
 }
 
@@ -112,18 +106,14 @@ export const mockMatchMediaWithBreakpoint = (
  */
 const TestWrapper = ({
   children,
-  theme = "light",
   initialEntries = ["/"],
 }: {
   children: ReactNode;
-  theme?: ThemeMode;
   initialEntries?: string[];
 }) => {
-  const selectedTheme = theme === "dark" ? darkTheme : lightTheme;
-
   return (
     <MemoryRouter initialEntries={initialEntries}>
-      <ThemeProvider theme={{ ...selectedTheme, ...globalTheme }}>
+      <ThemeProvider theme={theme}>
         <NavigationProvider>{children}</NavigationProvider>
       </ThemeProvider>
     </MemoryRouter>
@@ -132,34 +122,28 @@ const TestWrapper = ({
 
 /**
  * Custom render function that wraps components with necessary providers
- * Automatically includes ThemeProvider with optional theme selection
+ * Automatically includes ThemeProvider
  *
  * @param ui - The React component to render
- * @param options - Render options including theme selection
+ * @param options - Render options including initial routes
  * @returns RenderResult from @testing-library/react
  *
  * @example
  * ```tsx
- * // Render with default light theme
+ * // Render with default route
  * renderWithProviders(<MyComponent />);
  *
- * // Render with dark theme
- * renderWithProviders(<MyComponent />, { theme: "dark" });
+ * // Render with custom initial route
+ * renderWithProviders(<MyComponent />, { initialEntries: ["/about"] });
  * ```
  */
 export const renderWithProviders = (
   ui: ReactElement,
-  {
-    theme = "light",
-    initialEntries = ["/"],
-    ...options
-  }: CustomRenderOptions = {}
+  { initialEntries = ["/"], ...options }: CustomRenderOptions = {}
 ): RenderResult => {
   return render(ui, {
     wrapper: ({ children }) => (
-      <TestWrapper theme={theme} initialEntries={initialEntries}>
-        {children}
-      </TestWrapper>
+      <TestWrapper initialEntries={initialEntries}>{children}</TestWrapper>
     ),
     ...options,
   });
