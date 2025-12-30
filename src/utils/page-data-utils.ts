@@ -12,13 +12,13 @@ import { findComponentByTitle } from "./contentful-utils";
  * Extracts experience-related data from the page data.
  * If data is null, returns default values.
  * @param data - PageData object from Contentful | null
- * @returns An object containing the extracted experience data.
- *  - workAccordion: The work accordion component, or null if not found.
- *  - skillsComponent: The skills component, or null if not found.
- *  - profileRichText: The profile rich text component, or null if not found.
- *  - educationRichText: The education rich text component, or null if not found.
- *  - accordionItems: An array of accordion items from the work accordion.
- *  - skillsItemCollection: The skills item collection from the skills component.
+ * @returns Object containing:
+ *  - workAccordion: The work accordion component, or null if not found
+ *  - skillsComponent: The skills component, or null if not found
+ *  - profileRichText: The profile rich text component, or null if not found
+ *  - educationRichText: The education rich text component, or null if not found
+ *  - accordionItems: An array of accordion items from the work accordion
+ *  - skillsItemCollection: The skills item collection from the skills component
  */
 export const extractExperienceData = (data: PageData | null) => {
   if (!data) {
@@ -75,8 +75,8 @@ export const extractExperienceData = (data: PageData | null) => {
  * Extracts about-related data from the page data.
  * If data is null, returns default values.
  * @param data - PageData object from Contentful | null
- * @returns An object containing the extracted about data.
- *  - aboutRichText: The about rich text component, or null if not found.
+ * @returns Object containing:
+ *  - aboutRichText: The about rich text component, or null if not found
  */
 export const extractAboutData = (data: PageData | null) => {
   if (!data) {

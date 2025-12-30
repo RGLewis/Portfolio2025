@@ -1,10 +1,11 @@
 import type { PageData } from "@/types/content-types";
 
-export type PageLoaderResult =
-  | { data: PageData; error: null }
-  | { data: null; error: PageLoadErrorTypes };
-
-export enum PageLoadErrorTypes {
+export enum ContentfulPageTypes {
   ABOUT_PAGE = "About",
   EXPERIENCE_PAGE = "Experience",
 }
+
+type DataResult = { data: PageData; error: null };
+type ErrorResult = { data: null; error: ContentfulPageTypes };
+
+export type PageLoaderResult = DataResult | ErrorResult;

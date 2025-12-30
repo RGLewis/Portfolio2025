@@ -7,6 +7,7 @@ import {
   SkillsLabel,
   SkillsTitle,
 } from "./styles";
+import { getSkillLevelPercentage } from "./utils";
 
 type SkillsItemProps = {
   data: SkillsItemType;
@@ -14,16 +15,17 @@ type SkillsItemProps = {
 
 export const SkillsItem = ({ data }: SkillsItemProps) => {
   const { skillsItem, skillsLevel } = SKILLS_ITEM_DATA_TEST_IDS;
+  const { title, level } = data;
 
   return (
-    <SkillsContainer data-testid={skillsItem(data.title)}>
-      <SkillsTitle>{data.title}</SkillsTitle>
+    <SkillsContainer data-testid={skillsItem(title)}>
+      <SkillsTitle>{title}</SkillsTitle>
       <SkillsBar>
         <LevelContainer
-          $level={data.level}
-          data-testid={skillsLevel(data.title)}
+          $level={getSkillLevelPercentage(level)}
+          data-testid={skillsLevel(title)}
         >
-          <SkillsLabel>{data.level}</SkillsLabel>
+          <SkillsLabel>{level}</SkillsLabel>
         </LevelContainer>
       </SkillsBar>
     </SkillsContainer>

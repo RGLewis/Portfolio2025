@@ -1,6 +1,6 @@
 import { FOOTER_CONTENT } from "@/assets/content";
-import { TypographyVariants } from "@/atoms/typography/types";
-import { StyledLink, StyledSlash } from "@/atoms/typography/typography.styles";
+import { TypographyVariants } from "@/components/typography/types";
+import { Link, Slash } from "@/components/typography/typography.styles";
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
 import { FooterLinksContainer, ListItem } from "./styles";
 
@@ -17,7 +17,7 @@ export const FooterLinks = () => {
 
         return (
           <ListItem key={text}>
-            <StyledLink
+            <Link
               href={link}
               target="_blank"
               rel="noopener noreferrer"
@@ -25,8 +25,8 @@ export const FooterLinks = () => {
               data-testid={footerLink(text)}
             >
               {text}
-            </StyledLink>
-            {!isLastItem && <StyledSlash>/</StyledSlash>}
+            </Link>
+            {!isLastItem && <Slash>/</Slash>}
           </ListItem>
         );
       })}

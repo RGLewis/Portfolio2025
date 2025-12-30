@@ -1,4 +1,4 @@
-import type { PageLoadErrorTypes } from "@/loaders/types";
+import type { ContentfulPageTypes } from "@/loaders/types";
 import {
   FooterLinksMappings,
   PageMappings,
@@ -15,8 +15,10 @@ import homeImage from "./home.JPG";
 export const HOME_PAGE_CONTENT: HomePageContent = {
   name: "Rafaela Lewis Ghildyal",
   tagline: "Front-End Developer",
-  image: homeImage,
-  alt: "A headshot of Rafaela Lewis Ghildyal, wearing a blue cardigan with white polka dots.",
+  image: {
+    src: homeImage,
+    alt: "A headshot of Rafaela Lewis Ghildyal, wearing a blue cardigan with white polka dots.",
+  },
 };
 
 export const ABOUT_PAGE_CONTENT: InnerPageContent = {
@@ -37,7 +39,7 @@ export const EXPERIENCE_PAGE_CONTENT: InnerPageContent = {
 
 export const ERROR_SNACKBAR_CONTENT: ErrorSnackbarContent = {
   heading: "Error Loading Content",
-  body: (page: PageLoadErrorTypes) =>
+  body: (page: ContentfulPageTypes) =>
     `Error loading the ${page} page. Please refresh.`,
 };
 

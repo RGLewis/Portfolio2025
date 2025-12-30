@@ -4,7 +4,7 @@ import {
   baseTypographyStyles,
   device,
   focusVisible,
-  peelUpEffect,
+  peelUpAnimation,
   pxToRem,
   responsiveFontSize,
   SPACINGS,
@@ -16,7 +16,7 @@ import {
 import { styled, type DefaultTheme } from "styled-components";
 import { TypographyVariants } from "./types";
 
-export const StyledHeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
+export const HeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.extraBold};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   line-height: 1.4;
@@ -40,12 +40,6 @@ export const StyledHeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
     ${underlinedHeading()}
   }
 
-  @media ${device.medium} {
-    &.page-heading {
-      margin-top: ${pxToRem(-55)};
-    }
-  }
-
   @media ${device.large} {
     font-size: ${pxToRem(50)};
 
@@ -65,7 +59,7 @@ export const StyledHeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
   }
 `;
 
-export const StyledHeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
+export const HeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-size: ${pxToRem(30)};
   color: ${({ theme, $variant }) => theme[$variant]};
@@ -92,7 +86,7 @@ export const StyledHeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
   }
 `;
 
-export const StyledHeadingThird = styled.h3<{ $variant: TypographyVariants }>`
+export const HeadingThird = styled.h3<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.roboto};
   ${baseTypographyStyles()}
@@ -101,7 +95,7 @@ export const StyledHeadingThird = styled.h3<{ $variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 22, large: 24, extraLarge: 28 })}
 `;
 
-export const StyledHeadingFourth = styled.h4<{ $variant: TypographyVariants }>`
+export const HeadingFourth = styled.h4<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   ${baseTypographyStyles()}
@@ -109,7 +103,7 @@ export const StyledHeadingFourth = styled.h4<{ $variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 20, large: 24, extraLarge: 28 })}
 `;
 
-export const StyledHeadingFifth = styled.h5<{ $variant: TypographyVariants }>`
+export const HeadingFifth = styled.h5<{ $variant: TypographyVariants }>`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   ${baseTypographyStyles()}
@@ -117,7 +111,7 @@ export const StyledHeadingFifth = styled.h5<{ $variant: TypographyVariants }>`
   ${responsiveFontSize({ base: 18, large: 20, extraLarge: 22 })}
 `;
 
-export const StyledBody = styled.p<{ $variant: TypographyVariants }>`
+export const Body = styled.p<{ $variant: TypographyVariants }>`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};
@@ -145,7 +139,7 @@ export const StyledBody = styled.p<{ $variant: TypographyVariants }>`
   }
 `;
 
-export const StyledLink = styled.a<{ $variant: TypographyVariants }>`
+export const Link = styled.a<{ $variant: TypographyVariants }>`
   ${baseLinkStyles()}
   color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs};
@@ -155,7 +149,7 @@ export const StyledLink = styled.a<{ $variant: TypographyVariants }>`
   ${focusVisible({})};
 `;
 
-export const StyledRichTextLink = styled.a<{ $variant: TypographyVariants }>`
+export const RichTextLink = styled.a<{ $variant: TypographyVariants }>`
   ${baseLinkStyles()}
   color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs};
@@ -179,14 +173,14 @@ export const StyledRichTextLink = styled.a<{ $variant: TypographyVariants }>`
   }
 
   /* Peel-up background effect */
-  ${peelUpEffect(({ theme }) => theme.accent, ZIndexLevel.NEGATIVE)}
+  ${peelUpAnimation(({ theme }) => theme.accent, ZIndexLevel.NEGATIVE)}
 
   ${focusVisible({
     outlineColor: ({ theme }: { theme: DefaultTheme }) => theme.accent,
   })};
 `;
 
-export const StyledSlash = styled.p`
+export const Slash = styled.p`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.light};
   margin: 0 ${SPACINGS.xs};
@@ -198,17 +192,17 @@ export const StyledSlash = styled.p`
   }
 `;
 
-export const StyledUnorderedList = styled.ul<{ $variant: TypographyVariants }>`
+export const UnorderedList = styled.ul<{ $variant: TypographyVariants }>`
   list-style-type: disc;
   ${baseListStyles()}
 `;
 
-export const StyledOrderedList = styled.ol<{ $variant: TypographyVariants }>`
+export const OrderedList = styled.ol<{ $variant: TypographyVariants }>`
   list-style-type: decimal;
   ${baseListStyles()}
 `;
 
-export const StyledListItem = styled.li<{ $variant: TypographyVariants }>`
+export const ListItem = styled.li<{ $variant: TypographyVariants }>`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: ${({ theme }) => theme.fontWeights.extraLight};
   font-size: ${pxToRem(14)};

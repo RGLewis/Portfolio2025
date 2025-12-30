@@ -68,8 +68,8 @@ describe("MobileHeader", () => {
 
         expect(mockSetIsMenuOpen).toHaveBeenCalledTimes(1);
 
-        const updaterFn = mockSetIsMenuOpen.mock.calls[0][0];
-        expect(updaterFn(isMenuOpen)).toBe(!isMenuOpen);
+        const [setIsMenuOpenCall] = mockSetIsMenuOpen.mock.calls[0];
+        expect(setIsMenuOpenCall(isMenuOpen)).toBe(!isMenuOpen);
       }
     );
   });

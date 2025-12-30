@@ -12,7 +12,7 @@ describe("FooterCopy", () => {
     const footerCopyElement = getByTestId(footerCopy);
     expect(footerCopyElement).toBeInTheDocument();
 
-    expect(getByText(FOOTER_CONTENT.techStack)).toBeInTheDocument();
-    expect(getByText(FOOTER_CONTENT.copyright)).toBeInTheDocument();
+    getByText(FOOTER_CONTENT.techStack);
+    getByText(FOOTER_CONTENT.copyright);
   });
 });

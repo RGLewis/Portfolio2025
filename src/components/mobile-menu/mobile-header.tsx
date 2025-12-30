@@ -1,5 +1,5 @@
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
-import { zIndexClass, ZIndexLevel } from "@/global-styles";
+import { getZIndexClass, ZIndexLevel } from "@/global-styles";
 import { HamburgerButton, HamburgerSpan, StyledMobileHeader } from "./styles";
 
 type MobileHeaderProps = {
@@ -19,7 +19,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
 
   return (
     <StyledMobileHeader
-      {...zIndexClass(ZIndexLevel.THIRD)}
+      className={getZIndexClass(ZIndexLevel.THIRD)}
       data-testid={mobileHeader}
     >
       <HamburgerButton

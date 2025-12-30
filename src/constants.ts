@@ -1,4 +1,4 @@
-import type { PageLoadErrorTypes } from "./loaders/types";
+import type { ContentfulPageTypes } from "./loaders/types";
 
 export const NAVIGATION_DATA_TEST_IDS = {
   sidebar: "sidebar",
@@ -52,7 +52,7 @@ export const RICH_TEXT_DATA_TEST_IDS = {
 };
 
 export const SNACKBAR_DATA_TEST_IDS = {
-  errorSnackbarContainer: (page: PageLoadErrorTypes) =>
+  errorSnackbarContainer: (page: ContentfulPageTypes) =>
     `error-snackbar-container-${page}`,
 };
 

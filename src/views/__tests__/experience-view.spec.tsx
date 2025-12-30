@@ -6,7 +6,7 @@ import {
   SKILLS_ITEM_DATA_TEST_IDS,
   SNACKBAR_DATA_TEST_IDS,
 } from "@/constants";
-import { PageLoadErrorTypes, type PageLoaderResult } from "@/loaders/types";
+import { ContentfulPageTypes, type PageLoaderResult } from "@/loaders/types";
 import {
   createPageData,
   createRichTextComponent,
@@ -42,14 +42,14 @@ const mockUseLoaderData = useLoaderData as jest.MockedFunction<
 
 const TEST_WORK_IDS = {
   WORK_1: "work-1",
-  WORK_2: "work-2",
-  WORK_3: "work-3",
+  work2: "work-2",
+  work3: "work-3",
 };
 
 const TEST_SKILLS = {
-  JAVASCRIPT: "JavaScript",
-  TYPESCRIPT: "TypeScript",
-  REACT: "React",
+  javascript: "JavaScript",
+  typescript: "TypeScript",
+  react: "React",
 };
 
 const createExperiencePageData = (components: PageComponent[]) =>
@@ -86,7 +86,7 @@ const createWorkAccordionComponent = (
   accordionItemsCollection: {
     items: [
       createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.WORK_1 } }),
-      createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.WORK_2 } }),
+      createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.work2 } }),
     ],
   },
   ...overrides,
@@ -99,8 +99,8 @@ const createSkillsComponentWithDefaults = (
     title: PageMappings.SKILLS,
     skillsItemCollection: {
       items: [
-        { title: TEST_SKILLS.JAVASCRIPT, level: SkillLevels.EXPERT },
-        { title: TEST_SKILLS.TYPESCRIPT, level: SkillLevels.ADVANCED },
+        { title: TEST_SKILLS.javascript, level: SkillLevels.EXPERT },
+        { title: TEST_SKILLS.typescript, level: SkillLevels.ADVANCED },
       ],
     },
     ...overrides,
@@ -110,6 +110,9 @@ describe("ExperienceView", () => {
   const { accordionHeadingContainer } = ACCORDION_DATA_TEST_IDS;
   const { heroImage } = HERO_IMAGE_DATA_TEST_IDS;
   const { skillsItem } = SKILLS_ITEM_DATA_TEST_IDS;
+  const { image, title } = EXPERIENCE_PAGE_CONTENT;
+  const { container: skeletonLoaderContainer } = SKELETON_LOADER_DATA_TEST_IDS;
+  const { errorSnackbarContainer } = SNACKBAR_DATA_TEST_IDS;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -128,21 +131,14 @@ describe("ExperienceView", () => {
 
       const heroImageElement = getByTestId(heroImage);
       expect(heroImageElement).toBeInTheDocument();
-      expect(heroImageElement).toHaveAttribute(
-        "src",
-        EXPERIENCE_PAGE_CONTENT.image.src
-      );
-      expect(heroImageElement).toHaveAttribute(
-        "alt",
-        EXPERIENCE_PAGE_CONTENT.image.alt
-      );
+      expect(heroImageElement).toHaveAttribute("src", image.src);
+      expect(heroImageElement).toHaveAttribute("alt", image.alt);
     });
 
     it("renders page heading with correct title", () => {
       const { getByText } = renderWithProviders(<ExperienceView />);
 
-      const heading = getByText(EXPERIENCE_PAGE_CONTENT.title);
-      expect(heading).toBeInTheDocument();
+      const heading = getByText(title);
       expect(heading).toHaveClass("page-heading");
     });
 
@@ -156,10 +152,10 @@ describe("ExperienceView", () => {
     it("renders all section headings", () => {
       const { getByText } = renderWithProviders(<ExperienceView />);
 
-      expect(getByText(PageMappings.PROFILE)).toBeInTheDocument();
-      expect(getByText(PageMappings.WORK)).toBeInTheDocument();
-      expect(getByText(PageMappings.SKILLS)).toBeInTheDocument();
-      expect(getByText(PageMappings.EDUCATION)).toBeInTheDocument();
+      getByText(PageMappings.PROFILE);
+      getByText(PageMappings.WORK);
+      getByText(PageMappings.SKILLS);
+      getByText(PageMappings.EDUCATION);
     });
   });
 
@@ -183,7 +179,7 @@ describe("ExperienceView", () => {
 
       const { getByText } = renderWithProviders(<ExperienceView />);
 
-      expect(getByText(PageMappings.PROFILE)).toBeInTheDocument();
+      getByText(PageMappings.PROFILE);
     });
   });
 
@@ -201,7 +197,7 @@ describe("ExperienceView", () => {
         getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).toBeInTheDocument();
       expect(
-        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_2))
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.work2))
       ).toBeInTheDocument();
     });
 
@@ -210,8 +206,8 @@ describe("ExperienceView", () => {
         accordionItemsCollection: {
           items: [
             createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.WORK_1 } }),
-            createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.WORK_2 } }),
-            createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.WORK_3 } }),
+            createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.work2 } }),
+            createWorkAccordionItem({ sys: { id: TEST_WORK_IDS.work3 } }),
           ],
         },
       });
@@ -226,10 +222,10 @@ describe("ExperienceView", () => {
         getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_1))
       ).toBeInTheDocument();
       expect(
-        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_2))
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.work2))
       ).toBeInTheDocument();
       expect(
-        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.WORK_3))
+        getByTestId(accordionHeadingContainer(TEST_WORK_IDS.work3))
       ).toBeInTheDocument();
     });
 
@@ -258,10 +254,10 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
+        getByTestId(skillsItem(TEST_SKILLS.javascript))
       ).toBeInTheDocument();
       expect(
-        getByTestId(skillsItem(TEST_SKILLS.TYPESCRIPT))
+        getByTestId(skillsItem(TEST_SKILLS.typescript))
       ).toBeInTheDocument();
     });
 
@@ -269,9 +265,9 @@ describe("ExperienceView", () => {
       const skillsComponent = createSkillsComponentWithDefaults({
         skillsItemCollection: {
           items: [
-            { title: TEST_SKILLS.JAVASCRIPT, level: SkillLevels.EXPERT },
-            { title: TEST_SKILLS.TYPESCRIPT, level: SkillLevels.ADVANCED },
-            { title: TEST_SKILLS.REACT, level: SkillLevels.EXPERT },
+            { title: TEST_SKILLS.javascript, level: SkillLevels.EXPERT },
+            { title: TEST_SKILLS.typescript, level: SkillLevels.ADVANCED },
+            { title: TEST_SKILLS.react, level: SkillLevels.EXPERT },
           ],
         },
       });
@@ -283,12 +279,12 @@ describe("ExperienceView", () => {
       const { getByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
+        getByTestId(skillsItem(TEST_SKILLS.javascript))
       ).toBeInTheDocument();
       expect(
-        getByTestId(skillsItem(TEST_SKILLS.TYPESCRIPT))
+        getByTestId(skillsItem(TEST_SKILLS.typescript))
       ).toBeInTheDocument();
-      expect(getByTestId(skillsItem(TEST_SKILLS.REACT))).toBeInTheDocument();
+      expect(getByTestId(skillsItem(TEST_SKILLS.react))).toBeInTheDocument();
     });
 
     it("does not render skills items when skills data is missing", () => {
@@ -300,7 +296,7 @@ describe("ExperienceView", () => {
       const { queryByTestId } = renderWithProviders(<ExperienceView />);
 
       expect(
-        queryByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
+        queryByTestId(skillsItem(TEST_SKILLS.javascript))
       ).not.toBeInTheDocument();
     });
   });
@@ -314,7 +310,7 @@ describe("ExperienceView", () => {
 
       const { getByText } = renderWithProviders(<ExperienceView />);
 
-      expect(getByText(PageMappings.EDUCATION)).toBeInTheDocument();
+      getByText(PageMappings.EDUCATION);
     });
 
     it("does not render education rich text when data is missing", () => {
@@ -325,8 +321,7 @@ describe("ExperienceView", () => {
 
       const { getByText } = renderWithProviders(<ExperienceView />);
 
-      // Heading should still be there even without data
-      expect(getByText(PageMappings.EDUCATION)).toBeInTheDocument();
+      getByText(title);
     });
   });
 
@@ -351,7 +346,7 @@ describe("ExperienceView", () => {
       ).toBeInTheDocument();
 
       expect(
-        getByTestId(skillsItem(TEST_SKILLS.JAVASCRIPT))
+        getByTestId(skillsItem(TEST_SKILLS.javascript))
       ).toBeInTheDocument();
     });
 
@@ -376,18 +371,15 @@ describe("ExperienceView", () => {
         renderWithProviders(<ExperienceView />);
 
       await waitFor(() => {
-        expect(
-          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
-        ).toBeInTheDocument();
+        expect(getByTestId(skeletonLoaderContainer)).toBeInTheDocument();
       });
 
       expect(getByTestId(heroImage)).toBeInTheDocument();
-      expect(getByText(EXPERIENCE_PAGE_CONTENT.title)).toBeInTheDocument();
+      getByText(title);
 
-      const skillsItem = SKILLS_ITEM_DATA_TEST_IDS.skillsItem(
-        TEST_SKILLS.JAVASCRIPT
-      );
-      expect(queryByTestId(skillsItem)).not.toBeInTheDocument();
+      expect(
+        queryByTestId(skillsItem(TEST_SKILLS.javascript))
+      ).not.toBeInTheDocument();
 
       const blocks = container.querySelectorAll(
         '[data-testid^="skeleton-block-"]'
@@ -397,10 +389,12 @@ describe("ExperienceView", () => {
   });
 
   describe("Error State", () => {
+    const { EXPERIENCE_PAGE } = ContentfulPageTypes;
+
     it("renders skeleton loader, error snackbar and static content when there is an error", async () => {
       mockUseLoaderData.mockReturnValue({
         data: null,
-        error: PageLoadErrorTypes.EXPERIENCE_PAGE,
+        error: EXPERIENCE_PAGE,
       } as PageLoaderResult);
 
       const { getByTestId, getByText } = renderWithProviders(
@@ -408,22 +402,15 @@ describe("ExperienceView", () => {
       );
 
       await waitFor(() => {
-        expect(
-          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
-        ).toBeInTheDocument();
+        expect(getByTestId(skeletonLoaderContainer)).toBeInTheDocument();
       });
 
       expect(
-        getByTestId(
-          SNACKBAR_DATA_TEST_IDS.errorSnackbarContainer(
-            PageLoadErrorTypes.EXPERIENCE_PAGE
-          )
-        )
+        getByTestId(errorSnackbarContainer(EXPERIENCE_PAGE))
       ).toBeInTheDocument();
 
-      const { heroImage } = HERO_IMAGE_DATA_TEST_IDS;
       expect(getByTestId(heroImage)).toBeInTheDocument();
-      expect(getByText(EXPERIENCE_PAGE_CONTENT.title)).toBeInTheDocument();
+      getByText(title);
     });
   });
 

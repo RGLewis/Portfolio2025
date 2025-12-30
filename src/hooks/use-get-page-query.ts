@@ -9,6 +9,19 @@ type UsePageQuery = {
   error: string | null;
 };
 
+/**
+ * Custom hook to fetch page data from Contentful using the provided page ID.
+ * @param id - The ID of the page to fetch
+ * @returns Object containing:
+ *  - data: The page data, loading state, and error message (if any)
+ *  - loading: Whether data is currently loading
+ *  - error: Error message if fetch failed
+ * @example
+ * ```tsx
+ * const { data, loading, error } = useGetPageQuery("page-id");
+ * ```
+ */
+
 export const useGetPageQuery = (id: string): UsePageQuery => {
   const [data, setData] = useState<PageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -20,6 +33,7 @@ export const useGetPageQuery = (id: string): UsePageQuery => {
         const response = await contentfulClient.request<PageData>(pageQuery, {
           id,
         });
+
         setData(response);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");

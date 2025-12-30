@@ -1,4 +1,4 @@
-import type { TypographyVariants } from "@/atoms/typography/types";
+import type { TypographyVariants } from "@/components/typography/types";
 import type { Document } from "@contentful/rich-text-types";
 
 export type RichTextWriteUpProps = {

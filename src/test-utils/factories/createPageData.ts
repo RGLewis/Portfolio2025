@@ -31,11 +31,49 @@ const defaultRichTextDocument: Document = {
 };
 
 /**
+ * Default mock work accordion items
+ */
+const defaultWorkItems = [
+  {
+    sys: { id: "work-1" },
+    jobTitle: "Software Engineer",
+    workplace: "Tech Company",
+    accordionContent: {
+      json: defaultRichTextDocument,
+    },
+  },
+  {
+    sys: { id: "work-2" },
+    jobTitle: "Senior Developer",
+    workplace: "Another Company",
+    accordionContent: {
+      json: defaultRichTextDocument,
+    },
+  },
+];
+
+/**
+ * Default mock skills items
+ */
+const defaultSkillsItems = [
+  {
+    title: "JavaScript",
+    level: SkillLevels.EXPERT,
+  },
+  {
+    title: "TypeScript",
+    level: SkillLevels.ADVANCED,
+  },
+  {
+    title: "React",
+    level: SkillLevels.EXPERT,
+  },
+];
+
+/**
  * Factory function to create mock PageData with optional overrides
- *
  * @param overrides - Partial PageData to override defaults
  * @returns Complete PageData object with mock data
- *
  * @example
  * ```tsx
  * // Create with defaults
@@ -47,7 +85,7 @@ const defaultRichTextDocument: Document = {
  *     title: "Custom Title",
  *   }
  * });
- *
+ * ```
  * // Add custom components
  * const pageData = createPageData({
  *   page: {
@@ -81,44 +119,14 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
             __typename: TypeNames.WORK_ACCORDION,
             title: "Test Work Experience",
             accordionItemsCollection: {
-              items: [
-                {
-                  sys: { id: "work-1" },
-                  jobTitle: "Software Engineer",
-                  workplace: "Tech Company",
-                  accordionContent: {
-                    json: defaultRichTextDocument,
-                  },
-                },
-                {
-                  sys: { id: "work-2" },
-                  jobTitle: "Senior Developer",
-                  workplace: "Another Company",
-                  accordionContent: {
-                    json: defaultRichTextDocument,
-                  },
-                },
-              ],
+              items: defaultWorkItems,
             },
           },
           {
             __typename: TypeNames.SKILLS,
             title: "Test Skills",
             skillsItemCollection: {
-              items: [
-                {
-                  title: "JavaScript",
-                  level: SkillLevels.EXPERT,
-                },
-                {
-                  title: "TypeScript",
-                  level: SkillLevels.ADVANCED,
-                },
-                {
-                  title: "React",
-                  level: SkillLevels.EXPERT,
-                },
-              ],
+              items: defaultSkillsItems,
             },
           },
         ],
@@ -126,7 +134,6 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
     },
   };
 
-  // Deep merge overrides with defaults
   return {
     page: {
       ...defaults.page,
@@ -143,7 +150,9 @@ export const createPageData = (overrides?: Partial<PageData>): PageData => {
 };
 
 /**
- * Create a mock rich text component
+ * Create a mock rich text component.
+ * @param overrides - Partial component data to override defaults
+ * @returns Mock RichTextComponent
  */
 export const createRichTextComponent = (
   overrides?: Partial<PageData["page"]["componentsCollection"]["items"][0]>
@@ -157,7 +166,9 @@ export const createRichTextComponent = (
 });
 
 /**
- * Create a mock skills component
+ * Create a mock skills component.
+ * @param overrides - Partial component data to override defaults
+ * @returns Mock SkillsComponent
  */
 export const createSkillsComponent = (
   overrides?: Partial<PageData["page"]["componentsCollection"]["items"][2]>
@@ -165,12 +176,7 @@ export const createSkillsComponent = (
   __typename: TypeNames.SKILLS,
   title: "Skills",
   skillsItemCollection: {
-    items: [
-      {
-        title: "JavaScript",
-        level: SkillLevels.EXPERT,
-      },
-    ],
+    items: [defaultSkillsItems[0]],
   },
   ...overrides,
 });
@@ -178,10 +184,12 @@ export const createSkillsComponent = (
 /**
  * Create a mock work accordion item (single item, not the full component)
  * This is useful for testing individual Accordion components
- *
  * @param overrides - Partial WorkAccordionItem to override defaults
+ *  - sys: System metadata with ID
+ *  - jobTitle: Job title string
+ *  - workplace: Workplace name string
+ *  - accordionContent: Rich text content document
  * @returns A single WorkAccordionItem
- *
  * @example
  * ```tsx
  * // Create with defaults
@@ -200,11 +208,6 @@ export const createWorkAccordionItem = (overrides?: {
   workplace?: string;
   accordionContent?: { json: Document };
 }) => ({
-  sys: { id: "work-1" },
-  jobTitle: "Software Engineer",
-  workplace: "Tech Company",
-  accordionContent: {
-    json: defaultRichTextDocument,
-  },
+  ...defaultWorkItems[0],
   ...overrides,
 });

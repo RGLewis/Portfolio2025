@@ -1,18 +1,14 @@
 import { ERROR_SNACKBAR_CONTENT } from "@/assets/content";
-import { TypographyVariants } from "@/atoms/typography/types";
-import {
-  StyledBody,
-  StyledHeadingFourth,
-} from "@/atoms/typography/typography.styles";
+import { TypographyVariants } from "@/components/typography/types";
 import { SNACKBAR_DATA_TEST_IDS } from "@/constants";
-import { zIndexClass, ZIndexLevel } from "@/global-styles";
-import { PageLoadErrorTypes } from "@/loaders/types";
+import { getZIndexClass, ZIndexLevel } from "@/global-styles";
+import { ContentfulPageTypes } from "@/loaders/types";
 import React from "react";
-import { SnackbarContainer } from "./styles";
+import { SnackbarContainer, StyledBody, StyledHeadingFourth } from "./styles";
 
 type ErrorSnackbarProps = {
   isVisible: boolean;
-  errorType: PageLoadErrorTypes;
+  errorType: ContentfulPageTypes;
 };
 
 export const ErrorSnackbar: React.FC<ErrorSnackbarProps> = ({
@@ -29,7 +25,7 @@ export const ErrorSnackbar: React.FC<ErrorSnackbarProps> = ({
     <SnackbarContainer
       role="alert"
       aria-live="assertive"
-      {...zIndexClass(ZIndexLevel.THIRD)}
+      className={getZIndexClass(ZIndexLevel.THIRD)}
       data-testid={SNACKBAR_DATA_TEST_IDS.errorSnackbarContainer(errorType)}
     >
       <StyledHeadingFourth $variant={TypographyVariants.CONTRAST}>

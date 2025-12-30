@@ -1,14 +1,6 @@
-import {
-  borderRadius,
-  device,
-  EasingTypes,
-  pxToRem,
-  SPACINGS,
-  transition,
-} from "@/global-styles";
-import { SkillLevels } from "@/types/content-types";
+import { borderRadius, device, pxToRem, SPACINGS } from "@/global-styles";
 import { styled } from "styled-components";
-import { getSkillLevelPercentage } from "./utils";
+import { SkillLevelPercentages } from "./types";
 
 export const SkillsContainer = styled.div`
   display: flex;
@@ -34,25 +26,20 @@ export const SkillsBar = styled.div`
   width: 100%;
   height: ${pxToRem(30)};
   background-color: ${({ theme }) => theme.white};
-  border: 2px solid ${({ theme }) => theme.accent};
+  border: ${pxToRem(2)} solid ${({ theme }) => theme.accent};
   ${borderRadius(4)}
   position: relative;
   overflow: hidden;
 `;
 
-export const LevelContainer = styled.div<{ $level: SkillLevels }>`
+export const LevelContainer = styled.div<{ $level: SkillLevelPercentages }>`
   height: 100%;
   background-color: ${({ theme }) => theme.accent};
-  width: ${(props) => `${getSkillLevelPercentage(props.$level)}%`};
+  width: ${(props) => `${props.$level}%`};
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: ${SPACINGS.sm};
-  ${transition({
-    attr: "width",
-    speed: "800ms",
-    easing: EasingTypes.EASE_OUT,
-  })};
 `;
 
 export const SkillsLabel = styled.span`

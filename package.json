@@ -1,8 +1,10 @@
 {
   "name": "portfolio-2025",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Personal portfolio website built with React, TypeScript, and Contentful CMS",
+  "author": "Rafaela Lewis Ghildyal",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

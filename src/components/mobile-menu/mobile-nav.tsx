@@ -1,7 +1,7 @@
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { NAVIGATION_DATA_TEST_IDS } from "@/constants";
-import { zIndexClass, ZIndexLevel } from "@/global-styles";
+import { getZIndexClass, ZIndexLevel } from "@/global-styles";
 import { NavContainer } from "./styles";
 
 type MobileNavProps = {
@@ -18,7 +18,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
   return (
     <NavContainer
       $isMenuOpen={isMenuOpen}
-      {...zIndexClass(ZIndexLevel.SECOND)}
+      className={getZIndexClass(ZIndexLevel.SECOND)}
       data-testid={mobileNav}
     >
       <Nav onLinkClick={onLinkClick} />

@@ -11,7 +11,6 @@ export const StyledSidebar = styled.div`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.menuBackground};
-  border-right: ${pxToRem(1)} solid ${({ theme }) => theme.menuBorder};
   padding: ${pxToRem(40)} ${pxToRem(20)};
   justify-content: space-between;
 

@@ -1,24 +1,28 @@
 import { BREAKPOINTS } from "@/global-styles";
-import { IconSizes, IconWeights } from "./types";
+import { IconSize, IconWeight } from "./types";
 import { useMediaQuery } from "./use-media-query";
 
 type UseIconSizeReturn = {
-  iconSize: IconSizes;
-  iconWeight: IconWeights;
+  iconSize: IconSize;
+  iconWeight: IconWeight;
 };
 
 /**
  * Custom hook that returns responsive icon size based on current viewport.
  * Updates reactively when the viewport size changes.
- *
- * @returns {{ iconSize: IconSizes, iconWeight: IconWeights}} responsive icon dimensions
- *
+ * @returns Object containing:
+ *  - iconSize: Size of the icon (LARGE or MEDIUM)
+ *  - iconWeight: Weight of the icon (THICK or THIN)
+ * @example
+ * ```tsx
+ * const { iconSize, iconWeight } = useIconSize();
+ * ```
  */
 export const useIconSize = (): UseIconSizeReturn => {
   const isLargeScreen = useMediaQuery(`(min-width: ${BREAKPOINTS.large})`);
 
   return {
-    iconSize: isLargeScreen ? IconSizes.LARGE : IconSizes.MEDIUM,
-    iconWeight: isLargeScreen ? IconWeights.THICK : IconWeights.THIN,
+    iconSize: isLargeScreen ? IconSize.LARGE : IconSize.MEDIUM,
+    iconWeight: isLargeScreen ? IconWeight.THICK : IconWeight.THIN,
   };
 };

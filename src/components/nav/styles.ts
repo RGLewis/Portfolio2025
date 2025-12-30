@@ -1,9 +1,10 @@
 import {
+  borderRadius,
   device,
   focusVisible,
   heightAnimation,
   OutlineOffsetTypes,
-  peelUpEffect,
+  peelUpAnimation,
   pxToRem,
   SPACINGS,
   transition,
@@ -23,8 +24,7 @@ const navLinkBaseStyles = css`
     attr: "color",
   })}
 
-  /* Peel-up background effect */
-  ${peelUpEffect(({ theme }) => theme.white, ZIndexLevel.NEGATIVE)}
+  ${peelUpAnimation(({ theme }) => theme.white, ZIndexLevel.NEGATIVE)}
 `;
 
 export const StyledNavLink = styled(NavLink)`
@@ -35,12 +35,12 @@ export const StyledNavLink = styled(NavLink)`
   align-items: center;
   flex: 1;
   padding: ${SPACINGS.xs};
-  border-radius: ${pxToRem(4)};
+  ${borderRadius(4)};
   letter-spacing: ${pxToRem(2)};
 
   &::before {
     height: 0%;
-    border-radius: ${pxToRem(4)};
+    ${borderRadius(4)};
   }
 
   ${focusVisible({ outlineOffset: OutlineOffsetTypes.LARGE })}

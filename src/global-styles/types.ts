@@ -10,7 +10,6 @@ export type ThemeColors = Pick<
   | "contrast"
   | "blackOpaque"
   | "menuBackground"
-  | "menuBorder"
   | "white"
   | "black"
   | "opaqueContrast"

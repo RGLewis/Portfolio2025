@@ -10,6 +10,10 @@ const defaultProps = {
   linesPerBlock: 4,
 };
 
+const skeletonBlockSelector = '[data-testid^="skeleton-block-"]';
+const skeletonLineSelector = '[data-testid^="skeleton-line-"]';
+const skeletonSubheadingSelector = '[data-testid^="skeleton-subheading-"]';
+
 describe("SkeletonLoader", () => {
   it("renders with 1 block and 4 lines each", () => {
     const { container: renderedContainer } = renderWithProviders(
@@ -19,12 +23,8 @@ describe("SkeletonLoader", () => {
     const loader = screen.getByTestId(container);
     expect(loader).toBeInTheDocument();
 
-    const blocks = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-block-"]'
-    );
-    const lines = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-line-"]'
-    );
+    const blocks = renderedContainer.querySelectorAll(skeletonBlockSelector);
+    const lines = renderedContainer.querySelectorAll(skeletonLineSelector);
 
     expect(blocks).toHaveLength(1);
     expect(lines).toHaveLength(4);
@@ -35,9 +35,7 @@ describe("SkeletonLoader", () => {
       <SkeletonLoader {...defaultProps} blocks={2} />
     );
 
-    const blocks = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-block-"]'
-    );
+    const blocks = renderedContainer.querySelectorAll(skeletonBlockSelector);
     expect(blocks).toHaveLength(2);
   });
 
@@ -46,9 +44,7 @@ describe("SkeletonLoader", () => {
       <SkeletonLoader {...defaultProps} linesPerBlock={6} />
     );
 
-    const lines = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-line-"]'
-    );
+    const lines = renderedContainer.querySelectorAll(skeletonLineSelector);
     expect(lines).toHaveLength(6);
   });
 
@@ -58,7 +54,7 @@ describe("SkeletonLoader", () => {
     );
 
     const subheadings = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-subheading-"]'
+      skeletonSubheadingSelector
     );
     expect(subheadings).toHaveLength(1);
   });
@@ -88,7 +84,7 @@ describe("SkeletonLoader", () => {
     );
 
     const subheadings = renderedContainer.querySelectorAll(
-      '[data-testid^="skeleton-subheading-"]'
+      skeletonSubheadingSelector
     );
     expect(subheadings).toHaveLength(0);
   });
