@@ -17,7 +17,7 @@ import { styled, type DefaultTheme } from "styled-components";
 import { TypographyVariants } from "./types";
 
 export const HeadingFirst = styled.h1<{ $variant: TypographyVariants }>`
-  font-weight: ${({ theme }) => theme.fontWeights.extraBold};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   font-family: ${({ theme }) => theme.fonts.montserrat};
   line-height: 1.4;
   font-size: ${pxToRem(40)};
@@ -87,7 +87,7 @@ export const HeadingSecond = styled.h2<{ $variant: TypographyVariants }>`
 `;
 
 export const HeadingThird = styled.h3<{ $variant: TypographyVariants }>`
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   font-family: ${({ theme }) => theme.fonts.roboto};
   ${baseTypographyStyles()}
   text-transform: capitalize;

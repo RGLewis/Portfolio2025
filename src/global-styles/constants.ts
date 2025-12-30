@@ -36,10 +36,8 @@ export const FONTS = {
 export const FONT_WEIGHTS = {
   extraLight: "300",
   light: "400",
-  regular: "500",
   medium: "600",
   bold: "700",
-  extraBold: "800",
 };
 
 export const BREAKPOINTS = {
