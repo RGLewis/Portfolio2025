@@ -20,7 +20,7 @@ const slideInUp = keyframes`
 `;
 
 export const StyledHeadingFourth = styled(HeadingFourth)`
-  margin: 0 0 ${SPACINGS.sm} 0;
+  margin-bottom: ${SPACINGS.sm};
 `;
 
 export const StyledBody = styled(Body)`
