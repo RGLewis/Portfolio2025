@@ -43,24 +43,12 @@ describe("HashLink", () => {
   });
 
   describe("Rendering", () => {
-    it("renders with correct href", () => {
+    it("renders with correct attributes", () => {
       const { getByTestId } = renderHashLink();
 
       const link = getByTestId(experienceLink(TEST_TEXT));
       expect(link).toHaveAttribute("href", TEST_HREF);
-    });
-
-    it("renders with correct data-slug attribute", () => {
-      const { getByTestId } = renderHashLink();
-
-      const link = getByTestId(experienceLink(TEST_TEXT));
       expect(link).toHaveAttribute("data-slug", TEST_SLUG);
-    });
-
-    it("renders link text correctly", () => {
-      const { getByTestId } = renderHashLink();
-
-      const link = getByTestId(experienceLink(TEST_TEXT));
       expect(link).toHaveTextContent(TEST_TEXT);
     });
 
@@ -81,15 +69,6 @@ describe("HashLink", () => {
   });
 
   describe("Active state", () => {
-    it("shows active state when activeSection matches slug", () => {
-      mockActiveSection = TEST_SLUG;
-
-      const { getByTestId } = renderHashLink();
-
-      const link = getByTestId(experienceLink(TEST_TEXT));
-      expect(link).toBeInTheDocument();
-    });
-
     it.each(Object.values(Slugs))(
       "shows active state correctly for slug: %s",
       (slug) => {
@@ -103,9 +82,22 @@ describe("HashLink", () => {
         });
 
         const link = getByTestId(experienceLink(upperCaseSlug));
-        expect(link).toBeInTheDocument();
+        expect(link).toHaveStyle({ textDecoration: "underline" });
       }
     );
+
+    it("does not show active state when activeSection does not match slug", () => {
+      mockActiveSection = Slugs.EDUCATION;
+
+      const { getByTestId } = renderHashLink({
+        slug: Slugs.WORK,
+        text: "Work",
+        to: `#${Slugs.WORK}`,
+      });
+
+      const link = getByTestId(experienceLink("Work"));
+      expect(link).toHaveStyle({ textDecoration: "none" });
+    });
   });
 
   describe("Interactions", () => {

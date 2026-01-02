@@ -1,17 +1,17 @@
 import { EXPERIENCE_PAGE_CONTENT } from "@/assets/content";
-import { TypographyVariants } from "@/atoms/typography/types";
-import {
-  StyledHeadingFirst,
-  StyledHeadingSecond,
-} from "@/atoms/typography/typography.styles";
 import { Accordion } from "@/components/accordion";
 import { ErrorSnackbar } from "@/components/error-snackbar";
 import { HeroImage } from "@/components/hero-image";
 import { RichTextWriteUp } from "@/components/rich-text-write-up";
 import { SkeletonLoader } from "@/components/skeleton-loader";
 import { SkillsItem } from "@/components/skills-item";
+import { TypographyVariants } from "@/components/typography/types";
+import {
+  HeadingFirst,
+  HeadingSecond,
+} from "@/components/typography/typography.styles";
 import { useDelayedLoading } from "@/hooks/use-delayed-loading";
-import { PageLoadErrorTypes, type PageLoaderResult } from "@/loaders/types";
+import { ContentfulPageTypes, type PageLoaderResult } from "@/loaders/types";
 import {
   PageMappings,
   Slugs,
@@ -22,100 +22,88 @@ import { useLoaderData } from "react-router-dom";
 import { PageContainer } from "./styles";
 
 export const ExperienceView = () => {
-  const loaderResult = useLoaderData() as PageLoaderResult;
+  const { EXPERIENCE_PAGE } = ContentfulPageTypes;
+  const { image, title } = EXPERIENCE_PAGE_CONTENT;
 
-  const isLoading = !loaderResult?.data;
+  const loaderResult = useLoaderData() as PageLoaderResult;
+  const data = loaderResult?.data;
+
+  const isLoading = !data;
   const showLoader = useDelayedLoading(isLoading);
-  const showError = loaderResult?.error === PageLoadErrorTypes.EXPERIENCE_PAGE;
+  const showError = loaderResult?.error === EXPERIENCE_PAGE;
 
   const {
     profileRichText,
     accordionItems,
     skillsItemCollection,
     educationRichText,
-  } = extractExperienceData(loaderResult?.data);
+  } = extractExperienceData(data);
+
+  const headingsSecondProps = {
+    className: "underlined large",
+    $variant: TypographyVariants.PRIMARY,
+  };
+
+  const RichTextWriteUpProps = {
+    variant: TypographyVariants.PRIMARY,
+    isUnderlined: true,
+    isLarge: true,
+  };
 
   return (
     <div>
-      <HeroImage
-        src={EXPERIENCE_PAGE_CONTENT.image.src}
-        description={EXPERIENCE_PAGE_CONTENT.image.alt}
-        isVerticalTop={true}
-      />
+      <HeroImage src={image.src} description={image.alt} isVerticalTop={true} />
 
       <PageContainer className="inner-page">
-        <StyledHeadingFirst
+        <HeadingFirst
           $variant={TypographyVariants.WHITE}
           className="page-heading"
         >
-          {EXPERIENCE_PAGE_CONTENT.title}
-        </StyledHeadingFirst>
+          {title}
+        </HeadingFirst>
 
         {showLoader ? (
           <SkeletonLoader blocks={4} linesPerBlock={4} />
         ) : (
           <>
-            <StyledHeadingSecond
-              id={Slugs.PROFILE}
-              className="underlined large"
-              $variant={TypographyVariants.PRIMARY}
-            >
+            <HeadingSecond id={Slugs.PROFILE} {...headingsSecondProps}>
               {PageMappings.PROFILE}
-            </StyledHeadingSecond>
+            </HeadingSecond>
             {profileRichText && (
               <RichTextWriteUp
                 document={profileRichText.content.json}
-                variant={TypographyVariants.PRIMARY}
-                isUnderlined
-                isLarge
+                {...RichTextWriteUpProps}
               />
             )}
 
-            <StyledHeadingSecond
-              id={Slugs.WORK}
-              className="underlined large"
-              $variant={TypographyVariants.PRIMARY}
-            >
+            <HeadingSecond id={Slugs.WORK} {...headingsSecondProps}>
               {PageMappings.WORK}
-            </StyledHeadingSecond>
+            </HeadingSecond>
             {accordionItems.map((item) => (
               <div key={item.sys.id}>
                 <Accordion data={item} />
               </div>
             ))}
 
-            <StyledHeadingSecond
-              id={Slugs.SKILLS}
-              className="underlined large"
-              $variant={TypographyVariants.PRIMARY}
-            >
+            <HeadingSecond id={Slugs.SKILLS} {...headingsSecondProps}>
               {PageMappings.SKILLS}
-            </StyledHeadingSecond>
+            </HeadingSecond>
             {skillsItemCollection.items.map((item: SkillsItemType) => (
               <SkillsItem key={item.title} data={item} />
             ))}
 
-            <StyledHeadingSecond
-              id={Slugs.EDUCATION}
-              className="underlined large"
-              $variant={TypographyVariants.PRIMARY}
-            >
+            <HeadingSecond id={Slugs.EDUCATION} {...headingsSecondProps}>
               {PageMappings.EDUCATION}
-            </StyledHeadingSecond>
+            </HeadingSecond>
             {educationRichText && (
               <RichTextWriteUp
                 document={educationRichText.content.json}
-                variant={TypographyVariants.PRIMARY}
-                isUnderlined
-                isLarge
+                {...RichTextWriteUpProps}
               />
             )}
           </>
         )}
-        <ErrorSnackbar
-          isVisible={showError}
-          errorType={PageLoadErrorTypes.EXPERIENCE_PAGE}
-        />
+        <ErrorSnackbar isVisible={showError} errorType={EXPERIENCE_PAGE} />
       </PageContainer>
     </div>
   );

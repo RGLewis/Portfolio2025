@@ -3,19 +3,12 @@ import { renderWithProviders } from "@/test-utils/test-utils";
 import { FooterLinks } from "../footer-links";
 
 describe("FooterLinks", () => {
-  it("renders the footer links with correct content", () => {
+  it("renders the footer links correctly", () => {
     const { getByText } = renderWithProviders(<FooterLinks />);
 
     Object.values(FOOTER_CONTENT.links).forEach((link) => {
-      expect(getByText(link.text)).toBeInTheDocument();
-    });
-  });
+      const linkElement = getByText(link.text);
 
-  it("renders links with correct href attributes", () => {
-    const { getByTestId } = renderWithProviders(<FooterLinks />);
-
-    Object.values(FOOTER_CONTENT.links).forEach((link) => {
-      const linkElement = getByTestId(`footer-link-${link.text}`);
       expect(linkElement).toHaveAttribute("href", link.link);
     });
   });

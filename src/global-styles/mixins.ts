@@ -1,5 +1,6 @@
 import type { DefaultTheme } from "styled-components";
 import { css } from "styled-components";
+import { device } from "./breakpoints";
 import { COLORS, SPACINGS } from "./constants";
 import { EasingTypes, OutlineOffsetTypes, type ThemeColors } from "./types";
 import { pxToRem } from "./utils";
@@ -24,6 +25,10 @@ type ThemeColorsFunction = (props: { theme: DefaultTheme }) => string;
 /**
  * Generates border radius styles.
  * @param borderRadius - Border radius in pixels
+ * @example
+ * ```tsx
+ * borderRadius(8) // applies 8px border radius
+ * ```
  */
 export const borderRadius = (borderRadius: number) => css`
   border-radius: ${pxToRem(borderRadius)};
@@ -37,6 +42,10 @@ export const borderRadius = (borderRadius: number) => css`
  * @param speed - Duration of the transition (default: "300ms")
  * @param easing - Easing function for the transition (default: "ease-in-out")
  * @param delay - Delay before the transition starts (default: "0s")
+ * @example
+ * ```tsx
+ * transition({ attr: "opacity", speed: "500ms", easing: EasingTypes.EASE, delay: "100ms" })
+ * ```
  */
 export const transition = ({
   attr,
@@ -54,6 +63,10 @@ export const transition = ({
  * Generates focus-visible styles.
  * @param outlineColor - Outline color (default: white)
  * @param outlineOffset - Outline offset (default: 2)
+ * @example
+ * ```tsx
+ * focusVisible({ outlineColor: ({ theme }) => theme.accent, outlineOffset: OutlineOffsetTypes.LARGE })
+ * ```
  */
 export const focusVisible = ({
   outlineColor = COLORS.white,
@@ -61,11 +74,11 @@ export const focusVisible = ({
 }: FocusVisibleTypes) => {
   return css`
     &:focus-visible {
-      outline: 1px solid;
+      outline: ${pxToRem(1)} solid;
       outline-color: ${outlineColor};
       outline-offset: ${outlineOffset === OutlineOffsetTypes.LARGE
         ? SPACINGS.xs
-        : 2};
+        : pxToRem(2)};
     }
   `;
 };
@@ -75,6 +88,10 @@ export const focusVisible = ({
  * @param isExpanded - Whether the element is expanded or collapsed
  * @param duration - Duration of the animation (default: "500ms")
  * @param easing - Easing function for the animation (default: "cubic-bezier(0.4, 0, 0.2, 1)")
+ * @example
+ * ```tsx
+ * heightAnimation(true, "400ms", EasingTypes.EASE)
+ * ```
  */
 export const heightAnimation = (
   isExpanded: boolean,
@@ -106,8 +123,12 @@ export const baseLinkStyles = () => css`
  * Peel-up hover effect - background fills from bottom to top
  * @param backgroundColor - Color function that returns the background color from theme
  * @param zIndexLevel - Z-index level from ZIndexLevel enum (default: NEGATIVE)
+ * @example
+ * ```tsx
+ * peelUpAnimation(({ theme }) => theme.accent, ZIndexLevel.NEGATIVE)
+ * ```
  */
-export const peelUpEffect = (
+export const peelUpAnimation = (
   backgroundColor: ThemeColorsFunction,
   zIndexLevel: ZIndexLevel = ZIndexLevel.NEGATIVE
 ) => {
@@ -138,6 +159,10 @@ export const peelUpEffect = (
  * Underline animation - scales in from left on hover
  * @param underlineColor - Color function that returns the underline color from theme
  * @param thickness - Thickness of the underline in pixels (default: 2)
+ * @example
+ * ```tsx
+ * underlineAnimation(({ theme }) => theme.white, 2)
+ * ```
  */
 export const underlineAnimation = (
   underlineColor: ThemeColorsFunction,
@@ -175,7 +200,14 @@ export const baseTypographyStyles = () => css<{ $variant: string }>`
 
 /**
  * Responsive font sizing with media queries
- * @param sizes - Object with base, large, and extraLarge font sizes in pixels
+ * @param sizes - Object with font sizes
+ *  - base: Base font size in pixels
+ *  - large: Large breakpoint font size in pixels
+ *  - extraLarge: Extra large breakpoint font size in pixels
+ * @example
+ * ```tsx
+ * responsiveFontSize({ base: 16, large: 20, extraLarge: 24 })
+ * ```
  */
 export const responsiveFontSize = (sizes: {
   base: number;
@@ -184,13 +216,11 @@ export const responsiveFontSize = (sizes: {
 }) => css`
   font-size: ${pxToRem(sizes.base)};
 
-  @media ${({ theme }: { theme: DefaultTheme }) =>
-      `(min-width: ${theme.breakpoints.large})`} {
+  @media ${device.large} {
     font-size: ${pxToRem(sizes.large)};
   }
 
-  @media ${({ theme }: { theme: DefaultTheme }) =>
-      `(min-width: ${theme.breakpoints.extraLarge})`} {
+  @media ${device.extraLarge} {
     font-size: ${pxToRem(sizes.extraLarge)};
   }
 `;

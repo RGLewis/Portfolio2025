@@ -9,9 +9,8 @@ import {
 /**
  * Type guard to check if a component is a RichTextWriteUp component.
  * Narrows the union type for TypeScript.
- *
  * @param component - The page component to check
- * @returns true if the component is a RichTextWriteUp component
+ * @returns True if the component is a RichTextWriteUp component
  */
 export const isRichTextComponent = (
   component: PageComponent | undefined
@@ -21,9 +20,8 @@ export const isRichTextComponent = (
 
 /**
  * Type guard to check if a component is a WorkAccordion component.
- *
  * @param component - The page component to check
- * @returns true if the component is a WorkAccordion component
+ * @returns True if the component is a WorkAccordion component
  */
 export const isWorkAccordionComponent = (
   component: PageComponent | undefined
@@ -33,9 +31,8 @@ export const isWorkAccordionComponent = (
 
 /**
  * Type guard to check if a component is a Skills component.
- *
  * @param component - The page component to check
- * @returns true if the component is a Skills component
+ * @returns True if the component is a Skills component
  */
 export const isSkillsComponent = (
   component: PageComponent | undefined

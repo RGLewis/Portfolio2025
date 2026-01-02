@@ -10,15 +10,6 @@ describe("ExpandCollapseButton", () => {
     dataTestId: "expand-collapse-button",
   };
 
-  describe("Rendering", () => {
-    it("renders the button with correct props", () => {
-      const { getByTestId } = renderWithProviders(
-        <ExpandCollapseButton {...defaultProps} />
-      );
-
-      expect(getByTestId(defaultProps.dataTestId)).toBeInTheDocument();
-    });
-  });
   describe("Interactions", () => {
     it("calls onClick when the button is clicked", async () => {
       const user = userEvent.setup();

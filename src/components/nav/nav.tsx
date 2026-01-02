@@ -35,7 +35,6 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
     setIsExperienceExpanded((prev) => !prev);
   };
 
-  // Reset experience expanded state and active section when navigating away from Experience page
   useEffect(() => {
     if (location.pathname !== "/experience") {
       setIsExperienceExpanded(false);
@@ -70,10 +69,6 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
               <StyledNavLink
                 to={link}
                 onClick={handleOnLinkClick}
-                aria-expanded={
-                  isExperience && isExperienceExpanded ? "true" : "false"
-                }
-                aria-controls={isExperience ? "experience-submenu" : undefined}
                 data-testid={navLink(text)}
               >
                 {text}
@@ -88,6 +83,7 @@ export const Nav: React.FC<NavProps> = ({ onLinkClick }) => {
                   }
                   onClick={toggleExperienceExpanded}
                   dataTestId={expandCollapseButton}
+                  ariaControls="experience-submenu"
                 />
               )}
             </ListItem>

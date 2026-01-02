@@ -1,12 +1,3 @@
-export enum NodeType {
-  TEXT = "text",
-  HYPERLINK = "hyperlink",
-  PARAGRAPH = "paragraph",
-  LIST_ITEM = "list-item",
-  UNORDERED_LIST = "unordered-list",
-  DOCUMENT = "document",
-}
-
 type TextNode = {
   nodeType: NodeType.TEXT;
   value: string;
@@ -52,6 +43,15 @@ type NavigationRichText = {
   content: [UnorderedListNode, EmptyParagraphNode];
 };
 
+export enum NodeType {
+  TEXT = "text",
+  HYPERLINK = "hyperlink",
+  PARAGRAPH = "paragraph",
+  LIST_ITEM = "list-item",
+  UNORDERED_LIST = "unordered-list",
+  DOCUMENT = "document",
+}
+
 export type NavigationData = {
   navigation: {
     title: string;
@@ -79,12 +79,12 @@ export type NavigationData = {
   };
 };
 
-export enum IconSizes {
+export enum IconSize {
   MEDIUM = 30,
   LARGE = 40,
 }
 
-export enum IconWeights {
+export enum IconWeight {
   THIN = 2,
   THICK = 3,
 }

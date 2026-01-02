@@ -59,11 +59,12 @@ type SetupSectionObserverArgs = {
 };
 
 /**
- * Formats the rootMargin string for IntersectionObserver
- * @param top - Top margin (negative shrinks viewport from top)
- * @param right - Right margin
- * @param bottom - Bottom margin (negative shrinks viewport from bottom)
- * @param left - Left margin
+ * Formats rootMargin string for IntersectionObserver.
+ * @param params - Margin parameters
+ *  - top: Top margin (negative shrinks viewport from top)
+ *  - right: Right margin
+ *  - bottom: Bottom margin (negative shrinks viewport from bottom)
+ *  - left: Left margin
  * @returns Formatted rootMargin string "top right bottom left"
  */
 export const formatRootMargin = ({
@@ -76,7 +77,7 @@ export const formatRootMargin = ({
 };
 
 /**
- * Finds the topmost intersecting element from IntersectionObserver entries
+ * Finds the topmost intersecting element from IntersectionObserver entries.
  * @param entries - Array of IntersectionObserverEntry objects
  * @returns The ID of the topmost intersecting element, or null if none intersecting
  */
@@ -101,11 +102,12 @@ export const findTopmostIntersectingSection = (
 
 /**
  * Creates IntersectionObserver options with calculated rootMargin
- * @param topOffset - Offset from top in pixels
- * @param marginRight - Right margin string (e.g., "0px")
- * @param marginBottom - Bottom margin string (e.g., "-50%")
- * @param marginLeft - Left margin string (e.g., "0px")
- * @returns IntersectionObserverInit configuration object
+ * @param params - Configuration parameters
+ *  - topOffset: Offset from top in pixels
+ *  - marginRight: Right margin string (e.g., "0px")
+ *  - marginBottom: Bottom margin string (e.g., "-50%")
+ *  - marginLeft: Left margin string (e.g., "0px")
+ * @returns Configuration object
  */
 export const createObserverOptions = ({
   topOffset,
@@ -126,9 +128,10 @@ export const createObserverOptions = ({
 
 /**
  * Calculates scroll offset based on viewport type
- * @param isMobile - Whether the viewport is mobile size
- * @param mobileHeaderHeight - Height of mobile header in pixels
- * @param breathingRoom - Additional spacing in pixels
+ * @param params - Parameters
+ *  - isMobile: Whether the viewport is mobile size
+ *  - mobileHeaderHeight: Height of mobile header in pixels
+ *  - breathingRoom: Additional spacing in pixels
  * @returns Total offset in pixels
  */
 export const calculateScrollOffset = ({
@@ -140,9 +143,10 @@ export const calculateScrollOffset = ({
 };
 
 /**
- * Calculates the scroll position for an element
- * @param element - The DOM element to scroll to
- * @param offset - Offset from top in pixels
+ * Calculates the scroll position for an element.
+ * @param params - Parameters
+ *  - element: The DOM element to scroll to
+ *  - offset: Offset from top in pixels
  * @returns Scroll position in pixels
  */
 export const calculateScrollPosition = ({
@@ -150,13 +154,15 @@ export const calculateScrollPosition = ({
   offset,
 }: CalculateScrollPositionArgs): number => {
   const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+
   return elementTop - offset;
 };
 
 /**
- * Creates a debounced scroll end handler
- * @param onScrollEnd - Callback to execute when scroll ends
- * @param delay - Debounce delay in milliseconds
+ * Creates a debounced scroll end handler.
+ * @param params - Parameters
+ *  - onScrollEnd: Callback to execute when scroll ends
+ *  - delay: Debounce delay in milliseconds
  * @returns Cleanup function to remove event listener
  */
 export const createScrollEndHandler = ({
@@ -182,15 +188,17 @@ export const createScrollEndHandler = ({
     if (scrollEndTimer) {
       clearTimeout(scrollEndTimer);
     }
+
     window.removeEventListener("scroll", handleScrollEnd);
   };
 };
 
 /**
- * Sets up an IntersectionObserver for multiple section elements
- * @param sectionIds - Array of element IDs to observe
- * @param options - IntersectionObserver configuration options
- * @param callback - Callback function to handle intersection events
+ * Sets up an IntersectionObserver for tracking section visibility.
+ * @param params - Parameters
+ *  - sectionIds: Array of element IDs to observe
+ *  - options: IntersectionObserver configuration options
+ *  - callback: Callback function to handle intersection events
  * @returns Cleanup function to disconnect the observer
  */
 export const setupSectionObserver = ({
@@ -202,6 +210,7 @@ export const setupSectionObserver = ({
 
   sectionIds.forEach((id) => {
     const element = document.getElementById(id);
+
     if (element) {
       observer.observe(element);
     }

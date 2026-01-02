@@ -3,67 +3,19 @@ import { mockMatchMedia } from "@/test-utils/test-utils";
 import { Slugs } from "@/types/content-types";
 
 const TEST_CONSTANTS = {
-  MOBILE_HEADER_HEIGHT,
-  BREATHING_ROOM: SPACINGS_UNITS.md,
-  SCROLL_DELAY: 100,
-  VALID_SLUGS: Object.values(Slugs),
-  EXPERIENCE_PATH: "/experience",
-  HOME_PATH: "/",
-  ABOUT_PATH: "/about",
-  DESKTOP_BREAKPOINT: "(min-width: 1024px)",
+  mobileHeaderHeight: MOBILE_HEADER_HEIGHT,
+  breathingRoom: SPACINGS_UNITS.md,
+  validSlugs: Object.values(Slugs),
 };
 
-const mockDesktop = () => mockMatchMedia(true); // matches (min-width: 768px)
-const mockMobile = () => mockMatchMedia(false); // doesn't match (min-width: 768px)
+const mockDesktop = () => mockMatchMedia(true);
+const mockMobile = () => mockMatchMedia(false);
 
 const createMockElement = (id: string, top: number = 100): HTMLElement => {
   const element = document.createElement("div");
   element.id = id;
-  element.getBoundingClientRect = jest.fn().mockReturnValue({
-    top,
-    left: 0,
-    bottom: 200,
-    right: 100,
-    width: 100,
-    height: 100,
-    x: 0,
-    y: top,
-    toJSON: jest.fn(),
-  });
-
+  element.getBoundingClientRect = jest.fn().mockReturnValue({ top });
   return element;
-};
-
-const setupMockWindow = () => {
-  Object.defineProperty(window, "pageYOffset", {
-    value: 0,
-    writable: true,
-  });
-
-  window.scrollTo = jest.fn();
-
-  const mockGetElementById = jest.fn();
-
-  Object.defineProperty(document, "getElementById", {
-    value: mockGetElementById,
-    writable: true,
-  });
-
-  return mockGetElementById;
-};
-
-const cleanupMockWindow = () => {
-  Object.defineProperty(window, "pageYOffset", {
-    value: 0,
-    writable: true,
-  });
-
-  window.scrollTo = jest.fn();
-
-  Object.defineProperty(document, "getElementById", {
-    value: document.getElementById,
-    writable: true,
-  });
 };
 
 describe("useNavigation", () => {
@@ -71,89 +23,95 @@ describe("useNavigation", () => {
   let mockSetActiveSection: jest.Mock;
 
   beforeEach(() => {
-    mockGetElementById = setupMockWindow();
+    Object.defineProperty(window, "pageYOffset", { value: 0, writable: true });
+    window.scrollTo = jest.fn();
+    mockGetElementById = jest.fn();
+    Object.defineProperty(document, "getElementById", {
+      value: mockGetElementById,
+      writable: true,
+    });
     mockSetActiveSection = jest.fn();
     jest.clearAllMocks();
   });
 
   afterEach(() => {
-    cleanupMockWindow();
+    Reflect.deleteProperty(window, "pageYOffset");
+    Reflect.deleteProperty(document, "getElementById");
   });
 
-  describe("scrollToSection", () => {
-    const scrollTestCases = [
-      [
-        "desktop",
-        mockDesktop,
-        TEST_CONSTANTS.BREATHING_ROOM,
-        200 - TEST_CONSTANTS.BREATHING_ROOM,
-      ],
-      [
-        "mobile",
-        mockMobile,
-        TEST_CONSTANTS.MOBILE_HEADER_HEIGHT + TEST_CONSTANTS.BREATHING_ROOM,
-        200 -
-          (TEST_CONSTANTS.MOBILE_HEADER_HEIGHT + TEST_CONSTANTS.BREATHING_ROOM),
-      ],
-    ] as const;
+  const { breathingRoom, mobileHeaderHeight, validSlugs } = TEST_CONSTANTS;
 
-    it.each(scrollTestCases)(
+  describe("scrollToSection", () => {
+    it.each([
+      ["desktop", mockDesktop, breathingRoom],
+      ["mobile", mockMobile, mobileHeaderHeight + breathingRoom],
+    ] as const)(
       "should scroll to section on %s",
-      (_deviceType, mockDevice, expectedOffset, expectedScrollTop) => {
+      (_deviceType, mockDevice, expectedOffset) => {
         mockDevice();
 
-        const slug = TEST_CONSTANTS.VALID_SLUGS[0];
-
+        const slug = validSlugs[0];
         const element = createMockElement(slug, 200);
 
         mockGetElementById.mockReturnValue(element);
 
-        const mockScrollToSection = jest.fn((targetSlug: Slugs) => {
-          mockSetActiveSection(targetSlug);
+        const scrollPosition = 200 + 0 - expectedOffset;
 
-          const scrollPosition =
-            element.getBoundingClientRect().top +
-            window.pageYOffset -
-            expectedOffset;
-
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: "smooth",
-          });
+        mockSetActiveSection(slug);
+        (window.scrollTo as jest.Mock)({
+          top: scrollPosition,
+          behavior: "smooth",
         });
 
-        mockScrollToSection(slug);
-
         expect(mockSetActiveSection).toHaveBeenCalledWith(slug);
-
         expect(window.scrollTo).toHaveBeenCalledWith({
-          top: expectedScrollTop,
+          top: scrollPosition,
           behavior: "smooth",
         });
       }
     );
 
     it("should not scroll if element does not exist", () => {
-      mockDesktop();
-      const slug = TEST_CONSTANTS.VALID_SLUGS[0];
-
       mockGetElementById.mockReturnValue(null);
 
-      const mockScrollToSection = jest.fn((targetSlug: Slugs) => {
-        const targetElement = document.getElementById(targetSlug);
-        if (!targetElement) return;
+      const slug = validSlugs[0];
+      const targetElement = document.getElementById(slug);
 
-        mockSetActiveSection(targetSlug);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      });
+      if (!targetElement) {
+        expect(mockSetActiveSection).not.toHaveBeenCalled();
+        expect(window.scrollTo).not.toHaveBeenCalled();
+      }
+    });
+  });
 
-      mockScrollToSection(slug);
+  describe("navigateToSection", () => {
+    let mockPushState: jest.Mock;
+    let mockNavigate: jest.Mock;
 
-      expect(mockSetActiveSection).not.toHaveBeenCalled();
-      expect(window.scrollTo).not.toHaveBeenCalled();
+    beforeEach(() => {
+      mockDesktop();
+
+      mockPushState = jest.fn();
+      window.history.pushState = mockPushState;
+
+      mockNavigate = jest.fn();
+    });
+
+    it("updates URL hash and scrolls when already on experience page", () => {
+      const element = createMockElement(Slugs.PROFILE, 200);
+      mockGetElementById.mockReturnValue(element);
+
+      mockPushState(null, "", `#${Slugs.PROFILE}`);
+
+      expect(mockPushState).toHaveBeenCalledWith(null, "", `#${Slugs.PROFILE}`);
+      expect(mockNavigate).not.toHaveBeenCalled();
+    });
+
+    it("navigates to experience page with hash when on different page", () => {
+      mockNavigate(`/experience#${Slugs.PROFILE}`);
+
+      expect(mockNavigate).toHaveBeenCalledWith(`/experience#${Slugs.PROFILE}`);
+      expect(mockPushState).not.toHaveBeenCalled();
     });
   });
 

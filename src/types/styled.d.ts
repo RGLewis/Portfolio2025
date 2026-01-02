@@ -1,38 +1,29 @@
+import type {
+  BREAKPOINTS,
+  COLORS,
+  FONTS,
+  FONT_WEIGHTS,
+} from "@/global-styles/constants";
+import { baseFontSize } from "@/global-styles/utils";
 import "styled-components";
 
 declare module "styled-components" {
-  // TODO: Improve types
   export interface DefaultTheme {
-    background: string;
-    backgroundOpaque: string;
-    primaryFont: string;
-    secondaryFont: string;
-    accent: string;
-    contrast: string;
-    blackOpaque: string;
-    menuBackground: string;
-    menuBorder: string;
-    white: string;
-    black: string;
-    opaqueContrast: string;
-    alert: string;
-    fonts: {
-      roboto: string;
-      montserrat: string;
-    };
-    fontWeights: {
-      extraLight: string;
-      light: string;
-      regular: string;
-      medium: string;
-      bold: string;
-      extraBold: string;
-    };
-    breakpoints: {
-      small: string;
-      medium: string;
-      large: string;
-      extraLarge: string;
-    };
+    background: typeof COLORS.white;
+    backgroundOpaque: typeof COLORS.whiteTransparent;
+    primaryFont: typeof COLORS.charcoal;
+    secondaryFont: typeof COLORS.slate;
+    accent: typeof COLORS.electricBlue;
+    contrast: typeof COLORS.black;
+    blackOpaque: typeof COLORS.blackTransparent;
+    menuBackground: typeof COLORS.electricBlue;
+    white: typeof COLORS.white;
+    black: typeof COLORS.black;
+    opaqueContrast: typeof COLORS.blueTransparent;
+    alert: typeof COLORS.alertRed;
+    baseFontSize: `${typeof baseFontSize}px`;
+    fonts: typeof FONTS;
+    fontWeights: typeof FONT_WEIGHTS;
+    breakpoints: typeof BREAKPOINTS;
   }
 }

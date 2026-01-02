@@ -13,7 +13,6 @@ type FindComponentByTitleParams = {
 
 /**
  * Safely extracts all components from Contentful page data.
- *
  * @param data - The page data from Contentful loader
  * @returns Array of components or empty array if not available
  */
@@ -23,7 +22,6 @@ export const getComponents = (data: PageData | undefined): PageComponent[] => {
 
 /**
  * Filters components by typename to get all components of a specific type.
- *
  * @param components - Array of page components
  * @param typename - The typename to filter by
  * @returns Array of components matching the typename
@@ -37,7 +35,6 @@ export const filterComponentsByType = <T extends PageComponent>(
 
 /**
  * Finds the first component matching a typename and title.
- *
  * @param data - The page data from Contentful loader
  * @param typename - The typename to filter by
  * @param title - The title to search for

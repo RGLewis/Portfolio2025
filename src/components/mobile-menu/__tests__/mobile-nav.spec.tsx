@@ -16,7 +16,7 @@ const defaultProps = {
 describe("MobileNav", () => {
   const { mobileNav, nav, footer, navLink } = NAVIGATION_DATA_TEST_IDS;
 
-  it("renders the mobile navigation and its components", () => {
+  it("renders the mobile nav components", () => {
     const { getByTestId } = renderWithProviders(
       <MobileNav {...defaultProps} />
     );
@@ -57,7 +57,7 @@ describe("MobileNav", () => {
     expect(mobileNavElement).toHaveClass(getZIndexClass(ZIndexLevel.SECOND));
   });
 
-  it("closes the menu when a link is clicked", async () => {
+  it("calls onLinkClick when a link is clicked", async () => {
     const user = userEvent.setup();
     const onLinkClickMock = jest.fn();
 

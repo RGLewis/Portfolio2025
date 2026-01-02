@@ -7,7 +7,7 @@ export const COLORS = {
   slate: "#1f4068",
   electricBlue: "#1F6CC7",
   alertRed: "#D97370",
-  blackTransparent: "rgba(5,5,5, 0.2)",
+  blackTransparent: "rgba(5, 5, 5, 0.2)",
   whiteTransparent: "rgba(255,255,255, 0.5)",
   blueTransparent: "rgba(31,108,199, 0.7)",
 };
@@ -36,10 +36,8 @@ export const FONTS = {
 export const FONT_WEIGHTS = {
   extraLight: "300",
   light: "400",
-  regular: "500",
   medium: "600",
   bold: "700",
-  extraBold: "800",
 };
 
 export const BREAKPOINTS = {

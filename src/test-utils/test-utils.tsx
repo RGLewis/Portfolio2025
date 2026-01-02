@@ -39,9 +39,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, "wrapper"> {
 /**
  * Helper function to mock window.matchMedia for specific viewport sizes
  * This allows testing of responsive behavior in jsdom environment
- *
  * @param matches - Whether the media query should match (true for mobile, false for desktop)
- *
  * @example
  * ```tsx
  * // Mock mobile viewport
@@ -69,10 +67,8 @@ export const mockMatchMedia = (matches: boolean): void => {
 
 /**
  * Helper function to mock matchMedia for specific breakpoint
- *
  * @param breakpoint - The breakpoint string (e.g., "768px")
  * @param matches - Whether the media query should match
- *
  * @example
  * ```tsx
  * // Mock that viewport is at least 768px wide
@@ -123,11 +119,10 @@ const TestWrapper = ({
 /**
  * Custom render function that wraps components with necessary providers
  * Automatically includes ThemeProvider
- *
  * @param ui - The React component to render
- * @param options - Render options including initial routes
+ * @param options - Render options
+ *  - initialEntries: Initial routes for MemoryRouter
  * @returns RenderResult from @testing-library/react
- *
  * @example
  * ```tsx
  * // Render with default route
@@ -150,9 +145,8 @@ export const renderWithProviders = (
 };
 
 /**
- * Re-export everything from @testing-library/react for convenience
- * This allows importing everything from a single file
- *
+ * Re-export everything from @testing-library/react for convenience.
+ * This allows importing everything from a single file.
  * @example
  * ```tsx
  * import { renderWithProviders, screen, fireEvent } from "@/test-utils";
@@ -166,10 +160,8 @@ export { renderWithProviders as render };
 /**
  * Helper function to test accessibility violations using jest-axe
  * Renders a component and checks for a11y violations
- *
  * @param ui - The React component to test
  * @returns Promise that resolves when test completes
- *
  * @example
  * ```tsx
  * it("should have no accessibility violations", async () => {

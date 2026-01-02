@@ -38,10 +38,10 @@ type UseNavigationReturn = {
 
 /**
  * Custom hook for handling navigation within the page.
- * @param setActiveSection - Function to set the active section slug.
- * @returns {Object} An object containing two functions:
- *   - scrollToSection: Scrolls smoothly to the specified section by slug.
- *   - navigateToSection: Navigates to the specified section by slug using the router.
+ * @param setActiveSection - Function to set the active section slug
+ * @returns Object containing:
+ *  - scrollToSection: Function to scroll to a section
+ *  - navigateToSection: Function to navigate to a section
  */
 
 export const useNavigation = ({
@@ -53,6 +53,34 @@ export const useNavigation = ({
   const location = useLocation();
   const scrollEndCleanupRef = useRef<(() => void) | null>(null);
 
+  const cleanupPreviousScrollHandler = () => {
+    if (scrollEndCleanupRef.current) {
+      scrollEndCleanupRef.current();
+      scrollEndCleanupRef.current = null;
+    }
+  };
+
+  const performScroll = (element: HTMLElement, offset: number) => {
+    const scrollPosition = calculateScrollPosition({ element, offset });
+
+    window.scrollTo({
+      top: scrollPosition,
+      behavior: "smooth",
+    });
+  };
+
+  const setupScrollEndHandler = () => {
+    const cleanup = createScrollEndHandler({
+      onScrollEnd: () => {
+        setIsScrolling(false);
+        scrollEndCleanupRef.current = null;
+      },
+      delay: SCROLL_DEBOUNCE_DELAY,
+    });
+
+    scrollEndCleanupRef.current = cleanup;
+  };
+
   const scrollToSection = useCallback(
     (slug: Slugs) => {
       const element = document.getElementById(slug);
@@ -61,11 +89,7 @@ export const useNavigation = ({
         return;
       }
 
-      // Clean up previous scroll handler if it exists
-      if (scrollEndCleanupRef.current) {
-        scrollEndCleanupRef.current();
-        scrollEndCleanupRef.current = null;
-      }
+      cleanupPreviousScrollHandler();
 
       setIsScrolling(true);
       setActiveSection(slug);
@@ -76,25 +100,8 @@ export const useNavigation = ({
         breathingRoom: SCROLL_BREATHING_ROOM,
       });
 
-      const scrollPosition = calculateScrollPosition({
-        element,
-        offset,
-      });
-
-      window.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      });
-
-      const cleanup = createScrollEndHandler({
-        onScrollEnd: () => {
-          setIsScrolling(false);
-          scrollEndCleanupRef.current = null;
-        },
-        delay: SCROLL_DEBOUNCE_DELAY,
-      });
-
-      scrollEndCleanupRef.current = cleanup;
+      performScroll(element, offset);
+      setupScrollEndHandler();
     },
     [isDesktop, setActiveSection]
   );
@@ -103,22 +110,15 @@ export const useNavigation = ({
     (slug: Slugs) => {
       const isOnExperiencePage = location.pathname === "/experience";
 
-      if (!isOnExperiencePage) {
-        navigate(`/experience#${slug}`);
-      } else {
+      if (isOnExperiencePage) {
+        window.history.pushState(null, "", `#${slug}`);
         scrollToSection(slug);
+      } else {
+        navigate(`/experience#${slug}`);
       }
     },
     [location.pathname, navigate, scrollToSection]
   );
-
-  useEffect(() => {
-    const hash = window.location.hash.slice(1);
-
-    if (canScrollToSection(hash, location.pathname)) {
-      scrollToSection(hash);
-    }
-  }, [location.pathname, scrollToSection]);
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -131,6 +131,14 @@ export const useNavigation = ({
     },
     [isScrolling, setActiveSection]
   );
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+
+    if (canScrollToSection(hash, location.pathname)) {
+      scrollToSection(hash);
+    }
+  }, [location.pathname, scrollToSection]);
 
   useEffect(() => {
     if (location.pathname !== "/experience") {
@@ -146,21 +154,16 @@ export const useNavigation = ({
       marginLeft: OBSERVER_HORIZONTAL_MARGIN,
     });
 
-    const cleanup = setupSectionObserver({
+    return setupSectionObserver({
       sectionIds: EXPERIENCE_SECTION_IDS,
       options: observerOptions,
       callback: handleIntersection,
     });
-
-    return cleanup;
   }, [handleIntersection, isDesktop, location.pathname]);
 
-  // Cleanup scroll end handler on unmount
   useEffect(() => {
     return () => {
-      if (scrollEndCleanupRef.current) {
-        scrollEndCleanupRef.current();
-      }
+      cleanupPreviousScrollHandler();
     };
   }, []);
 

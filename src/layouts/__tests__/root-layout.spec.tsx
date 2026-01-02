@@ -36,7 +36,6 @@ describe("RootLayout", () => {
       const { getByTestId } = renderWithProviders(<RootLayout />);
 
       expect(getByTestId(rootLayout)).toBeInTheDocument();
-
       expect(getByTestId(mainContent)).toBeInTheDocument();
     });
 

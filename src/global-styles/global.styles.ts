@@ -15,12 +15,11 @@ export const theme = {
   contrast: COLORS.black,
   blackOpaque: COLORS.blackTransparent,
   menuBackground: COLORS.electricBlue,
-  menuBorder: COLORS.electricBlue,
   white: COLORS.white,
   black: COLORS.black,
   opaqueContrast: COLORS.blueTransparent,
   alert: COLORS.alertRed,
-  baseFontSize: `${baseFontSize}px`,
+  baseFontSize: `${baseFontSize}px` as const,
   fonts: FONTS,
   fontWeights: FONT_WEIGHTS,
   breakpoints: BREAKPOINTS,
@@ -69,7 +68,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: ${({ theme }) => theme.fonts?.roboto};
-    font-weight: ${({ theme }) => theme.fontWeights?.regular};
+    font-weight: ${({ theme }) => theme.fontWeights?.light};
     color: ${({ theme }) => theme.primaryFont};
     line-height: 1.6;
     background: ${({ theme }) => theme.background};

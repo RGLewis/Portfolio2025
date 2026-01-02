@@ -1,4 +1,4 @@
-import type { PageLoadErrorTypes } from "@/loaders/types";
+import type { ContentfulPageTypes } from "@/loaders/types";
 import type { Document } from "@contentful/rich-text-types";
 
 export enum TypeNames {
@@ -7,7 +7,6 @@ export enum TypeNames {
   SKILLS = "Skills",
 }
 
-// Common types
 type ContentfulSys = {
   id: string;
 };
@@ -86,19 +85,20 @@ export enum FooterLinksMappings {
   LINKEDIN = "LinkedIn",
 }
 
+type Image = {
+  src: string;
+  alt: string;
+};
+
 export type HomePageContent = {
   name: string;
   tagline: string;
-  image: string;
-  alt: string;
+  image: Image;
 };
 
 export type InnerPageContent = {
   title: string;
-  image: {
-    src: string;
-    alt: string;
-  };
+  image: Image;
 };
 
 type BaseNavItem = {
@@ -141,5 +141,5 @@ export type FooterContent = {
 
 export type ErrorSnackbarContent = {
   heading: string;
-  body: (page: PageLoadErrorTypes) => string;
+  body: (page: ContentfulPageTypes) => string;
 };

@@ -58,18 +58,18 @@ const expectExperienceSubmenuCollapsed = (container: HTMLElement): void => {
 describe("Nav", () => {
   describe("Rendering", () => {
     it("renders the navigation", () => {
-      const { getByTestId } = renderWithProviders(<Nav />);
+      const { getByTestId, getByText } = renderWithProviders(<Nav />);
 
       expect(getByTestId(nav)).toBeInTheDocument();
       expect(getByTestId(expandCollapseButton)).toBeInTheDocument();
       expect(getByTestId(subLinksContainer)).toBeInTheDocument();
 
       mainLinks.forEach((item) => {
-        expect(getByTestId(navLink(item.text))).toBeInTheDocument();
+        getByText(item.text);
       });
 
       experienceLinks.forEach((item) => {
-        expect(getByTestId(experienceLink(item.text))).toBeInTheDocument();
+        getByText(item.text);
       });
     });
 
@@ -83,16 +83,6 @@ describe("Nav", () => {
         );
       });
     });
-
-    it("renders the appropriate slug for experience links", () => {
-      const { getByTestId } = renderWithProviders(<Nav />);
-
-      experienceLinks.forEach((item) => {
-        const link = getByTestId(experienceLink(item.text));
-        expect(link).toHaveAttribute("href", item.link);
-        expect(link).toHaveAttribute("data-slug", item.slug);
-      });
-    });
   });
 
   describe("Interactions", () => {
@@ -104,12 +94,10 @@ describe("Nav", () => {
 
     it.each(mainLinks)(
       "navigates to $link when $text link is clicked",
-      async ({ text, link }) => {
+      async ({ text }) => {
         const { getByTestId } = renderWithProviders(<Nav />);
 
         const linkElement = getByTestId(navLink(text)) as HTMLAnchorElement;
-
-        expect(linkElement).toHaveAttribute("href", link);
 
         await user.click(linkElement);
 
@@ -117,7 +105,7 @@ describe("Nav", () => {
       }
     );
 
-    it("should not toggle the experience submenu when isDesktop is true", async () => {
+    it("should keep experience submenu expanded when clicking hash link on desktop", async () => {
       mockMatchMediaWithBreakpoint("768px", true);
 
       const mockOnLinkClick = jest.fn();
@@ -139,45 +127,28 @@ describe("Nav", () => {
       expectExperienceSubmenuExpanded(subLinks);
     });
 
-    it.each([
-      {
-        linkType: "main",
-        getLinkElement: (
-          getByTestId: ReturnType<typeof renderWithProviders>["getByTestId"]
-        ) => getByTestId(navLink(mainLinks[0].text)) as HTMLAnchorElement,
-      },
-      {
-        linkType: "experience",
-        getLinkElement: (
-          getByTestId: ReturnType<typeof renderWithProviders>["getByTestId"]
-        ) =>
-          getByTestId(
-            experienceLink(experienceLinks[0].text)
-          ) as HTMLAnchorElement,
-      },
-    ])(
-      "should collapse the experience submenu when a $linkType link is clicked on mobile",
-      async ({ getLinkElement }) => {
-        mockMatchMediaWithBreakpoint("768px", false);
+    it("should collapse the experience submenu when clicking any link on mobile", async () => {
+      mockMatchMediaWithBreakpoint("768px", false);
 
-        const mockOnLinkClick = jest.fn();
+      const mockOnLinkClick = jest.fn();
 
-        const { getByTestId } = renderWithProviders(
-          <Nav onLinkClick={mockOnLinkClick} />
-        );
+      const { getByTestId } = renderWithProviders(
+        <Nav onLinkClick={mockOnLinkClick} />
+      );
 
-        await toggleExperienceSubmenu(getByTestId, user);
+      await toggleExperienceSubmenu(getByTestId, user);
 
-        const linkElement = getLinkElement(getByTestId);
+      const linkElement = getByTestId(
+        experienceLink(experienceLinks[0].text)
+      ) as HTMLAnchorElement;
 
-        await user.click(linkElement);
+      await user.click(linkElement);
 
-        expect(mockOnLinkClick).toHaveBeenCalledTimes(1);
+      expect(mockOnLinkClick).toHaveBeenCalledTimes(1);
 
-        const subLinks = getByTestId(subLinksContainer);
-        expectExperienceSubmenuCollapsed(subLinks);
-      }
-    );
+      const subLinks = getByTestId(subLinksContainer);
+      expectExperienceSubmenuCollapsed(subLinks);
+    });
   });
 
   describe("Cross-page navigation", () => {

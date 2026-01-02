@@ -2,9 +2,12 @@ export const baseFontSize = 16;
 
 /**
  * Converts px to rem based on a base font size.
- *
- * @param {number} px - pixel value to convert
- * @param {number} base - base font size, defaults to global baseFontSize
- * @returns {string} rem value with 'rem' unit
+ * @param px - Pixel value to convert
+ * @returns Rem value with 'rem' unit
+ * @example
+ * ```tsx
+ * pxToRem(16) // '1rem'
+ * pxToRem(32) // '2rem'
+ * ```
  */
-export const pxToRem = (px: number, base = baseFontSize) => `${px / base}rem`;
+export const pxToRem = (px: number) => `${px / baseFontSize}rem`;

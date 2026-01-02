@@ -16,6 +16,7 @@ export const useDelayedLoading = (isLoading: boolean): boolean => {
   useEffect(() => {
     if (!isLoading) {
       setShowLoading(false);
+
       return;
     }
 

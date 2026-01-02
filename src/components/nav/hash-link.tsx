@@ -4,7 +4,6 @@ import React from "react";
 import { StyledHashLink } from "./styles";
 import type { HashLinkProps } from "./types";
 
-// TODO: Add tests when functionality is complete
 export const HashLink = ({
   to,
   text,

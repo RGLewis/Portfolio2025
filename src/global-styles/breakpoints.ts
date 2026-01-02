@@ -1,8 +1,8 @@
-import { theme } from "./global.styles";
+import { BREAKPOINTS } from "./constants";
 
 export const device = {
-  small: `(min-width: ${theme.breakpoints.small})`,
-  medium: `(min-width: ${theme.breakpoints.medium})`,
-  large: `(min-width: ${theme.breakpoints.large})`,
-  extraLarge: `(min-width: ${theme.breakpoints.extraLarge})`,
+  small: `(min-width: ${BREAKPOINTS.small})`,
+  medium: `(min-width: ${BREAKPOINTS.medium})`,
+  large: `(min-width: ${BREAKPOINTS.large})`,
+  extraLarge: `(min-width: ${BREAKPOINTS.extraLarge})`,
 };

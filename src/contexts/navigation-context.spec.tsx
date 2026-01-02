@@ -38,15 +38,16 @@ describe("NavigationContext", () => {
       expect(typeof result.current.navigateToSection).toBe("function");
     });
 
-    it("should call useNavigation with setActiveSection", () => {
+    it("should call useNavigation with setActiveSection function", () => {
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <NavigationProvider>{children}</NavigationProvider>
       );
 
-      renderHook(() => useNavigationContext(), { wrapper });
+      const { result } = renderHook(() => useNavigationContext(), { wrapper });
 
+      expect(mockUseNavigation).toHaveBeenCalledTimes(1);
       expect(mockUseNavigation).toHaveBeenCalledWith({
-        setActiveSection: expect.any(Function),
+        setActiveSection: result.current.setActiveSection,
       });
     });
 
@@ -107,20 +108,6 @@ describe("NavigationContext", () => {
 
       consoleSpy.mockRestore();
     });
-
-    it("should return context when used within NavigationProvider", () => {
-      const wrapper = ({ children }: { children: React.ReactNode }) => (
-        <NavigationProvider>{children}</NavigationProvider>
-      );
-
-      const { result } = renderHook(() => useNavigationContext(), { wrapper });
-
-      expect(result.current).toBeDefined();
-      expect(result.current.activeSection).toBeNull();
-      expect(typeof result.current.setActiveSection).toBe("function");
-      expect(typeof result.current.scrollToSection).toBe("function");
-      expect(typeof result.current.navigateToSection).toBe("function");
-    });
   });
 
   describe("activeSection state management", () => {
@@ -142,6 +129,19 @@ describe("NavigationContext", () => {
         result.current.setActiveSection(Slugs.WORK);
       });
       expect(result.current.activeSection).toBe(Slugs.WORK);
+    });
+
+    it("should reset activeSection to null", () => {
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <NavigationProvider>{children}</NavigationProvider>
+      );
+
+      const { result } = renderHook(() => useNavigationContext(), { wrapper });
+
+      act(() => {
+        result.current.setActiveSection(Slugs.PROFILE);
+      });
+      expect(result.current.activeSection).toBe(Slugs.PROFILE);
 
       act(() => {
         result.current.setActiveSection(null);

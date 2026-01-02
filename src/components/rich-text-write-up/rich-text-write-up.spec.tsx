@@ -1,4 +1,4 @@
-import { TypographyVariants } from "@/atoms/typography/types";
+import { TypographyVariants } from "@/components/typography/types";
 import { MOCK_RICH_TEXT_CONTENT } from "@/test-utils/factories";
 import { renderWithProviders } from "@/test-utils/test-utils";
 import { BLOCKS, INLINES, type Document } from "@contentful/rich-text-types";
@@ -90,7 +90,6 @@ const expectElementWithTag = (
   expectedTag: string
 ) => {
   const element = container.getByText(text);
-  expect(element).toBeInTheDocument();
   expect(element.tagName).toBe(expectedTag);
 };
 
@@ -100,7 +99,6 @@ const expectElementParentWithTag = (
   expectedTag: string
 ) => {
   const element = container.getByText(text);
-  expect(element).toBeInTheDocument();
   expect(element.parentElement?.tagName).toBe(expectedTag);
 };
 
@@ -130,7 +128,7 @@ describe("RichTextWriteUp", () => {
         <RichTextWriteUp {...defaultProps} />
       );
 
-      expect(getByText(MOCK_RICH_TEXT_CONTENT)).toBeInTheDocument();
+      getByText(MOCK_RICH_TEXT_CONTENT);
     });
 
     it("renders paragraph with correct element type", () => {
@@ -277,8 +275,7 @@ describe("RichTextWriteUp", () => {
 
       const { getByText } = renderWithProviders(<RichTextWriteUp {...props} />);
 
-      const paragraph = getByText(TEST_CONTENT.PARAGRAPH);
-      expect(paragraph).toBeInTheDocument();
+      getByText(TEST_CONTENT.PARAGRAPH);
     });
 
     it("defaults to PRIMARY variant when variant prop is omitted", () => {
@@ -290,8 +287,7 @@ describe("RichTextWriteUp", () => {
 
       const { getByText } = renderWithProviders(<RichTextWriteUp {...props} />);
 
-      const paragraph = getByText(TEST_CONTENT.PARAGRAPH);
-      expect(paragraph).toBeInTheDocument();
+      getByText(TEST_CONTENT.PARAGRAPH);
     });
   });
 
@@ -561,7 +557,6 @@ describe("RichTextWriteUp", () => {
 
       const { container } = renderWithProviders(<RichTextWriteUp {...props} />);
 
-      // Should render without errors, but with no content
       expect(container).toBeInTheDocument();
     });
 
@@ -576,7 +571,7 @@ describe("RichTextWriteUp", () => {
 
       const { getByText } = renderWithProviders(<RichTextWriteUp {...props} />);
 
-      expect(getByText(singleText)).toBeInTheDocument();
+      getByText(singleText);
     });
 
     it("handles empty list gracefully", () => {

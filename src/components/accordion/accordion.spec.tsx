@@ -102,24 +102,12 @@ describe("Accordion", () => {
       const { button } = getAccordionElements(workAccordionItem1.sys.id);
 
       expectCollapsed(button);
-
-      await user.click(button);
-
-      await waitFor(() => {
-        expectExpanded(button);
-      });
-    });
-
-    it("should update the isExpanded state when the button is clicked", async () => {
-      const user = userEvent.setup();
-      renderWithProviders(<Accordion data={workAccordionItem1} />);
-
-      const { button } = getAccordionElements(workAccordionItem1.sys.id);
       expect(button).toHaveAttribute("aria-label", "Expand accordion content");
 
       await user.click(button);
 
       await waitFor(() => {
+        expectExpanded(button);
         expect(button).toHaveAttribute(
           "aria-label",
           "Collapse accordion content"

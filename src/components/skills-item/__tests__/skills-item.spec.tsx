@@ -23,8 +23,8 @@ describe("SkillsItem", () => {
     ])("renders $skill.level skill level", ({ skill }) => {
       renderWithProviders(<SkillsItem data={skill} />);
 
-      expect(screen.getByText(skill.title)).toBeInTheDocument();
-      expect(screen.getByText(skill.level)).toBeInTheDocument();
+      screen.getByText(skill.title);
+      screen.getByText(skill.level);
     });
 
     it.each([

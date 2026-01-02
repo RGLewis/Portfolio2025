@@ -3,7 +3,7 @@ import { Sidebar } from "@/components/sidebar";
 import { MobileMenu } from "@/components/mobile-menu";
 import { LAYOUT_DATA_TEST_IDS } from "@/constants";
 import { NavigationProvider } from "@/contexts";
-import { BREAKPOINTS, zIndexClass, ZIndexLevel } from "@/global-styles";
+import { BREAKPOINTS, getZIndexClass, ZIndexLevel } from "@/global-styles";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Outlet } from "react-router-dom";
 import { ScrollToTop } from "./scroll-to-top";
@@ -22,7 +22,7 @@ export const RootLayout = () => {
       <LayoutContainer data-testid={rootLayout}>
         {navComponent}
         <MainContent
-          {...zIndexClass(ZIndexLevel.BASE)}
+          className={getZIndexClass(ZIndexLevel.BASE)}
           data-testid={mainContent}
         >
           <Outlet />

@@ -12,27 +12,23 @@ jest.mock("@/loaders/page-loaders");
 describe("HomeView", () => {
   const { pageContainer, profileImage: profileImageTestId } =
     HOME_PAGE_DATA_TEST_IDS;
+  const { name, tagline, image } = HOME_PAGE_CONTENT;
 
   describe("Rendering", () => {
-    it("renders the home view with correct content", () => {
+    it("renders the correct content", () => {
       const { getByTestId, getByText } = renderWithProviders(<HomeView />);
 
       expect(getByTestId(pageContainer)).toBeInTheDocument();
 
       expect(getByTestId(profileImageTestId)).toBeInTheDocument();
 
-      expect(getByText(HOME_PAGE_CONTENT.name)).toBeInTheDocument();
-      expect(getByText(HOME_PAGE_CONTENT.tagline)).toBeInTheDocument();
-    });
-
-    it("renders the profile image with correct src and alt attributes", () => {
-      const { getByTestId } = renderWithProviders(<HomeView />);
-
       const profileImage = getByTestId(profileImageTestId) as HTMLImageElement;
 
-      expect(profileImage).toBeInTheDocument();
-      expect(profileImage.src).toContain(HOME_PAGE_CONTENT.image);
-      expect(profileImage.alt).toBe(HOME_PAGE_CONTENT.alt);
+      expect(profileImage.src).toContain(image.src);
+      expect(profileImage.alt).toBe(image.alt);
+
+      getByText(name);
+      getByText(tagline);
     });
   });
 

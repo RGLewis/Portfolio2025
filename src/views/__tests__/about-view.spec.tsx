@@ -5,7 +5,7 @@ import {
   SKELETON_LOADER_DATA_TEST_IDS,
   SNACKBAR_DATA_TEST_IDS,
 } from "@/constants";
-import { PageLoadErrorTypes, type PageLoaderResult } from "@/loaders/types";
+import { ContentfulPageTypes, type PageLoaderResult } from "@/loaders/types";
 import {
   createPageData,
   createRichTextComponent,
@@ -36,13 +36,15 @@ const mockUseLoaderData = useLoaderData as jest.MockedFunction<
 
 const { heroImage: heroImageTestId } = HERO_IMAGE_DATA_TEST_IDS;
 const { richTextSection } = RICH_TEXT_DATA_TEST_IDS;
+const { container: skeletonLoaderContainer } = SKELETON_LOADER_DATA_TEST_IDS;
+const { title, image } = ABOUT_PAGE_CONTENT;
 
 const RICH_TEXT_TEST_ID = richTextSection(ABOUT_PAGE_CONTENT.title);
 
 const createAboutPageData = (components: PageComponent[]) =>
   createPageData({
     page: {
-      title: "About Page",
+      title: title,
       componentsCollection: {
         items: components,
       },
@@ -75,14 +77,14 @@ describe("AboutView", () => {
 
       const heroImage = getByTestId(heroImageTestId);
       expect(heroImage).toBeInTheDocument();
-      expect(heroImage).toHaveAttribute("src", ABOUT_PAGE_CONTENT.image.src);
-      expect(heroImage).toHaveAttribute("alt", ABOUT_PAGE_CONTENT.image.alt);
+      expect(heroImage).toHaveAttribute("src", image.src);
+      expect(heroImage).toHaveAttribute("alt", image.alt);
     });
 
     it("renders page heading with correct title", () => {
       const { getByText } = renderWithProviders(<AboutView />);
 
-      const heading = getByText(ABOUT_PAGE_CONTENT.title);
+      const heading = getByText(title);
       expect(heading).toBeInTheDocument();
       expect(heading).toHaveClass("page-heading");
     });
@@ -167,13 +169,11 @@ describe("AboutView", () => {
         renderWithProviders(<AboutView />);
 
       await waitFor(() => {
-        expect(
-          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
-        ).toBeInTheDocument();
+        expect(getByTestId(skeletonLoaderContainer)).toBeInTheDocument();
       });
 
       expect(getByTestId(heroImageTestId)).toBeInTheDocument();
-      expect(getByText(ABOUT_PAGE_CONTENT.title)).toBeInTheDocument();
+      getByText(title);
 
       expect(queryByTestId(RICH_TEXT_TEST_ID)).not.toBeInTheDocument();
 
@@ -185,30 +185,26 @@ describe("AboutView", () => {
   });
 
   describe("Error State", () => {
+    const { ABOUT_PAGE } = ContentfulPageTypes;
+
     it("renders skeleton loader, error snackbar and static content when there is an error", async () => {
       mockUseLoaderData.mockReturnValue({
         data: null,
-        error: PageLoadErrorTypes.ABOUT_PAGE,
+        error: ABOUT_PAGE,
       } as PageLoaderResult);
 
       const { getByTestId, getByText } = renderWithProviders(<AboutView />);
 
       await waitFor(() => {
-        expect(
-          getByTestId(SKELETON_LOADER_DATA_TEST_IDS.container)
-        ).toBeInTheDocument();
+        expect(getByTestId(skeletonLoaderContainer)).toBeInTheDocument();
       });
 
       expect(
-        getByTestId(
-          SNACKBAR_DATA_TEST_IDS.errorSnackbarContainer(
-            PageLoadErrorTypes.ABOUT_PAGE
-          )
-        )
+        getByTestId(SNACKBAR_DATA_TEST_IDS.errorSnackbarContainer(ABOUT_PAGE))
       ).toBeInTheDocument();
 
       expect(getByTestId(heroImageTestId)).toBeInTheDocument();
-      expect(getByText(ABOUT_PAGE_CONTENT.title)).toBeInTheDocument();
+      getByText(title);
     });
   });
 

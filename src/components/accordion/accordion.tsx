@@ -1,6 +1,6 @@
-import { TypographyVariants } from "@/atoms/typography/types";
-import { StyledHeadingThird } from "@/atoms/typography/typography.styles";
 import { ExpandCollapseButton } from "@/components/expand-collapse-button";
+import { TypographyVariants } from "@/components/typography/types";
+import { HeadingThird } from "@/components/typography/typography.styles";
 import { ACCORDION_DATA_TEST_IDS } from "@/constants";
 import type { WorkAccordionItem } from "@/types/content-types";
 import { useState } from "react";
@@ -29,22 +29,21 @@ export const Accordion = ({ data }: AccordionProps) => {
     accordionContent: accordionContentTestId,
   } = ACCORDION_DATA_TEST_IDS;
 
+  const jobText = workplace
+    ? `${jobTitle.toUpperCase()}, ${workplace}`
+    : jobTitle.toUpperCase();
+
   return (
     <>
       <TopContainer>
         <AccordionHeadingContainer
           data-testid={accordionHeadingContainer(sys.id)}
         >
-          {workplace ? (
-            <StyledHeadingThird $variant={TypographyVariants.PRIMARY}>
-              {jobTitle.toUpperCase()}, {workplace}
-            </StyledHeadingThird>
-          ) : (
-            <StyledHeadingThird $variant={TypographyVariants.PRIMARY}>
-              {jobTitle.toUpperCase()}
-            </StyledHeadingThird>
-          )}
+          <HeadingThird $variant={TypographyVariants.PRIMARY}>
+            {jobText}
+          </HeadingThird>
         </AccordionHeadingContainer>
+
         <AccordionButtonContainer>
           <ExpandCollapseButton
             isExpanded={isExpanded}
@@ -56,13 +55,17 @@ export const Accordion = ({ data }: AccordionProps) => {
             }
             color={theme.accent}
             dataTestId={accordionButton(sys.id)}
+            ariaControls={accordionContentTestId(sys.id)}
           />
         </AccordionButtonContainer>
       </TopContainer>
+
       <AccordionContent
         $isExpanded={isExpanded}
         data-testid={accordionContentTestId(sys.id)}
+        id={accordionContentTestId(sys.id)}
       >
+        {/* Inner div required for height animation */}
         <div>
           <RichTextWriteUp
             document={accordionContent.json}
