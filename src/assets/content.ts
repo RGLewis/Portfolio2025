@@ -9,7 +9,7 @@ import {
   type NavContent,
 } from "@/types/content-types";
 import aboutImage from "./about.jpeg";
-import experienceImage from "./experience.JPG";
+import experienceImage from "./experience.jpg";
 import homeImage from "./home.JPG";
 
 export const HOME_PAGE_CONTENT: HomePageContent = {
