@@ -82,7 +82,7 @@ export const NavList = styled.ul`
   flex-direction: column;
   gap: ${SPACINGS.lg};
   width: fit-content;
-  padding: ${pxToRem(2)};
+  padding: ${pxToRem(4)} ${pxToRem(8)};
 `;
 
 export const ListItem = styled.li`

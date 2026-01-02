@@ -68,7 +68,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: ${({ theme }) => theme.fonts?.roboto};
-    font-weight: ${({ theme }) => theme.fontWeights?.regular};
+    font-weight: ${({ theme }) => theme.fontWeights?.light};
     color: ${({ theme }) => theme.primaryFont};
     line-height: 1.6;
     background: ${({ theme }) => theme.background};
