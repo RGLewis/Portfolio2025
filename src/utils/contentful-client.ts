@@ -1,3 +1,4 @@
+/// <reference types="../vite-env.d.ts" />
 import { GraphQLClient } from "graphql-request";
 
 const CONTENTFUL_SPACE_ID = import.meta.env.VITE_CONTENTFUL_SPACE_ID;

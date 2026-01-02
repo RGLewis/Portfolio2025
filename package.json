@@ -7,7 +7,7 @@
   "author": "Rafaela Lewis Ghildyal",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "preview": "vite preview",

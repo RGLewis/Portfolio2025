@@ -1,3 +1,4 @@
+/// <reference types="../vite-env.d.ts" />
 import { pageQuery } from "@/queries/page-query";
 import type { PageData } from "@/types/content-types";
 import { contentfulClient } from "@/utils/contentful-client";
