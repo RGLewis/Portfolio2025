@@ -153,6 +153,8 @@ export const RichTextLink = styled.a<{ $variant: TypographyVariants }>`
   ${baseLinkStyles()}
   color: ${({ theme, $variant }) => theme[$variant]};
   padding: ${SPACINGS.xs};
+  display: inline-block;
+  isolation: isolate;
 
   &:hover {
     color: ${({ theme }) => theme.background};
